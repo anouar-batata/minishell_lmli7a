@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/25 00:04:53 by alouriga         ###   ########.fr       */
+/*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
+/*   Updated: 2024/07/20 21:19:21 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    pwd(t_shell *envi)
+t_data	*ft_lstnew(char *elem, int flag)
 {
-    char *str;
+	t_data	*new_node;
 
-    str = getcwd(NULL, 0);
-    if(!str)
-        exit(1);
-    printf("%s\n", str);
-    free(str);
+	new_node = malloc(sizeof(t_data));
+	if (!new_node)
+		return (NULL);
+	new_node->elem = elem;
+	new_node->flag = flag;
+	new_node->next = NULL;
+	return (new_node);
 }
