@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:09:06 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/21 18:03:23 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:55:23 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,54 @@ t_shell	*ft_lstnew(char *k, char *v)
 	return (p);
 }
 
+int	ft_lstsize(t_shell *lst)
+{
+	int	i;
+
+	i = 0;
+	if (!lst)
+		return (i);
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
 
 t_shell	*ft_lstlast(t_shell *lst)
 {
-	if (!lst)
+	if (!lst || lst->next)
 		return (0);
-	while (lst)
+	// printf("[%p]\n", lst);
+	while (lst->next)
 	{
-		if (lst->next == NULL)
-		{
-			return (lst);
-		}
+		// printf("******\n");
+		// if (lst->next == NULL)
+		// {
+		// 	return (lst);
+		// }
+		// if (lst)
+		printf("[%s]\n", lst->v);
 		lst = lst->next;
 	}
-	return (0);
+	return (lst);
 }
-void	ft_lstadd_back(t_shell **lst, t_shell *new)
+
+void    ft_lstadd_back(t_shell **lst, t_shell *new)
 {
-	if (!lst || !new)
-		return ;
-	if (ft_lstlast(*lst))
-	{
-		ft_lstlast(*lst)->next = new;
-	}
-	else
-		*lst = new;
+    t_shell    *last;
+
+    if (!lst)
+        return ;
+    last = *lst;
+    if (!*lst)
+        *lst = new;
+    else
+    {
+        while (last -> next != NULL)
+            last = last -> next;
+        last -> next = new;
+    }
 }

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/25 01:50:41 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:19:34 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void    echo(t_shell *envi, char **av)
 {
     int i;
 
-    i = 1;
+    i = 0;
     while (av[++i])
     {
+        
         printf("%s", av[i]);
         if (av[i + 1] != NULL)
             printf (" ");
     }
+    printf("\n");
 }

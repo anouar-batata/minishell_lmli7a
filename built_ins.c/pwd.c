@@ -6,13 +6,13 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/25 00:04:53 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:03:21 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    pwd(t_shell *envi)
+void    pwd(void)
 {
     char *str;
 

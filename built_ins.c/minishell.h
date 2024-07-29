@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:00:54 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/25 02:13:14 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/26 07:03:54 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +17,11 @@
 #include <unistd.h>
  #include <stdlib.h>
  #include <stdio.h>
+ #include <readline/readline.h>
+
+# define ADD_NODE 1
+# define REMOVE_NODE -1
+# define GET_ENV 2
 
 typedef struct s_shell
 {
@@ -24,15 +30,27 @@ typedef struct s_shell
     struct s_shell *next;
 }   t_shell;
 
+typedef struct s_input
+{
+    int pipe;
+    char **command;
+    struct s_input *next;
+}   t_input;
+
+void    *env_control(int behaviour, void *key, char *value);
 char	**ft_split(char const *s, char c);
 t_shell	*ft_lstnew(char *k, char *v);
 int ft_strlen(const char *s);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int	ft_strcmp(char *s1, char *s2);
-void    pwd(t_shell *envi);
-void    ft_env(t_shell *envi);
+void    pwd(void);
+void    ft_env(void);
 void    echo(t_shell *envi, char **av);
 void    ft_exit(void);
 void    ft_unset(t_shell *env, char **av);
+void    ft_export(char **command);
+t_shell	*ft_lstlast(t_shell *lst);
+void    add(char **p, t_shell **envi);
+void    remove_node(t_shell **env, char *str);
 
 #endif
