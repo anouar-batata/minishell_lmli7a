@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/29 20:03:45 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:53:43 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int ac,  char *av[], char *env[])
     char **p;
     while (env[i] != NULL)
     {
-        p = ft_split(env[i], '=');
+        p = split_first_equal(env[i]);
         add(p, &envi);
         i++;
     }
@@ -56,7 +56,7 @@ int main(int ac,  char *av[], char *env[])
     while (1)
     {
         char *r = readline("shell:");
-        p = ft_split(r, ' ');
+        p = ft_split_2(r, ' ');
         check_built_ins(p, envi);
     }
     

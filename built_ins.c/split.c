@@ -6,107 +6,47 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:17:58 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/21 17:18:24 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:52:25 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
+char **split_first_equal(const char *str) {
+    char **result = malloc(3 * sizeof(char *));
+    if (!result)
+        return NULL;
 
-static	int	nb_word(const char *st, char c)
-{
-	int	i;
-	int	t;
-	int	j;
+    // Find the first '=' character
+    const char *equal_pos = strchr(str, '=');
+    if (!equal_pos) {
+        result[0] = strdup(str);
+        result[1] = NULL;
+        return result;
+    }
 
-	i = 0;
-	t = 0;
-	j = 0;
-	while (st[j] != '\0')
-	{
-		if (st[j] != c && t == 0)
-		{
-			t = 1;
-			i++;
-		}
-		else if (st[j] == c)
-		{
-			t = 0;
-		}
-		j++;
-	}
-	return (i);
-}
+    // Allocate and copy the part before '='
+    size_t key_len = equal_pos - str;
+    result[0] = malloc(key_len + 1);
+    if (!result[0]) {
+        free(result);
+        return NULL;
+    }
+    strncpy(result[0], str, key_len);
+    result[0][key_len] = '\0';
 
-static char	**free_split_memory(char **str_array, size_t j)
-{
-	while (j--)
-	{
-		free(str_array[j]);
-	}
-	free(str_array);
-	return (NULL);
-}
+    // Allocate and copy the part after '='
+    size_t value_len = strlen(equal_pos + 1);
+    result[1] = malloc(value_len + 1);
+    if (!result[1]) {
+        free(result[0]);
+        free(result);
+        return NULL;
+    }
+    strcpy(result[1], equal_pos + 1);
 
-static	char	*dimensional(const char *s, int d, int f)
-{
-	int		i;
-	char	*p;
+    // Null-terminate the result array
+    result[2] = NULL;
 
-	i = 0;
-	p = (char *)malloc((f - d + 1) * sizeof(char));
-	if (!p)
-	{
-		free(p);
-		return (NULL);
-	}
-	while (d < f)
-	{
-		p[i] = s[d];
-		i++;
-		d++;
-	}
-	p[i] = '\0';
-	return (p);
-}
-
-static char	**allocation(const char *s, size_t i, char c)
-{
-	int		v;
-	size_t	j;
-	char	**p;
-
-	v = -1;
-	j = 0;
-	p = malloc((nb_word(s, c) + 1) * sizeof(char *));
-	if (!p)
-		return (NULL);
-	while (i <= ft_strlen(s))
-	{
-		if (s[i] != c && v == -1)
-			v = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && v >= 0)
-		{
-			p[j] = dimensional(s, v, i);
-			if (!p[j])
-				return (free_split_memory(p, j));
-			v = -1;
-			j++;
-		}
-		i++;
-	}
-	p[j] = NULL;
-	return (p);
-}
-char	**ft_split(char const *s, char c)
-{
-	size_t	i;
-	int		v;
-	size_t	j;
-
-	v = -1;
-	j = 0;
-	i = 0;
-	if (!s)
-		return (NULL);
-	return (allocation(s, i, c));
+    return result;
 }

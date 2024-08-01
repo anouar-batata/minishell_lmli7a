@@ -38,19 +38,21 @@ typedef struct s_input
 }   t_input;
 
 void    *env_control(int behaviour, void *key, char *value);
-char	**ft_split(char const *s, char c);
+char **split_first_equal(const char *str);
 t_shell	*ft_lstnew(char *k, char *v);
 int ft_strlen(const char *s);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int	ft_strcmp(char *s1, char *s2);
 void    pwd(void);
 void    ft_env(void);
-void    echo(t_shell *envi, char **av);
+int    echo(t_shell *envi, char **av);
 void    ft_exit(void);
 void    ft_unset(t_shell *env, char **av);
 void    ft_export(char **command);
 t_shell	*ft_lstlast(t_shell *lst);
 void    add(char **p, t_shell **envi);
 void    remove_node(t_shell **env, char *str);
+void	ft_putstr(char *s);
+char	**ft_split_2(char const *s, char c);
 
 #endif
