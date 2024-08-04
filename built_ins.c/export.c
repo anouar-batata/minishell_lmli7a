@@ -6,15 +6,54 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/29 21:07:18 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/04 07:37:59 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_var(t_shell *env, t_shell **args)
+void	replace_value(t_shell **env, char **arg)
 {
-	
+	while(*env)
+	{
+		if (ft_strcmp((*env)->k, arg[0]))
+		{
+			env_control(REMOVE_NODE, arg[0], 0);
+			env_control(ADD_NODE, arg[0], arg[1]);
+			break;
+		}
+		*env = (*env)->next;
+	}
+}
+
+
+void	*add_var(char **args)
+{
+	int i;
+	char **p;
+	t_shell *tmp;
+	int k;
+	i = 0;
+	t_shell *env = env_control(GET_ENV, 0, 0);
+	while (args[i])
+	{
+		tmp = env;
+		k = 0;
+		p = ft_split_2(args[i], '=');
+		while (tmp && k == 0)
+		{
+			if (ft_strcmp(p[0], tmp->k) == 0)
+			{
+				replace_value(&env, p);
+				k = 1;
+			}
+			tmp = tmp->next;
+		}
+		if (k == 0)
+			env_control(ADD_NODE, p[0], p[1]);
+		i++;
+	}
+	return (NULL);
 }
 
 void	ft_swap(t_shell *node1, t_shell *node2)
@@ -74,8 +113,9 @@ void    ft_export(char **command)
 	t_shell *export;
 	int i;
 	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
+	t_shell *en = env_control(GET_ENV, 0, 0);
 	i = 0;
-	export = env;
+	export = env; 
 	while (command[i])
 		i++;
 	if (i == 1)
@@ -83,10 +123,12 @@ void    ft_export(char **command)
 		sort_env(&export);
 		while (export)
 		{
+			if (export->v == NULL)
+				export->v = "";
 			printf("declare -x %s=\"%s\"\n", export->k, export->v);
 			export = export->next;
 		}	
 	}
-	// else
-	// 	add_var(env, command);
+	else
+		add_var(&command[1]);
 }

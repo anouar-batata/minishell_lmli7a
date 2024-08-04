@@ -54,5 +54,6 @@ void    add(char **p, t_shell **envi);
 void    remove_node(t_shell **env, char *str);
 void	ft_putstr(char *s);
 char	**ft_split_2(char const *s, char c);
+void    add_node(t_shell **env, char *k, char *v);
 
 #endif
