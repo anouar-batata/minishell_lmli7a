@@ -1,39 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/30 02:27:51 by akoutate         ###   ########.fr       */
+/*   Created: 2024/08/07 00:04:49 by akoutate          #+#    #+#             */
+/*   Updated: 2024/08/07 04:30:45 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*ft_lstnew(char *elem, int flag)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	t_data	*new_node;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-	new_node = malloc(sizeof(t_data));
-	if (!new_node)
+	if (!s1 || !s2)
 		return (NULL);
-	new_node->elem = elem;
-	new_node->flag = flag;
-	new_node->next = NULL;
-	return (new_node);
-}
-
-t_shell	*ft_lstnew2(char *k, char *v)
-{
-	t_shell	*p;
-
-	p = (t_shell *)malloc( sizeof(t_shell));
-	if (!p)
+	i = 0;
+	j = 0;
+	str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	p ->name = k;
-	p ->content = v;
-	p ->next = NULL;
-	return (p);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	free (s1);
+	free (s2);
+	str[i] = '\0';
+	return (str);
 }

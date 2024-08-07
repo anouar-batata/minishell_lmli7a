@@ -6,23 +6,22 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/29 05:59:50 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/07 04:45:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void add_space_to_list(char *str, int *index, t_data **lst)
+void	add_space_to_list(char *str, int *index, t_data **lst)
 {
-	t_data *new;
+	t_data	*new;
 	int		i;
-	char *word;
+	char	*word;
 
 	i = 0;
 	while (str[i] && (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)))
 		i++;
 	word = ft_substr(str, 0, i);
-
 	*index += i;
 	new = ft_lstnew(word, WHITE_SPACE);
 	if (!new)
@@ -30,17 +29,18 @@ void add_space_to_list(char *str, int *index, t_data **lst)
 	ft_lstadd_back(lst, new);
 }
 
-int is_word(char c)
+int	is_word(char c)
 {
-	return (c == QUOTE || c == DOUBLE_QUOTE || c == WHITE_SPACE || c == ENV || c == PIPE_LINE || c == REDIR_IN || c == REDIR_OUT || c == '\t'); 
+	return (c == QUOTE || c == DOUBLE_QUOTE || c == WHITE_SPACE
+		|| c == ENV || c == PIPE_LINE || c == REDIR_IN || c == REDIR_OUT
+		|| c == '\t');
 }
 
-
-void add_word_to_list(char *str, int *index, t_data **lst)
+void	add_word_to_list(char *str, int *index, t_data **lst)
 {
-	int	i;
-	t_data *new;
-	char *word;
+	int		i;
+	t_data	*new;
+	char	*word;
 
 	i = 0;
 	while (!is_word(str[i]) && str[i])
@@ -53,24 +53,34 @@ void add_word_to_list(char *str, int *index, t_data **lst)
 	ft_lstadd_back(lst, new);
 }
 
-void add_env_to_list(char *str, int *index, t_data **lst)
+void	add_env_to_list(char *str, int *index, t_data **lst)
 {
-	int	i;
-	t_data *new;
-	char *word;
+	int		i;
+	t_data	*new;
+	char	*word;
 
 	i = 1;
-	while (str[i] != '|' && str[i] != '>' && str[i] != '<' && str[i] !=  '$' && str[i] != '\'' && str[i] != '\"' && str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i])
+	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
+		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
+		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i])
 		i++;
-	word = ft_substr(str, 0, i);
-	*index += i;
+	if (str[i] == '$' && i == 1)
+	{
+		word = ft_strdup("");
+		*index += 2;
+	}
+	else
+	{
+		word = ft_substr(str, 0, i);
+		*index += i;
+	}
 	new = ft_lstnew(word, ENV);
 	if (!new)
 		f_list(lst);
 	ft_lstadd_back(lst, new);
 }
 
-void add_a_node(t_data **lst, char *contain, int type, int *i)
+void	add_a_node(t_data **lst, char *contain, int type, int *i)
 {
 	t_data	*new;
 
@@ -81,18 +91,18 @@ void add_a_node(t_data **lst, char *contain, int type, int *i)
 	*i += ft_strlen(contain);
 }
 
-void fill_lst(char *str, t_data **lst)
+void	fill_lst(char *str, t_data **lst)
 {
-	t_data *new;
+	t_data	*new;
 	int		i;
 
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			add_a_node(lst, "'", QUOTE, &i);
+			add_a_node(lst, ft_strdup("'"), QUOTE, &i);
 		else if (str[i] == '\"')
-			add_a_node(lst, "\"", DOUBLE_QUOTE, &i);
+			add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
 		else if (str[i] == '<' && str[i + 1] == '<')
 			add_a_node(lst, "<<", HERE_DOC, &i);
 		else if (str[i] == '<')
@@ -112,13 +122,34 @@ void fill_lst(char *str, t_data **lst)
 	}
 }
 
-int main()
+void    add(char **p, t_shell **envi)
 {
-	t_data *lst;
-	char *rl;
-	int i;
+    int i;
+    t_shell *curr;
 
-	while(1)
+    i = 0;
+    curr = ft_lstnew2(p[0], p[1]);
+    ft_lstadd_back2(envi, curr);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_data	*lst;
+	char	*rl;
+	int		i;
+	t_data *tmp;
+	t_shell *envi = NULL;
+
+	i = 0;
+    char **p;
+    while (env[i] != NULL)
+    {
+        p = ft_split(env[i], '=');
+        add(p, &envi);
+        i++;
+    }
+
+	while (1)
 	{
 		lst = NULL;
 		rl = readline("slawishell: ");
@@ -127,10 +158,23 @@ int main()
 		add_history(rl);
 		fill_lst(rl, &lst);
 		if (parse_error(lst))
-			continue;
+			continue ;
+		expanding(lst, envi);
+		tmp = lst;
+		while (tmp)
+		{
+			printf("elem: {%s}, flag: {%i}\n", tmp->elem, tmp->flag);
+			tmp = tmp->next;
+		}
+		tmp = lst;
+		while (tmp)
+		{
+			free (tmp->elem);
+			tmp = tmp->next;
+		}
 		free(rl);
 		ft_lstiter(lst);
 	}
-	
-    return (0);
+	return (0);
 }
+ 

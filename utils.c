@@ -6,16 +6,16 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/20 21:44:46 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/06 22:46:56 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 		i++;
@@ -29,7 +29,7 @@ int	ft_isalpha(int c)
 	return (0);
 }
 
-void f_list(t_data **lst)
+void	f_list(t_data **lst)
 {
 	write(2, "Failed to create a new list!", 28);
 	ft_lstiter(*lst);
@@ -62,6 +62,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
+	if (len == 0)
+		return (ft_strdup(""));
 	s_len = ft_strlen(s);
 	i = 0;
 	if (start >= s_len)
@@ -78,4 +80,22 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	}
 	tmp[i] = '\0';
 	return (tmp);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			i;
+	unsigned char	*ss1;
+	unsigned char	*ss2;
+
+	i = 0;
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
+	while (ss1[i] || ss2[i])
+	{
+		if (ss1[i] != ss2[i])
+			return (ss1[i] - ss2[i]);
+		i++;
+	}
+	return (0);
 }

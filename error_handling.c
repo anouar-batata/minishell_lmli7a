@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 22:29:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/29 06:31:35 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:35:57 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,34 @@ int	redir_handler(t_data *lst)
 {
 	while (lst)
 	{
-		while (lst && lst->flag != REDIR_IN && lst->flag != REDIR_OUT && lst->flag != HERE_DOC && lst->flag != DREDIR_OUT)
+		while (lst && lst->flag != REDIR_IN && lst->flag != REDIR_OUT
+			&& lst->flag != HERE_DOC && lst->flag != DREDIR_OUT)
 			lst = lst->next;
 		if (!lst)
-			break;
+			break ;
 		lst = lst->next;
 		while (lst && lst->flag == WHITE_SPACE)
 			lst = lst->next;
-		if (!lst || lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == DREDIR_OUT || lst->flag == HERE_DOC || lst->flag == PIPE_LINE)
+		if (!lst || lst->flag == REDIR_IN || lst->flag == REDIR_OUT
+			|| lst->flag == DREDIR_OUT
+			|| lst->flag == HERE_DOC || lst->flag == PIPE_LINE)
 			return (-1);
 	}
 	return (0);
 }
 
-int pip_handler(t_data	*lst)
+int	pip_handler(t_data	*lst)
 {
 	while (lst)
 	{
 		while (lst && lst->flag == WHITE_SPACE)
 			lst = lst->next;
-		if (lst->flag == PIPE_LINE)
+		if (lst && lst->flag == PIPE_LINE)
 			return (-1);
 		while (lst && lst->flag != PIPE_LINE)
 			lst = lst->next;
 		if (!lst)
-			break;
+			break ;
 		lst = lst->next;
 		while (lst && lst->flag == WHITE_SPACE)
 			lst = lst->next;
@@ -55,7 +58,7 @@ int	quote_handler(t_data *lst)
 	t_data	*tmp;
 	int		in_quote;
 	char	quote_type;
-	
+
 	in_quote = 0;
 	tmp = lst;
 	while (tmp)
@@ -79,7 +82,7 @@ int	quote_handler(t_data *lst)
 	return (in_quote);
 }
 
-int parse_error(t_data *lst)
+int	parse_error(t_data *lst)
 {
 	if (quote_handler(lst) || pip_handler(lst) || redir_handler(lst))
 	{
