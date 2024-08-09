@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/31 22:53:43 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/09 05:39:17 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void    check_built_ins(char **av, t_shell *envi)
         ft_export(av);
     if (ft_strcmp(av[0], "exit") == 0)
         ft_exit();
+    if (ft_strcmp(av[0], "cd") == 0)
+        ft_cd(av);
 }
 
 void    add(char **p, t_shell **envi)
@@ -56,6 +58,9 @@ int main(int ac,  char *av[], char *env[])
     while (1)
     {
         char *r = readline("shell:");
+        if(!r)
+            return (0);
+        add_history(r);
         p = ft_split_2(r, ' ');
         check_built_ins(p, envi);
     }

@@ -6,14 +6,44 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/04 07:37:59 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/09 06:07:16 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// https://www.youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
+
 #include "minishell.h"
 
-void	replace_value(t_shell **env, char **arg)
+
+int search_env(t_shell *env, char *str)
 {
+	while (env)
+	{
+		if (ft_strcmp(env->k, str) == 0)
+			return (0);
+		env = env->next;
+	}
+	return (1);
+}
+
+
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*(unsigned char *)s == (unsigned char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*(unsigned char *)s == (unsigned char)c)
+		return ((char *)s);
+	return (NULL);
+}
+
+
+void	replace_value(t_shell **env, char **arg)
+{ 
 	while(*env)
 	{
 		if (ft_strcmp((*env)->k, arg[0]))
@@ -37,14 +67,24 @@ void	*add_var(char **args)
 	t_shell *env = env_control(GET_ENV, 0, 0);
 	while (args[i])
 	{
+		if (!ft_strchr(args[i], '='))
+		{
+			if (!search_env(env, args[i]))
+			{
+				i++;
+				continue;
+			}
+			else
+				env_control(ADD_NODE, args[i], NULL);
+		}
 		tmp = env;
 		k = 0;
-		p = ft_split_2(args[i], '=');
+		p = split_first_equal(args[i]);
 		while (tmp && k == 0)
 		{
 			if (ft_strcmp(p[0], tmp->k) == 0)
 			{
-				replace_value(&env, p);
+				env_control(EDIT_VALUE, p[0], p[1]);
 				k = 1;
 			}
 			tmp = tmp->next;
@@ -113,7 +153,6 @@ void    ft_export(char **command)
 	t_shell *export;
 	int i;
 	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
-	t_shell *en = env_control(GET_ENV, 0, 0);
 	i = 0;
 	export = env; 
 	while (command[i])
@@ -124,8 +163,9 @@ void    ft_export(char **command)
 		while (export)
 		{
 			if (export->v == NULL)
-				export->v = "";
-			printf("declare -x %s=\"%s\"\n", export->k, export->v);
+				printf("declare -x %s\n", export->k);
+			else
+				printf("declare -x %s=\"%s\"\n", export->k, export->v);
 			export = export->next;
 		}	
 	}

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/03 03:15:32 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/08 08:27:41 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ void    remove_node(t_shell **env, char *str)
 //     tmp->next = new;
 // }
 
+void    edit_value(t_shell **env, char *k, char *v)
+{
+    t_shell *tmp;
+
+    tmp = *env;
+    while (tmp)
+    {
+        if (ft_strcmp(tmp->k, k) == 0)
+        {
+            tmp->v = v;
+            break;
+        }
+        tmp = tmp->next;
+    }
+}
+
 void add_node(t_shell **env, char *k, char *v)
 {
     t_shell *tmp;
@@ -79,6 +95,8 @@ void    *env_control(int behaviour, void *key, char *value)
             add_node(&env, key, value);
         else if (behaviour == GET_ENV)
             return (env);
+        else if (behaviour == EDIT_VALUE)
+            edit_value(&env, key, value);
     }
     return (0);
 }

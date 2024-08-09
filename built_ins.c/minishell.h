@@ -22,6 +22,7 @@
 # define ADD_NODE 1
 # define REMOVE_NODE -1
 # define GET_ENV 2
+# define EDIT_VALUE 3
 
 typedef struct s_shell
 {
@@ -55,5 +56,6 @@ void    remove_node(t_shell **env, char *str);
 void	ft_putstr(char *s);
 char	**ft_split_2(char const *s, char c);
 void    add_node(t_shell **env, char *k, char *v);
-
+void    ft_cd(char **av);
+void	replace_value(t_shell **env, char **arg);
 #endif
