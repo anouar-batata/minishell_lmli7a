@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/06 23:20:41 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/07 05:29:00 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	find_env(t_data *lst, t_shell *envi)
 	{
 		if (!ft_strcmp(lst->elem + 1, envi->name))
 		{
-			lst->elem = envi->content;
+			lst->elem = ft_strdup(envi->content);
 			return ;
 		}
 		envi = envi->next;
@@ -47,12 +47,12 @@ void expanding(t_data *lst, t_shell *envi)
 				tmp = tmp->next;
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
-				printf("%s\n", tmp->elem);
-				if (ft_strlen(tmp->elem) != 0)
+				if (ft_strlen(tmp->elem) > 1)
 				{
 					free (tmp->elem);
 					find_env(tmp, envi);
 				}
+				
 				tmp->flag = WORD;
 				continue ;
 			}

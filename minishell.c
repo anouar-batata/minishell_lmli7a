@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/07 04:45:27 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/14 06:51:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,23 +155,26 @@ int	main(int ac, char **av, char **env)
 		rl = readline("slawishell: ");
 		if (!rl)
 			return (0);
+		if (!ft_strlen(rl))
+			continue;;
 		add_history(rl);
 		fill_lst(rl, &lst);
 		if (parse_error(lst))
 			continue ;
 		expanding(lst, envi);
+		join_word(lst);
 		tmp = lst;
 		while (tmp)
 		{
 			printf("elem: {%s}, flag: {%i}\n", tmp->elem, tmp->flag);
 			tmp = tmp->next;
 		}
-		tmp = lst;
-		while (tmp)
-		{
-			free (tmp->elem);
-			tmp = tmp->next;
-		}
+		// tmp = lst;
+		// while (tmp)
+		// {
+		// 	free (tmp->elem);
+		// 	tmp = tmp->next;
+		// }
 		free(rl);
 		ft_lstiter(lst);
 	}

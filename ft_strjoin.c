@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 00:04:49 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/07 04:30:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/07 08:21:46 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 		j++;
 	}
-	free (s1);
-	free (s2);
+
 	str[i] = '\0';
 	return (str);
 }
