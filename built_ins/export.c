@@ -6,13 +6,13 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/09 06:07:16 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:02:34 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // https://www.youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 int search_env(t_shell *env, char *str)

@@ -6,12 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 22:47:45 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/31 22:49:45 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:03:09 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "../minishell.h"
 static	int	nb_word(const char *st, char c)
 {
 	int	i;

@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/29 20:03:21 by alouriga         ###   ########.fr       */
+/*   Created: 2024/07/22 09:12:19 by alouriga          #+#    #+#             */
+/*   Updated: 2024/08/15 05:02:29 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void    pwd(void)
+void    ft_env(void)
 {
-    char *str;
+    t_shell *env;
 
-    str = getcwd(NULL, 0);
-    if(!str)
-        exit(1);
-    printf("%s\n", str);
-    free(str);
+    env = env_control(2, NULL, NULL);
+    while (env)
+    {
+        if (env->v)
+            printf("%s=%s\n", env->k, env->v);
+        env = env->next;
+    }
 }

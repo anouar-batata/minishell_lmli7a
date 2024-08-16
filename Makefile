@@ -6,7 +6,31 @@
 #    By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/07/31 23:21:05 by alouriga         ###   ########.fr        #
+#    Updated: 2024/08/16 08:34:42 by alouriga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME = minishell
+SOURCES = built_ins/cd.c built_ins/echo.c built_ins/env_utils.c \
+			built_ins/env.c built_ins/exit.c built_ins/export.c \
+			execution/main.c built_ins/pwd.c built_ins/split_2.c \
+			built_ins/split.c built_ins/unset.c built_ins/utils.c \
+			execution/utils.c built_ins/mini_main.c \
+			
+OBJ = $(SOURCES:.c=.o)
+CC = cc
+# CFLAGS = -Wall -Wextra -Werror
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) -o $@  -lreadline -L/Users/alouriga/.brew/opt/readline
+
+%.o: %.c minishell.h
+	$(CC) -c $< -o $@
+
+clean:
+	rm -f $(OBJ)
+fclean: clean
+	rm -f $(NAME)
+re: fclean all

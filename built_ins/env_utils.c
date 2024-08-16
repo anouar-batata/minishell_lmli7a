@@ -6,11 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/08 08:27:41 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:02:26 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    remove_node(t_shell **env, char *str)
 {

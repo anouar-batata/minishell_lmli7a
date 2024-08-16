@@ -26,16 +26,16 @@
 
 typedef struct s_shell
 {
-    char *k;
-    char *v;
-    struct s_shell *next;
+	char *k;
+	char *v;
+	struct s_shell *next;
 }   t_shell;
 
 typedef struct s_input
 {
-    int pipe;
-    char **command;
-    struct s_input *next;
+	int pipe;
+	char **command;
+	struct s_input *next;
 }   t_input;
 
 void    *env_control(int behaviour, void *key, char *value);
@@ -58,4 +58,5 @@ char	**ft_split_2(char const *s, char c);
 void    add_node(t_shell **env, char *k, char *v);
 void    ft_cd(char **av);
 void	replace_value(t_shell **env, char **arg);
+char	*ft_strjoin(char const *s1, char const *s2);
 #endif

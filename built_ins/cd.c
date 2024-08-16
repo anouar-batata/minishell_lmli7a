@@ -6,11 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/09 05:47:05 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/16 08:35:34 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 // void	*add_pwd(char *key, char *value)

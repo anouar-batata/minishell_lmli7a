@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 09:12:19 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/09 06:09:38 by alouriga         ###   ########.fr       */
+/*   Created: 2024/07/25 01:53:55 by alouriga          #+#    #+#             */
+/*   Updated: 2024/08/15 05:03:28 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void    ft_env(void)
+#include "../minishell.h"
+void    ft_unset(t_shell *env, char **av)
 {
-    t_shell *env;
+    int i;
 
-    env = env_control(2, NULL, NULL);
-    while (env)
+    i = 0;
+    t_shell *curr;
+    curr = env;
+    while (curr)
     {
-        if (env->v)
-            printf("%s=%s\n", env->k, env->v);
-        env = env->next;
+        if (ft_strcmp(av[1], curr->k) == 0)
+        {
+            env_control(-1, curr->k, NULL);
+            return ;
+        }
+        curr = curr->next;
     }
 }

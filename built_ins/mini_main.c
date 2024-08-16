@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/09 05:39:17 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/16 08:34:28 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    check_built_ins(char **av, t_shell *envi)
 {
@@ -41,28 +41,28 @@ void    add(char **p, t_shell **envi)
 }
 
 
-int main(int ac,  char *av[], char *env[])
-{
-    // (void)
-    t_shell *envi = NULL;
-    t_shell *envi_tmp;
-    int i = 0;
-    char **p;
-    while (env[i] != NULL)
-    {
-        p = split_first_equal(env[i]);
-        add(p, &envi);
-        i++;
-    }
-    env_control(0, envi, NULL);
-    while (1)
-    {
-        char *r = readline("shell:");
-        if(!r)
-            return (0);
-        add_history(r);
-        p = ft_split_2(r, ' ');
-        check_built_ins(p, envi);
-    }
+// int main(int ac,  char *av[], char *env[])
+// {
+//     // (void)
+//     t_shell *envi = NULL;
+//     t_shell *envi_tmp;
+//     int i = 0;
+//     char **p;
+//     while (env[i] != NULL)
+//     {
+//         p = split_first_equal(env[i]);
+//         add(p, &envi);
+//         i++;
+//     }
+//     env_control(0, envi, NULL);
+//     while (1)
+//     {
+//         char *r = readline("shell:");
+//         if(!r)
+//             return (0);
+//         add_history(r);
+//         p = ft_split_2(r, ' ');
+//         check_built_ins(p, envi);
+//     }
     
-}
+// }

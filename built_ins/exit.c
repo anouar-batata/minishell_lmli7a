@@ -6,11 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/26 00:07:26 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:02:31 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    ft_exit(void)
 {

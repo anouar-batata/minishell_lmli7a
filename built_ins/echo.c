@@ -6,11 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/02 05:31:41 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:02:23 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int  check_the_option(char **av)
 {

@@ -1,4 +1,6 @@
 #include <libc.h>
+// https://jan.newmarch.name/OS/l9_1.html
+// https://github.com/bel-oirg/minishell/blob/main/Exec/command/exec.c
 
 void    child(int *fd)
 {
@@ -24,6 +26,7 @@ int main(int ac, char *argv[])
     pipe(fd);
     int copy_out = dup(STDOUT_FILENO);
     int pid = fork();
+
     if (!pid)
     {
         close(fd[0]);
@@ -35,3 +38,6 @@ int main(int ac, char *argv[])
         child(fd);
     wait(NULL);
 }
+
+// #include <errno.h>
+// errno

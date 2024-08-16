@@ -6,13 +6,14 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:17:58 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/31 22:52:25 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/15 05:04:06 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <string.h>
-char **split_first_equal(const char *str) {
+char **split_first_equal(const char *str) 
+{
     char **result = malloc(3 * sizeof(char *));
     if (!result)
         return NULL;
@@ -50,3 +51,4 @@ char **split_first_equal(const char *str) {
 
     return result;
 }
+

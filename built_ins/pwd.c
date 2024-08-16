@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 01:53:55 by alouriga          #+#    #+#             */
-/*   Updated: 2024/07/29 21:06:42 by alouriga         ###   ########.fr       */
+/*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
+/*   Updated: 2024/08/15 05:03:07 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-void    ft_unset(t_shell *env, char **av)
+#include "../minishell.h"
+void    pwd(void)
 {
-    int i;
+    char *str;
 
-    i = 0;
-    t_shell *curr;
-    curr = env;
-    while (curr)
-    {
-        if (ft_strcmp(av[1], curr->k) == 0)
-        {
-            env_control(-1, curr->k, NULL);
-            return ;
-        }
-        curr = curr->next;
-    }
+    str = getcwd(NULL, 0);
+    if(!str)
+        exit(1);
+    printf("%s\n", str);
+    free(str);
 }
