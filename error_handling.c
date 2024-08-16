@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 22:29:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/29 21:35:57 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:41:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ int	redir_handler(t_data *lst)
 
 int	pip_handler(t_data	*lst)
 {
+	t_data *beg;
+
+	beg = lst;
 	while (lst)
 	{
 		while (lst && lst->flag == WHITE_SPACE)
 			lst = lst->next;
 		if (lst && lst->flag == PIPE_LINE)
 			return (-1);
-		while (lst && lst->flag != PIPE_LINE)
+		while (lst && (lst->flag != PIPE_LINE || in_quote(lst, beg)))
 			lst = lst->next;
 		if (!lst)
 			break ;
