@@ -1,0 +1,20 @@
+a
+a b
+a.out
+a.out.dSYM
+b c
+dsf
+error_handling.c
+expanding.c
+ft_lstadd_back.c
+ft_lstnew.c
+ft_lstsize.c
+ft_split.c
+ft_strjoin.c
+libft
+minishell.c
+minishell.h
+minishell.h.gch
+utils.c
+words_join.c
+|

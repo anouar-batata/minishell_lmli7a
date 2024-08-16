@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words_join.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/14 07:51:53 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:18:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,40 @@ void smart_strjoin(t_data *current, t_data *lst)
 	current->flag = -1;
 }
 
-void	join_word(t_data *lst)
+void	join_word(t_data **lst)
 {
 	t_data *tmp;
-
-	tmp = lst;
+	t_data *deleter;
+	t_data *fr;
+	tmp = *lst;
 	while (tmp)
 	{
-		if (in_quote(tmp, lst) && ft_strlen(tmp->elem))
+		if (in_quote(tmp, *lst) && ft_strlen(tmp->elem))
+			smart_strjoin(tmp, *lst);
+		tmp = tmp->next;
+	}
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->next && !ft_strlen(tmp->next->elem))
 		{
-			smart_strjoin(tmp, lst);
+			deleter = tmp->next;
+			while (deleter && !ft_strlen(deleter->elem))
+			{
+				free(deleter->elem);
+				fr = deleter;
+				deleter = deleter->next;
+				free(fr);
+			}
+			tmp->next = deleter;
 		}
 		tmp = tmp->next;
+	}
+	if (!ft_strlen((*lst)->elem))
+	{
+		free ((*lst)->elem);
+		fr = *lst;
+		*lst = (*lst)->next;
+		free (fr);
 	}
 }

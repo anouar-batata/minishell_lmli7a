@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/14 06:51:27 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:38:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 		i++;
 	if (str[i] == '$' && i == 1)
 	{
-		word = ft_strdup("");
+		word = ft_strdup("$$");
 		*index += 2;
 	}
 	else
@@ -148,7 +148,7 @@ int	main(int ac, char **av, char **env)
         add(p, &envi);
         i++;
     }
-
+	
 	while (1)
 	{
 		lst = NULL;
@@ -156,13 +156,13 @@ int	main(int ac, char **av, char **env)
 		if (!rl)
 			return (0);
 		if (!ft_strlen(rl))
-			continue;;
+			continue ;
 		add_history(rl);
 		fill_lst(rl, &lst);
 		if (parse_error(lst))
 			continue ;
 		expanding(lst, envi);
-		join_word(lst);
+		join_word(&lst);
 		tmp = lst;
 		while (tmp)
 		{

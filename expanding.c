@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/07 05:29:00 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:21:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 void	find_env(t_data *lst, t_shell *envi)
 {
+	if (ft_strlen(lst->elem) == 1)
+		return;
 	while (envi)
 	{
 		if (!ft_strcmp(lst->elem + 1, envi->name))
 		{
+			free(lst->elem);
 			lst->elem = ft_strdup(envi->content);
 			return ;
 		}
 		envi = envi->next;
 	}
+	free(lst->elem);
 	lst->elem = ft_strdup("");
 }
 
@@ -48,11 +52,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
 				if (ft_strlen(tmp->elem) > 1)
-				{
-					free (tmp->elem);
-					find_env(tmp, envi);
-				}
-				
+					find_env(tmp, envi);		
 				tmp->flag = WORD;
 				continue ;
 			}
@@ -72,10 +72,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp->flag == ENV)
 			{
 				if (ft_strlen(tmp->elem) != 0)
-				{
-					free (tmp->elem);
 					find_env(tmp, envi);
-				}
 				tmp->flag = WORD;
 			}
 			tmp = tmp->next;
