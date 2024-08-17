@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/16 23:38:52 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/17 09:46:37 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	{
 		word = ft_strdup("$$");
 		*index += 2;
+	}
+	else if ((str[i] == '"' || str[i] == '\'') && i == 1)
+	{
+		word = ft_strdup("");
+		*index += 1;
 	}
 	else
 	{
