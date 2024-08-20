@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/14 10:21:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/17 15:10:34 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	find_env(t_data *lst, t_shell *envi)
+void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 {
-	if (ft_strlen(lst->elem) == 1)
+	if (ft_strlen(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
 		return;
 	while (envi)
 	{
@@ -52,7 +52,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
 				if (ft_strlen(tmp->elem) > 1)
-					find_env(tmp, envi);		
+					find_env(tmp, envi, lst);		
 				tmp->flag = WORD;
 				continue ;
 			}
@@ -72,7 +72,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp->flag == ENV)
 			{
 				if (ft_strlen(tmp->elem) != 0)
-					find_env(tmp, envi);
+					find_env(tmp, envi, lst);
 				tmp->flag = WORD;
 			}
 			tmp = tmp->next;

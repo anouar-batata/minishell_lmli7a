@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/17 09:46:37 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:17:05 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,21 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	i = 1;
 	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
 		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
-		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i])
+		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i] && str[i] != '-')
+	{
+		if (str[i] >= '0' && str[i] <= '9' && i == 1)
+			break;		
 		i++;
+	}
 	if (str[i] == '$' && i == 1)
 	{
 		word = ft_strdup("$$");
 		*index += 2;
 	}
-	else if ((str[i] == '"' || str[i] == '\'') && i == 1)
+	else if (str[i] >= '0' && str[i] <= '9' && i == 1)
 	{
-		word = ft_strdup("");
-		*index += 1;
+		word = ft_strdup("$$");
+		*index += 2;
 	}
 	else
 	{
@@ -168,6 +172,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		expanding(lst, envi);
 		join_word(&lst);
+		// the_other_join(&lst);
 		tmp = lst;
 		while (tmp)
 		{

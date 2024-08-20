@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/17 03:04:48 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:58:17 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,14 @@ void smart_strjoin(t_data *current, t_data *lst)
 	tmp = current;
 	if (tmp->next)
 		tmp = tmp->next;
+	if ((tmp->flag == QUOTE || tmp->flag == DOUBLE_QUOTE) && !in_quote(tmp, lst))
+	{
+		curren
+	}
 	while (in_quote(tmp, lst))
 	{
 		current->elem = ft_strjoin(current->elem, tmp->elem);
-		tmp->elem = ft_strdup("");
+		tmp->to_remove = 1;
 		tmp = tmp->next;
 	}
 	current->flag = -1;
@@ -79,10 +83,10 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (!ft_strlen(tmp->next->elem) || tmp->next->flag == WHITE_SPACE || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (!ft_strlen(deleter->elem) || deleter->flag == WHITE_SPACE || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
+			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
 			{
 				free(deleter->elem);
 				fr = deleter;
@@ -93,7 +97,7 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if (!ft_strlen((*lst)->elem) || (*lst)->flag == WHITE_SPACE || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE)
+	if ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE)
 	{
 		free ((*lst)->elem);
 		fr = *lst;

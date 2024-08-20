@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 22:29:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/16 23:41:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/17 15:38:51 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	redir_handler(t_data *lst)
 {
+	t_data *beg;
+
+	beg = lst;
 	while (lst)
 	{
-		while (lst && lst->flag != REDIR_IN && lst->flag != REDIR_OUT
-			&& lst->flag != HERE_DOC && lst->flag != DREDIR_OUT)
+		while ((lst && lst->flag != REDIR_IN && lst->flag != REDIR_OUT
+			&& lst->flag != HERE_DOC && lst->flag != DREDIR_OUT) || (lst && in_quote(lst, beg)))
 			lst = lst->next;
 		if (!lst)
 			break ;
