@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:09:06 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/15 05:03:32 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:14:03 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int ft_strlen(const char *s)
+size_t ft_strlen(const char *s)
 {
     int i;
 

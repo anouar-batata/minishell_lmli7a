@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/16 08:34:28 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:11:03 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    check_built_ins(char **av, t_shell *envi)
     if (ft_strcmp(av[0], "env") == 0)
         ft_env();
     if (ft_strcmp(av[0], "echo") == 0)
-        echo(envi, av);
+        echo(av);
     if (ft_strcmp(av[0], "unset") == 0)
         ft_unset(envi, av);
     if (ft_strcmp(av[0], "export") == 0)
@@ -45,7 +45,8 @@ void    add(char **p, t_shell **envi)
 // {
 //     // (void)
 //     t_shell *envi = NULL;
-//     t_shell *envi_tmp;
+//     ac = 0;
+//     av = NULL;
 //     int i = 0;
 //     char **p;
 //     while (env[i] != NULL)

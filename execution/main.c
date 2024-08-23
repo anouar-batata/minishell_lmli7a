@@ -6,11 +6,28 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/16 10:01:38 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/23 04:04:02 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void    add_list(char **p, t_commands **curr)
+{
+    int i = 0;
+    t_commands *tmp;
+    char **res;
+
+    while (p[i] != NULL)
+    {
+        res = ft_split_2(p[i], ' ');
+        printf ("%s    %s\n", res[0], res[1]);
+         tmp = ft_lstnew_2(res);
+         ft_lstadd_back_2(curr, tmp);
+         i++;
+    }
+}
+
 
 void    *execute_command(char **command, char **path)
 {
@@ -23,6 +40,7 @@ void    *execute_command(char **command, char **path)
     {
         first_join = ft_strjoin(path[i], "/");
         second_join = ft_strjoin(first_join, command[0]);
+            // printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
         if (!access(second_join, X_OK))
         {
             execve(second_join, command, NULL);
@@ -30,6 +48,7 @@ void    *execute_command(char **command, char **path)
         }
         i++;
     }
+    printf("command not found \n");
     return (NULL);
 }
 
@@ -51,7 +70,7 @@ void    execute_path(char **command)
     if (access(command[0], X_OK) == 0)
         execve(command[0], command, NULL);
     else
-        exit(1); // error todo
+        printf("command not found \n");
 }
 
 void    execution_commands(char **commands)
@@ -69,15 +88,18 @@ void    execution_commands(char **commands)
            pid = fork();
            if (!pid)
             execute_command(commands, path);
+        
     }
 }
 
 int main(int ac, char **av, char **env)
 {
     t_shell *envi = NULL;
-    t_shell *envi_tmp;
+    t_commands *commands  = NULL;
     int i = 0;
     char **p;
+    ac = 0;
+    av = NULL;
     while (env[i] != NULL)
     {
         p = split_first_equal(env[i]);
@@ -91,8 +113,17 @@ int main(int ac, char **av, char **env)
         if(!r)
             return (0);
         add_history(r);
-        p = ft_split_2(r, ' ');
-        execution_commands(p);
+        p = ft_split_2(r, '|');
+        add_list(p, &commands);
+        execute_pipes(commands);
+        commands = NULL; //free
+        
+        // execution_commands(p);
         wait(NULL);
     }
 }
+// ls -a | cat -e
+
+// char **cmd;
+// cmd[0] = "ls"
+// cmd[1] = "-a"ew9

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/15 05:02:23 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:12:37 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int  check_the_option(char **av)
         return (1);
 }
 
-int    echo(t_shell *envi, char **av)
+int    echo(char **av)
 {
     int i;
     int j;

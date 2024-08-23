@@ -24,6 +24,13 @@
 # define GET_ENV 2
 # define EDIT_VALUE 3
 
+typedef struct s_commands
+{
+	char **command;
+	struct s_commands *next;
+}   t_commands;
+
+
 typedef struct s_shell
 {
 	char *k;
@@ -38,15 +45,24 @@ typedef struct s_input
 	struct s_input *next;
 }   t_input;
 
+
+void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
+t_commands	*ft_lstnew_2(char **command);
+void    first_execution(char **command, int *fd);
+void    execute_pipes(t_commands *commands);
+void    *execute_command(char **command, char **path);
+char *find_path(t_shell *env);
+void    execute_path(char **command);
+void    execution_commands(char **commands);
 void    *env_control(int behaviour, void *key, char *value);
 char **split_first_equal(const char *str);
 t_shell	*ft_lstnew(char *k, char *v);
-int ft_strlen(const char *s);
+size_t ft_strlen(const char *s);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int	ft_strcmp(char *s1, char *s2);
 void    pwd(void);
 void    ft_env(void);
-int    echo(t_shell *envi, char **av);
+int    echo(char **av);
 void    ft_exit(void);
 void    ft_unset(t_shell *env, char **av);
 void    ft_export(char **command);

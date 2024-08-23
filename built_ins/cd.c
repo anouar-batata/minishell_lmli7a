@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/16 08:35:34 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:12:19 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void change_the_directory()
     str = getcwd(NULL, 0);
     env = env_control(GET_ENV, 0, 0);
     tmp = env;
+    old_pwd = NULL;
     while (tmp)
     {
         if (ft_strcmp(tmp->k, "PWD") == 0)
