@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/20 12:19:57 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:52:07 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
 typedef struct t_data
 {
 	char			*elem;
 	int				flag;
 	int				to_remove;
+	int				to_split;	
 	struct t_data	*next;
 }	t_data;
 
@@ -33,6 +33,7 @@ typedef struct s_shell
     char *content;
     struct s_shell *next;
 }   t_shell;
+
 
 enum e_token
 {
@@ -66,5 +67,6 @@ char	*ft_strdup(char *s1);
 int	in_quote(t_data	*current_node, t_data *lst);
 char	*ft_strjoin(char *s1, char *s2);
 void	join_word(t_data **lst);
+void	the_other_join(t_data **lst);
 
 #endif

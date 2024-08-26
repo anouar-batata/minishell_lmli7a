@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:35:24 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/30 02:30:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:21:33 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_lstiter(t_data *node)
 		node = node->next;
 		free(tmp);
 	}
+	free (node);
 }
 
 void    ft_lstadd_back2(t_shell **lst, t_shell *new)

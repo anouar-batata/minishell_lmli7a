@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/20 13:58:17 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/25 20:10:23 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,10 @@ int	in_quote(t_data	*current_node, t_data *lst)
 void smart_strjoin(t_data *current, t_data *lst)
 {
 	t_data	*tmp;
-	char	*str;
-	int		flag;
-
-	flag = 0;
 
 	tmp = current;
 	if (tmp->next)
 		tmp = tmp->next;
-	if ((tmp->flag == QUOTE || tmp->flag == DOUBLE_QUOTE) && !in_quote(tmp, lst))
-	{
-		curren
-	}
 	while (in_quote(tmp, lst))
 	{
 		current->elem = ft_strjoin(current->elem, tmp->elem);
@@ -77,8 +69,22 @@ void	join_word(t_data **lst)
 	while (tmp)
 	{
 		if (in_quote(tmp, *lst) && ft_strlen(tmp->elem))
+		{
 			smart_strjoin(tmp, *lst);
-		tmp = tmp->next;
+			tmp = tmp->next;
+		}
+		else if (tmp->next && (tmp->flag == QUOTE || tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
+		{
+			free (tmp->elem);
+			tmp->elem = ft_strdup("");
+			tmp->flag = -1;
+			fr = tmp->next;
+			tmp->next = tmp->next->next;
+			free (fr->elem);
+			free (fr);
+		}
+		if (tmp)
+			tmp = tmp->next;
 	}
 	tmp = *lst;
 	while (tmp)
@@ -98,6 +104,31 @@ void	join_word(t_data **lst)
 		tmp = tmp->next;
 	}
 	if ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE)
+	{
+		free ((*lst)->elem);
+		fr = *lst;
+		*lst = (*lst)->next;
+		free (fr);
+	}
+	the_other_join(lst);
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		{
+			deleter = tmp->next;
+			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
+			{
+				free(deleter->elem);
+				fr = deleter;
+				deleter = deleter->next;
+				free(fr);
+			}
+			tmp->next = deleter;
+		}
+		tmp = tmp->next;
+	}
+	if ((*lst) && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		free ((*lst)->elem);
 		fr = *lst;

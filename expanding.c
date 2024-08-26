@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/17 15:10:34 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:51:58 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 		envi = envi->next;
 	}
 	free(lst->elem);
+	lst->to_remove = 1;
 	lst->elem = ft_strdup("");
 }
 
@@ -74,6 +75,7 @@ void expanding(t_data *lst, t_shell *envi)
 				if (ft_strlen(tmp->elem) != 0)
 					find_env(tmp, envi, lst);
 				tmp->flag = WORD;
+				tmp->to_split = 1;
 			}
 			tmp = tmp->next;
 		}

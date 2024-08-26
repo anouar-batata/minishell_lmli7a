@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   join.c                                             :+:      :+:    :+:   */
+/*   split_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 17:51:45 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/20 18:18:51 by akoutate         ###   ########.fr       */
+/*   Created: 2024/08/26 23:53:27 by akoutate          #+#    #+#             */
+/*   Updated: 2024/08/26 23:56:28 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	the_other_join(t_data **lst)
+void split_word(t_data	**lst)
 {
 	t_data *tmp;
-	t_data *current;
+	char	**str;
 
 	tmp = *lst;
 	while (tmp)
 	{
-		current = tmp;
-		tmp = tmp->next;
-		while (tmp && current->flag == WORD && tmp->flag == current->flag)
-		{
-			current->elem = ft_strjoin(current->elem, tmp->elem);
-			tmp->to_remove = 1;
-			tmp = tmp->next;
-		}
-		if (tmp)
-			tmp = tmp->next;
-	}
+		if (tmp->to_split)
+	}		
 }

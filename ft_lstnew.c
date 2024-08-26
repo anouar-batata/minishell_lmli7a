@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/20 12:21:32 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:56:42 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_data	*ft_lstnew(char *elem, int flag)
 	new_node->elem = elem;
 	new_node->flag = flag;
 	new_node->to_remove = 0;
+	new_node->to_split = 0;
 	new_node->next = NULL;
 	return (new_node);
 }
