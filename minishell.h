@@ -27,7 +27,9 @@
 typedef struct s_commands
 {
 	char **command;
+	
 	struct s_commands *next;
+	int save;
 }   t_commands;
 
 
@@ -75,4 +77,5 @@ void    add_node(t_shell **env, char *k, char *v);
 void    ft_cd(char **av);
 void	replace_value(t_shell **env, char **arg);
 char	*ft_strjoin(char const *s1, char const *s2);
+int	ft_lstsize_2(t_commands *lst);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 07:03:28 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/23 03:55:29 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:04:49 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,18 @@ t_commands	*ft_lstnew_2(char **command)
 	p ->command = command;
 	p ->next = NULL;
 	return (p);
+}
+int	ft_lstsize_2(t_commands *lst)
+{
+	int	i;
+
+	i = 0;
+	if (!lst)
+		return (i);
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
 }

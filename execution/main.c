@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/23 04:04:02 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/23 04:35:17 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void    add_list(char **p, t_commands **curr)
     while (p[i] != NULL)
     {
         res = ft_split_2(p[i], ' ');
-        printf ("%s    %s\n", res[0], res[1]);
          tmp = ft_lstnew_2(res);
          ft_lstadd_back_2(curr, tmp);
          i++;
@@ -43,7 +42,9 @@ void    *execute_command(char **command, char **path)
             // printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
         if (!access(second_join, X_OK))
         {
+            
             execve(second_join, command, NULL);
+            exit (0);
             return (NULL);
         }
         i++;
@@ -117,7 +118,6 @@ int main(int ac, char **av, char **env)
         add_list(p, &commands);
         execute_pipes(commands);
         commands = NULL; //free
-        
         // execution_commands(p);
         wait(NULL);
     }
