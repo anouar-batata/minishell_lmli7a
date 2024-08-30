@@ -6,33 +6,11 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/26 23:18:47 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/30 10:42:15 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void    *execute_command(char **command, char **path)
-// {
-//     char *first_join;
-//     char *second_join;
-//     int i;
-    
-//     i = 0;
-//     while (path[i])
-//     {
-//         first_join = ft_strjoin(path[i], "/");
-//         second_join = ft_strjoin(first_join, command[0]);
-//         if (!access(second_join, X_OK))
-//         {
-//             execve(second_join, command, NULL);
-//             return (NULL);
-//         }
-//         i++;
-//     }
-//     printf("command not found \n");
-//     return (NULL);
-// }
 
 void execution_first_command(char **command)
 {
@@ -83,19 +61,18 @@ void    middle_execution(char **command, int *fd, int s)
     }
 }
 
-void    finale_execution(char **command, int *fd, int s 
+int    finale_execution(char **command, int *fd, int s 
 )
 {
     int pid = fork();
     if (!pid)
     {
         close(fd[1]);
-        // close(fd[0]);
         dup2(s, STDIN_FILENO);
         close(s);
         execution_first_command(command);
     }
-
+    return (pid);
 }
 
 void    execute_pipes(t_commands *commands)
@@ -103,6 +80,8 @@ void    execute_pipes(t_commands *commands)
     int i = 0;
     int j = 1;
     int fd[2];
+    int status;
+    int pid_of_last_command;
     pipe(fd);
     int nb_of_nds;
 
@@ -111,7 +90,7 @@ void    execute_pipes(t_commands *commands)
     int	save_fd = -1; 
     tmp = commands;
         if (!commands->next)
-            execution_commands(commands->command);
+            pid_of_last_command = execution_commands(commands->command);
         else
         {
             nb_of_nds = ft_lstsize_2(tmp);
@@ -127,9 +106,21 @@ void    execute_pipes(t_commands *commands)
                 i++;
             }
             
-            finale_execution(tmp->command, fd, save_fd);
+            pid_of_last_command = finale_execution(tmp->command, fd, save_fd);
         }
     close(fd[0]);
     close(fd[1]);
+    // if (!commands->next)
+    //     waitpid()
+    waitpid(pid_of_last_command, &status, 0);
+    // if(WIFEXITED(status))
+    //     //
+    // else if (WIFSIGNALED(status))
+    // {
+        
+    // }
+    exit_status(WEXITSTATUS(status), ADD);
+    // fprintf(stderr,"STATUS: %i\n", exit_status(0, 0));
+    
     while(wait(NULL) != -1);
 }

@@ -23,6 +23,7 @@
 # define REMOVE_NODE -1
 # define GET_ENV 2
 # define EDIT_VALUE 3
+# define ADD 1
 
 typedef struct s_commands
 {
@@ -47,15 +48,15 @@ typedef struct s_input
 	struct s_input *next;
 }   t_input;
 
-
+int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew_2(char **command);
 void    first_execution(char **command, int *fd);
 void    execute_pipes(t_commands *commands);
-void    *execute_command(char **command, char **path);
+void    execute_command(char **command, char **path);
 char *find_path(t_shell *env);
-void    execute_path(char **command);
-void    execution_commands(char **commands);
+int    execute_path(char **command);
+int    execution_commands(char **commands);
 void    *env_control(int behaviour, void *key, char *value);
 char **split_first_equal(const char *str);
 t_shell	*ft_lstnew(char *k, char *v);

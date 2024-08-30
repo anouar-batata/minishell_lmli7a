@@ -6,7 +6,7 @@
 #    By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/08/21 16:10:54 by alouriga         ###   ########.fr        #
+#    Updated: 2024/08/30 10:34:24 by alouriga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SOURCES = built_ins/cd.c built_ins/echo.c built_ins/env_utils.c \
 			execution/main.c built_ins/pwd.c built_ins/split_2.c \
 			built_ins/split.c built_ins/unset.c built_ins/utils.c \
 			execution/utils.c built_ins/mini_main.c \
-			execution/execute_pipes.c \
+			execution/execute_pipes.c execution/exit_status_utils.c \
 			
 OBJ = $(SOURCES:.c=.o)
 CC = cc

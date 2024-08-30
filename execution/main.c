@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/23 04:35:17 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/08/30 10:41:09 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    add_list(char **p, t_commands **curr)
 }
 
 
-void    *execute_command(char **command, char **path)
+void    execute_command(char **command, char **path)
 {
     char *first_join;
     char *second_join;
@@ -45,12 +45,11 @@ void    *execute_command(char **command, char **path)
             
             execve(second_join, command, NULL);
             exit (0);
-            return (NULL);
         }
         i++;
     }
     printf("command not found \n");
-    return (NULL);
+    exit(127);
 }
 
 char *find_path(t_shell *env)
@@ -66,15 +65,25 @@ char *find_path(t_shell *env)
     return (NULL);
 }
 
-void    execute_path(char **command)
+int    execute_path(char **command)
 {
+    int pid;
     if (access(command[0], X_OK) == 0)
-        execve(command[0], command, NULL);
-    else
-        printf("command not found \n");
+    {
+        pid = fork();
+        if (!pid)
+        {
+            execve(command[0], command, NULL);
+            perror("Error");
+            exit(127);
+        }
+    }
+    // else
+    //     printf("command not found \n");
+    return (pid);
 }
 
-void    execution_commands(char **commands)
+int    execution_commands(char **commands)
 {
     char **path;
     char *p;
@@ -82,13 +91,16 @@ void    execution_commands(char **commands)
 
     p = find_path(env_control(GET_ENV, 0, 0));
     if (commands[0][0] == '/')
-        execute_path(commands);
+    {
+        return (execute_path(commands));
+    }
     else
     {
            path = ft_split_2(p, ':');
            pid = fork();
            if (!pid)
             execute_command(commands, path);
+        return(pid);
         
     }
 }
