@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 03:59:11 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 08:22:21 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef struct s_commands
+{
+	char **command;
+	
+	struct s_commands *next;
+}   t_commands;
+
+
 typedef struct t_data
 {
 	char			*elem;
@@ -76,5 +85,9 @@ void	add_word_to_list(char *str, int *index, t_data **lst);
 int	    is_word(char c);
 void	add_space_to_list(char *str, int *index, t_data **lst);
 void    split_word(t_data	**lst);
+void	make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list);
+void    ft_lstadd_back3(t_commands **lst, t_commands *new);
+t_commands	*ft_lstnew3(char **command);
+void	ft_lstiter2(t_commands *node);
 
 #endif

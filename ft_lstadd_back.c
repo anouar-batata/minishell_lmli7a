@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:35:24 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 20:21:33 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 08:20:29 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,41 @@ void	ft_lstiter(t_data *node)
 	free (node);
 }
 
+void	ft_lstiter2(t_commands *node)
+{
+	t_commands	*tmp;
+
+	if (!node)
+		return ;
+	while (node)
+	{
+		tmp = node;
+		node = node->next;
+		free(tmp);
+	}
+	free (node);
+}
+
 void    ft_lstadd_back2(t_shell **lst, t_shell *new)
 {
     t_shell    *last;
+
+    if (!lst)
+        return ;
+    last = *lst;
+    if (!*lst)
+        *lst = new;
+    else
+    {
+        while (last -> next != NULL)
+            last = last -> next;
+        last -> next = new;
+    }
+}
+
+void    ft_lstadd_back3(t_commands **lst, t_commands *new)
+{
+    t_commands    *last;
 
     if (!lst)
         return ;

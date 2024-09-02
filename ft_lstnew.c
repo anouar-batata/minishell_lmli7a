@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 23:56:42 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 06:43:26 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,16 @@ t_shell	*ft_lstnew2(char *k, char *v)
 	p ->content = v;
 	p ->next = NULL;
 	return (p);
+}
+
+t_commands	*ft_lstnew3(char **command)
+{
+	t_commands	*new;
+
+	new = malloc( sizeof(t_commands));
+	if (!new)
+		return (NULL);
+	new->command = command;
+	new->next = NULL;
+	return (new);
 }

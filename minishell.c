@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 05:50:09 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:13:50 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ int	main(int ac, char **av, char **env)
 	int		i;
 	t_data *tmp;
 	t_shell *envi = NULL;
-
+    t_commands *command;
+	char **command_list;
 	i = 0;
     char **p;
     while (env[i] != NULL)
@@ -162,6 +163,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		lst = NULL;
+		command = NULL;
 		rl = readline("slawishell: ");
 		if (!rl)
 			return (0);
@@ -174,7 +176,7 @@ int	main(int ac, char **av, char **env)
 		expanding(lst, envi);
         split_word(&lst);
 		join_word(&lst);
-        make_a_list_for_louriga_aviable(&lst);
+        //make_a_list_for_louriga_aviable(&lst, &command);
 		tmp = lst;
 		while (tmp)
 		{
@@ -183,6 +185,7 @@ int	main(int ac, char **av, char **env)
 		}
 		free(rl);
 		ft_lstiter(lst);
+		ft_lstiter2(command);
 	}
 	return (0);
 }
