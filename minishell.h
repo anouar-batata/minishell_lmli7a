@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 23:52:07 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 03:59:11 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,17 @@ t_shell	*ft_lstnew2(char *k, char *v);
 void 	expanding(t_data *lst, t_shell *envi);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(char *s1);
-int	in_quote(t_data	*current_node, t_data *lst);
+int	    in_quote(t_data	*current_node, t_data *lst);
 char	*ft_strjoin(char *s1, char *s2);
 void	join_word(t_data **lst);
 void	the_other_join(t_data **lst);
+char	*ft_strchr(char *s, char *cc);
+void	fill_lst(char *str, t_data **lst);
+void	add_a_node(t_data **lst, char *contain, int type, int *i);
+void	add_env_to_list(char *str, int *index, t_data **lst);
+void	add_word_to_list(char *str, int *index, t_data **lst);
+int	    is_word(char c);
+void	add_space_to_list(char *str, int *index, t_data **lst);
+void    split_word(t_data	**lst);
 
 #endif

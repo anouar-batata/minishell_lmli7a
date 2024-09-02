@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:53:27 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 23:56:28 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:25:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,41 @@
 
 void split_word(t_data	**lst)
 {
-	t_data *tmp;
-	char	**str;
+	t_data *new_lst;
+    t_data *tmp;
+    t_data *tmp2;
+    int     i;
 
-	tmp = *lst;
-	while (tmp)
-	{
-		if (tmp->to_split)
-	}		
+    tmp = *lst;
+    i = 0;
+    while (tmp)
+    {
+        new_lst = NULL;
+        if (i == 0 && tmp->to_split)
+        {
+            fill_lst(tmp->elem, &new_lst);
+            tmp2 = (*lst)->next;
+            (*lst) = new_lst;
+            free(tmp->elem);
+            free(tmp);
+            while (new_lst->next)
+                new_lst = new_lst->next;
+            new_lst->next = tmp2;
+            tmp = (*lst);
+        }
+        
+        else if (tmp->next && tmp->next->to_split)
+        {
+            fill_lst(tmp->next->elem, &new_lst);    
+            tmp2 = tmp->next->next;
+            free(tmp->next->elem);
+            free(tmp->next);
+            tmp->next = new_lst;
+            while (new_lst->next)
+                new_lst = new_lst->next;
+            new_lst->next = tmp2;
+        }
+        i++;
+        tmp = tmp->next;
+    }
 }

@@ -65,7 +65,7 @@ void	join_word(t_data **lst)
 	t_data *tmp;
 	t_data *deleter;
 	t_data *fr;
-	tmp = *lst;
+	tmp = *lst;	
 	while (tmp)
 	{
 		if (in_quote(tmp, *lst) && ft_strlen(tmp->elem))

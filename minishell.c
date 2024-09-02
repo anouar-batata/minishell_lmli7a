@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 23:45:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 05:50:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,9 @@ int	main(int ac, char **av, char **env)
 		if (parse_error(lst))
 			continue ;
 		expanding(lst, envi);
+        split_word(&lst);
 		join_word(&lst);
+        make_a_list_for_louriga_aviable(&lst);
 		tmp = lst;
 		while (tmp)
 		{

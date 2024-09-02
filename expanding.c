@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/26 23:51:58 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/02 03:41:01 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
 				if (ft_strlen(tmp->elem) > 1)
-					find_env(tmp, envi, lst);		
+					find_env(tmp, envi, lst);	
 				tmp->flag = WORD;
 				continue ;
 			}
@@ -75,7 +75,8 @@ void expanding(t_data *lst, t_shell *envi)
 				if (ft_strlen(tmp->elem) != 0)
 					find_env(tmp, envi, lst);
 				tmp->flag = WORD;
-				tmp->to_split = 1;
+				if (ft_strchr(tmp->elem, " \t"))
+					tmp->to_split = 1;
 			}
 			tmp = tmp->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/18 20:57:21 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/08/27 00:22:35 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,24 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strchr(char *s, char *cc)
+{
+	size_t			i;
+
+	i = 0;
+	while (*cc)
+	{
+		while (s[i])
+		{
+			if (s[i] == *cc)
+				return ((char *)&s[i]);
+			i++;
+		}
+		if (* cc == '\0')
+			return ((char *)&s[i]);
+		cc++;
+	}
+	return (NULL);
 }
