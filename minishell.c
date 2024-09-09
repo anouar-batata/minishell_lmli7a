@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 05:41:16 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:56:28 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,28 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 }
 
 
+char *get_env(t_shell *envi, char *str)
+{
+	while (envi)
+	{
+		if (!ft_strcmp_2(envi->k, str))
+			return (envi->v);
+		envi = envi->next;
+	}
+	return (NULL);
+}
+
+char *print_pwd(char *str, t_shell *envi)
+{
+	int i = ft_strlen2(str) - 1;
+	while (i && str[i] != '/')
+		i--;
+	if (ft_strcmp_2(&str[i + 1], get_env(envi, "USER")))
+		return (&str[i + 1]);
+	else
+		return (ft_strdup("~"));
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_data	*lst;
@@ -148,6 +170,7 @@ int	main(int ac, char **av, char **env)
 	t_shell *envi = NULL;
     t_commands *command;
 	char **command_list;
+	char *prompt = NULL;
 	i = 0;
     char **p;
     while (env[i] != NULL)
@@ -162,7 +185,10 @@ int	main(int ac, char **av, char **env)
 	{
 		lst = NULL;
 		command = NULL;
-		rl = readline("slawishell: ");
+		prompt = ft_strjoin2(get_env(envi, "USER"),"@");
+		prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
+		prompt = ft_strjoin2(prompt, " ~> ");
+		rl = readline(prompt);
 		if (!rl)
 			return (0);
 		if (!ft_strlen2(rl))

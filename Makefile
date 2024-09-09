@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+         #
+#    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/08/30 10:34:24 by alouriga         ###   ########.fr        #
+#    Updated: 2024/09/09 10:37:23 by akoutate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CC = cc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $@  -lreadline -L/Users/alouriga/.brew/opt/readline
+	$(CC) $(OBJ) -o $@  -lreadline 
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
