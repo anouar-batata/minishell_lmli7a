@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 05:27:39 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:38:38 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ void    execute_command(char **command, char **path)
     int i;
     
     i = 0;
-	t_shell *env =  env_control(GET_ENV, 0, 0);
-	if (check_built_ins(command, env) == 0)
-		exit(0);
-	else
-	{
+
 		while (path[i])
 		{
 			first_join = ft_strjoin(path[i], "/");
@@ -53,7 +49,7 @@ void    execute_command(char **command, char **path)
 			}
 			i++;
 		}
-	}
+
     printf("command not found \n");
     exit(127);
 }
@@ -94,14 +90,16 @@ int    execution_commands(char **commands)
     char **path;
     char *p;
     int pid;
-
+	t_shell *env =  env_control(GET_ENV, 0, 0);
     p = find_path(env_control(GET_ENV, 0, 0));
     if (commands[0][0] == '/')
     {
         return (execute_path(commands));
     }
+	else if(check_built_ins(commands, env) == 0)
+		return (0);
     else
-    {
+    {   
            path = ft_split_2(p, ':');
            pid = fork();
            if (!pid)

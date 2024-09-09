@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 05:29:29 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:39:00 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void    pwd(void)
     if(!str)
         exit(1);
     printf("%s\n", str);
+    printf("mok\n");
     free(str);
 }

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 05:18:57 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:41:16 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,8 @@ int	main(int ac, char **av, char **env)
         split_word(&lst);
 		join_word(&lst);
         make_a_list_for_louriga_aviable(&lst, &command);
-		execute_pipes(command);
+		if (command)
+			execute_pipes(command);
 		free(rl);
 		ft_lstiter(lst);
 		ft_lstiter2(command);
