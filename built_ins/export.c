@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/17 10:14:52 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/09 04:23:45 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,34 @@
 
 #include "../minishell.h"
 
+int	parse_arguments(char *argument)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (argument[i] != '\0')
+	{
+		if (argument[i] == '=')
+			return (0);
+		else
+		{
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
+			{
+				printf(" not a valid identifier\n");
+				return (1);
+			}
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9')))
+			{
+					printf(" not a valid identifier\n");
+					return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
 
 int search_env(t_shell *env, char *str)
 {
@@ -67,30 +95,38 @@ void	*add_var(char **args)
 	t_shell *env = env_control(GET_ENV, 0, 0);
 	while (args[i])
 	{
-		if (!ft_strchr(args[i], '='))
+		if (parse_arguments(args[i]) == 1)
 		{
-			if (!search_env(env, args[i]))
-			{
-				i++;
-				continue;
-			}
-			else
-				env_control(ADD_NODE, args[i], NULL);
+			i++;
+			continue;
 		}
-		tmp = env;
-		k = 0;
-		p = split_first_equal(args[i]);
-		while (tmp && k == 0)
+		else
 		{
-			if (ft_strcmp(p[0], tmp->k) == 0)
+			if (!ft_strchr(args[i], '='))
 			{
-				env_control(EDIT_VALUE, p[0], p[1]);
-				k = 1;
+				if (!search_env(env, args[i]))
+				{
+					i++;
+					continue;
+				}
+				else
+					env_control(ADD_NODE, args[i], NULL);
 			}
-			tmp = tmp->next;
+			tmp = env;
+			k = 0;
+			p = split_first_equal(args[i]);
+			while (tmp && k == 0)
+			{
+				if (ft_strcmp(p[0], tmp->k) == 0)
+				{
+					env_control(EDIT_VALUE, p[0], p[1]);
+					k = 1;
+				}
+				tmp = tmp->next;
+			}
+			if (k == 0)
+				env_control(ADD_NODE, p[0], p[1]);
 		}
-		if (k == 0)
-			env_control(ADD_NODE, p[0], p[1]);
 		i++;
 	}
 	return (NULL);
@@ -170,5 +206,8 @@ void    ft_export(char **command)
 		}	
 	}
 	else
+	{
+		// parce_arguments(&command[1]);
 		add_var(&command[1]);
+	}
 }

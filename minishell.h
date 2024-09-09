@@ -24,6 +24,7 @@
 # define GET_ENV 2
 # define EDIT_VALUE 3
 # define ADD 1
+# define GET_EXIT_STATUS 0
 
 typedef struct s_commands
 {
@@ -41,12 +42,12 @@ typedef struct s_shell
 	struct s_shell *next;
 }   t_shell;
 
-typedef struct s_input
-{
-	int pipe;
-	char **command;
-	struct s_input *next;
-}   t_input;
+// typedef struct s_input
+// {
+// 	int pipe;
+// 	char **command;
+// 	struct s_input *next;
+// }   t_input;
 
 int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
@@ -66,7 +67,7 @@ int	ft_strcmp(char *s1, char *s2);
 void    pwd(void);
 void    ft_env(void);
 int    echo(char **av);
-void    ft_exit(void);
+void    ft_exit(char **av);
 void    ft_unset(t_shell *env, char **av);
 void    ft_export(char **command);
 t_shell	*ft_lstlast(t_shell *lst);

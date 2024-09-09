@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 01:53:55 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/15 05:03:28 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/04 20:13:18 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,29 @@
 void    ft_unset(t_shell *env, char **av)
 {
     int i;
+    int j;
 
-    i = 0;
+    i = 2;
+    j = 1;
     t_shell *curr;
     curr = env;
-    while (curr)
+    while (curr && av[j])
     {
-        if (ft_strcmp(av[1], curr->k) == 0)
+        i = 2;
+        if (ft_strcmp(av[j], curr->k) == 0)
         {
-            env_control(-1, curr->k, NULL);
-            return ;
+            if (!ft_strcmp(curr->k, "_"))
+                i++;
+            else
+            {
+                env_control(-1, curr->k, NULL);
+                j++;
+                i = 0;
+            }
         }
-        curr = curr->next;
+        if (i == 0)
+            curr = env;
+        else
+            curr = curr->next;
     }
 }
