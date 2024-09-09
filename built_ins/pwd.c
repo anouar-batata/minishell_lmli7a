@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 08:22:08 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:53:38 by akoutate         ###   ########.fr       */
+/*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
+/*   Updated: 2024/09/09 05:29:29 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_lstsize5(t_data *lst)
+#include "../minishell.h"
+void    pwd(void)
 {
-	int	i;
+    char *str;
 
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
+    str = getcwd(NULL, 0);
+    if(!str)
+        exit(1);
+    printf("%s\n", str);
+    free(str);
 }

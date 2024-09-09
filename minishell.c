@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 17:13:50 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:18:57 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	add_space_to_list(char *str, int *index, t_data **lst)
 		i++;
 	word = ft_substr(str, 0, i);
 	*index += i;
-	new = ft_lstnew(word, WHITE_SPACE);
+	new = ft_lstnew5(word, WHITE_SPACE);
 	if (!new)
 		f_list(lst);
-	ft_lstadd_back(lst, new);
+	ft_lstadd_back5(lst, new);
 }
 
 int	is_word(char c)
@@ -47,10 +47,10 @@ void	add_word_to_list(char *str, int *index, t_data **lst)
 		i++;
 	word = ft_substr(str, 0, i);
 	*index += i;
-	new = ft_lstnew(word, WORD);
+	new = ft_lstnew5(word, WORD);
 	if (!new)
 		f_list(lst);
-	ft_lstadd_back(lst, new);
+	ft_lstadd_back5(lst, new);
 }
 
 void	add_env_to_list(char *str, int *index, t_data **lst)
@@ -76,7 +76,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	}
 	else if (str[i] >= '0' && str[i] <= '9' && i == 1)
 	{
-		word = ft_strdup("$$");
+		word = ft_substr(str, 0, 2);
 		*index += 2;
 	}
 	else
@@ -84,24 +84,24 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 		word = ft_substr(str, 0, i);
 		*index += i;
 	}
-	new = ft_lstnew(word, ENV);
+	new = ft_lstnew5(word, ENV);
 	if (!new)
 		f_list(lst);
-	ft_lstadd_back(lst, new);
+	ft_lstadd_back5(lst, new);
 }
 
 void	add_a_node(t_data **lst, char *contain, int type, int *i)
 {
 	t_data	*new;
 
-	new = ft_lstnew(contain, type);
+	new = ft_lstnew5(contain, type);
 	if (!new)
 		f_list(lst);
-	ft_lstadd_back(lst, new);
-	*i += ft_strlen(contain);
+	ft_lstadd_back5(lst, new);
+	*i += ft_strlen2(contain);
 }
 
-void	fill_lst(char *str, t_data **lst)
+void	fill_lst(char *str, t_data **lst, int pipe)
 {
 	t_data	*new;
 	int		i;
@@ -114,15 +114,21 @@ void	fill_lst(char *str, t_data **lst)
 		else if (str[i] == '\"')
 			add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
 		else if (str[i] == '<' && str[i + 1] == '<')
-			add_a_node(lst, "<<", HERE_DOC, &i);
+			add_a_node(lst, ft_strdup("<<"), HERE_DOC, &i);
 		else if (str[i] == '<')
-			add_a_node(lst, "<", REDIR_IN, &i);
+			add_a_node(lst, ft_strdup("<"), REDIR_IN, &i);
 		else if (str[i] == '>' && str[i + 1] == '>')
-			add_a_node(lst, ">>", DREDIR_OUT, &i);
+			add_a_node(lst, ft_strdup(">>"), DREDIR_OUT, &i);
 		else if (str[i] == '>')
-			add_a_node(lst, ">", REDIR_OUT, &i);
+			add_a_node(lst, ft_strdup(">"), REDIR_OUT, &i);
 		else if (str[i] == '|')
-			add_a_node(lst, "|", PIPE_LINE, &i);
+		{
+			if (!pipe)
+				add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
+			else
+				add_a_node(lst, ft_strdup("|"), WORD, &i);
+				
+		}
 		else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 			add_space_to_list(&str[i], &i, lst);
 		else if (str[i] == '$')
@@ -132,22 +138,13 @@ void	fill_lst(char *str, t_data **lst)
 	}
 }
 
-void    add(char **p, t_shell **envi)
-{
-    int i;
-    t_shell *curr;
-
-    i = 0;
-    curr = ft_lstnew2(p[0], p[1]);
-    ft_lstadd_back2(envi, curr);
-}
 
 int	main(int ac, char **av, char **env)
 {
 	t_data	*lst;
 	char	*rl;
 	int		i;
-	t_data *tmp;
+	t_commands *tmp;
 	t_shell *envi = NULL;
     t_commands *command;
 	char **command_list;
@@ -155,10 +152,11 @@ int	main(int ac, char **av, char **env)
     char **p;
     while (env[i] != NULL)
     {
-        p = ft_split(env[i], '=');
+        p = split_first_equal(env[i]);
         add(p, &envi);
         i++;
     }
+    env_control(0, envi, NULL);
 	
 	while (1)
 	{
@@ -167,22 +165,17 @@ int	main(int ac, char **av, char **env)
 		rl = readline("slawishell: ");
 		if (!rl)
 			return (0);
-		if (!ft_strlen(rl))
+		if (!ft_strlen2(rl))
 			continue ;
 		add_history(rl);
-		fill_lst(rl, &lst);
+		fill_lst(rl, &lst, 0);
 		if (parse_error(lst))
 			continue ;
 		expanding(lst, envi);
         split_word(&lst);
 		join_word(&lst);
-        //make_a_list_for_louriga_aviable(&lst, &command);
-		tmp = lst;
-		while (tmp)
-		{
-			printf("elem: {%s}, flag: {%i}\n", tmp->elem, tmp->flag);
-			tmp = tmp->next;
-		}
+        make_a_list_for_louriga_aviable(&lst, &command);
+		execute_pipes(command);
 		free(rl);
 		ft_lstiter(lst);
 		ft_lstiter2(command);

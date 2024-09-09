@@ -6,13 +6,13 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:35:24 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 08:20:29 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 04:37:01 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_lstadd_back(t_data **lst, t_data *nw)
+void	ft_lstadd_back5(t_data **lst, t_data *nw)
 {
 	t_data	*temp;
 

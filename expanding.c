@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 03:41:01 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:02:23 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 {
-	if (ft_strlen(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
+	if (ft_strlen2(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
 		return;
 	while (envi)
 	{
-		if (!ft_strcmp(lst->elem + 1, envi->name))
+		if (!ft_strcmp_2(lst->elem + 1, envi->k))
 		{
 			free(lst->elem);
-			lst->elem = ft_strdup(envi->content);
+			lst->elem = ft_strdup(envi->v);
 			return ;
 		}
 		envi = envi->next;
@@ -52,7 +52,7 @@ void expanding(t_data *lst, t_shell *envi)
 				tmp = tmp->next;
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
-				if (ft_strlen(tmp->elem) > 1)
+				if (ft_strlen2(tmp->elem) > 1)
 					find_env(tmp, envi, lst);	
 				tmp->flag = WORD;
 				continue ;
@@ -72,10 +72,10 @@ void expanding(t_data *lst, t_shell *envi)
 		{
 			if (tmp->flag == ENV)
 			{
-				if (ft_strlen(tmp->elem) != 0)
+				if (ft_strlen2(tmp->elem) != 0)
 					find_env(tmp, envi, lst);
 				tmp->flag = WORD;
-				if (ft_strchr(tmp->elem, " \t"))
+				if (ft_strchr_pro(tmp->elem, " \t"))
 					tmp->to_split = 1;
 			}
 			tmp = tmp->next;

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   exit_status_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 08:22:08 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:53:38 by akoutate         ###   ########.fr       */
+/*   Created: 2024/08/30 10:14:27 by alouriga          #+#    #+#             */
+/*   Updated: 2024/08/30 10:36:42 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_lstsize5(t_data *lst)
+int    exit_status(int set, int mode)
 {
-	int	i;
+    static int exit_status;
 
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
+    // exit_status = 0;
+    if (mode == ADD)
+        exit_status = set;
+    else
+        return (exit_status);
+    return(0);
 }

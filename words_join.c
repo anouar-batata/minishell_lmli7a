@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 06:22:35 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 04:58:02 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void smart_strjoin(t_data *current, t_data *lst)
 		tmp = tmp->next;
 	while (in_quote(tmp, lst))
 	{
-		current->elem = ft_strjoin(current->elem, tmp->elem);
+		current->elem = ft_strjoin2(current->elem, tmp->elem);
 		tmp->to_remove = 1;
 		tmp = tmp->next;
 	}
@@ -68,7 +68,7 @@ void	join_word(t_data **lst)
 	tmp = *lst;	
 	while (tmp)
 	{
-		if (in_quote(tmp, *lst) && ft_strlen(tmp->elem))
+		if (in_quote(tmp, *lst) && ft_strlen2(tmp->elem))
 		{
 			smart_strjoin(tmp, *lst);
 			tmp = tmp->next;

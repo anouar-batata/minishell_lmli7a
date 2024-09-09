@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 08:22:08 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:53:38 by akoutate         ###   ########.fr       */
+/*   Created: 2024/07/22 09:12:19 by alouriga          #+#    #+#             */
+/*   Updated: 2024/09/09 04:48:19 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_lstsize5(t_data *lst)
+void    ft_env(void)
 {
-	int	i;
+    t_shell *env;
 
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
+    env = env_control(2, NULL, NULL);
+    while (env)
+    {
+        if (env->v)
+            printf("%s=%s\n", env->k, env->v);
+        env = env->next;
+    }
 }

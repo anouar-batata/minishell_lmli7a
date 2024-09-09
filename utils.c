@@ -6,13 +6,13 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/27 00:22:35 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:02:19 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strlen(const char *str)
+int	ft_strlen2(const char *str)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ char	*ft_strdup(char *s1)
 	char	*cpy;
 	size_t	i;
 
-	cpy = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
+	cpy = (char *)malloc((ft_strlen2(s1) + 1) * sizeof(char));
 	if (!cpy)
 		return (NULL);
 	i = 0;
@@ -64,7 +64,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		return (NULL);
 	if (len == 0)
 		return (ft_strdup(""));
-	s_len = ft_strlen(s);
+	s_len = ft_strlen2(s);
 	i = 0;
 	if (start >= s_len)
 		return (ft_strdup(""));
@@ -82,7 +82,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (tmp);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp_2(const char *s1, const char *s2)
 {
 	size_t			i;
 	unsigned char	*ss1;
@@ -100,7 +100,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-char	*ft_strchr(char *s, char *cc)
+char	*ft_strchr_pro(char *s, char *cc)
 {
 	size_t			i;
 

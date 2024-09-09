@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:12:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/07/30 02:32:41 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 04:57:35 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	size_t	len;
 	size_t	i;
 
-	len = ft_strlen(src);
+	len = ft_strlen2(src);
 	i = 0;
 	if (dstsize != 0)
 	{

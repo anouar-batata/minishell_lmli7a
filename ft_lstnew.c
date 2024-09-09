@@ -6,13 +6,13 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/02 06:43:26 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 04:53:53 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*ft_lstnew(char *elem, int flag)
+t_data	*ft_lstnew5(char *elem, int flag)
 {
 	t_data	*new_node;
 
@@ -34,8 +34,8 @@ t_shell	*ft_lstnew2(char *k, char *v)
 	p = (t_shell *)malloc( sizeof(t_shell));
 	if (!p)
 		return (NULL);
-	p ->name = k;
-	p ->content = v;
+	p ->k = k;
+	p ->v = v;
 	p ->next = NULL;
 	return (p);
 }
