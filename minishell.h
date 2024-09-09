@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 05:26:13 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:12:47 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	ft_lstiter2(t_commands *node);
 int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew_2(char **command);
-void    first_execution(char **command, int *fd);
+int    first_execution(char **command, int *fd);
 void    execute_pipes(t_commands *commands);
 void    execute_command(char **command, char **path);
 char *find_path(t_shell *env);

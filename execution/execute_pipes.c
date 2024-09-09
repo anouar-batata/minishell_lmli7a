@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/30 10:42:15 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:13:34 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ void execution_first_command(char **command)
     }
 }
 
-void    first_execution(char **command, int *fd)
+int   first_execution(char **command, int *fd)
 {
+	t_shell *env =  env_control(GET_ENV, 0, 0);
+	
+	if(check_built_ins(command, env) == 0)
+		return (0);
     int pid = fork();
     if (pid == 0)
     {
@@ -40,9 +44,14 @@ void    first_execution(char **command, int *fd)
     }
     else
         close(fd[1]);
+	return (1);
 }
-void    middle_execution(char **command, int *fd, int s)
+int   middle_execution(char **command, int *fd, int s)
 {
+	t_shell *env =  env_control(GET_ENV, 0, 0);
+	
+	if(check_built_ins(command, env) == 0)
+		return (0);
     pipe(fd);
     int pid = fork();
     if (pid == 0)
@@ -59,11 +68,15 @@ void    middle_execution(char **command, int *fd, int s)
         close(s);
         close(fd[1]);
     }
+	return (1);
 }
 
-int    finale_execution(char **command, int *fd, int s 
-)
+int    finale_execution(char **command, int *fd, int s )
 {
+	t_shell *env =  env_control(GET_ENV, 0, 0);
+	
+	if(check_built_ins(command, env) == 0)
+		return (0);
     int pid = fork();
     if (!pid)
     {
