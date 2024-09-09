@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 10:56:28 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:09:22 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int	main(int ac, char **av, char **env)
     t_commands *command;
 	char **command_list;
 	char *prompt = NULL;
+	int print_n = 0 ;
 	i = 0;
     char **p;
     while (env[i] != NULL)
@@ -185,9 +186,14 @@ int	main(int ac, char **av, char **env)
 	{
 		lst = NULL;
 		command = NULL;
-		prompt = ft_strjoin2(get_env(envi, "USER"),"@");
+		if (print_n)
+			printf("\n");
+		else
+			print_n = 1;
+		prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
+		prompt = ft_strjoin2(prompt ,"@");
 		prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
-		prompt = ft_strjoin2(prompt, " ~> ");
+		prompt = ft_strjoin2(prompt, "]--\n~~> ");
 		rl = readline(prompt);
 		if (!rl)
 			return (0);
