@@ -6,7 +6,7 @@
 #    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/09/09 14:27:03 by akoutate         ###   ########.fr        #
+#    Updated: 2024/09/09 20:42:57 by akoutate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CC = cc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $@  -lreadline 
+	$(CC) $(OBJ) -o $@ -g -lreadline 
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
