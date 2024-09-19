@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 06:27:15 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:24:14 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int   middle_execution(char **command, int *fd, int s)
 {
 	t_shell *env =  env_control(GET_ENV, 0, 0);
 	
-	if(check_built_ins(command, env) == 0)
-		return (0);
     pipe(fd);
     int pid = fork();
     if (pid == 0)
@@ -61,6 +59,8 @@ int   middle_execution(char **command, int *fd, int s)
         close(s);
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
+	if(check_built_ins(command, env) == 0)
+		return (0);
         execution_first_command(command);
     }
     else
