@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 20:50:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:25:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	add_space_to_list(char *str, int *index, t_data **lst)
 		i++;
 	word = ft_substr(str, 0, i);
 	*index += i;
-	new = ft_lstnew5(word, WHITE_SPACE);
+	new = ft_lstnew5(word, WORD);
 	if (!new)
 		f_list(lst);
 	ft_lstadd_back5(lst, new);
@@ -109,32 +109,52 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			add_a_node(lst, ft_strdup("'"), QUOTE, &i);
-		else if (str[i] == '\"')
-			add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
-		else if (str[i] == '<' && str[i + 1] == '<')
-			add_a_node(lst, ft_strdup("<<"), HERE_DOC, &i);
-		else if (str[i] == '<')
-			add_a_node(lst, ft_strdup("<"), REDIR_IN, &i);
-		else if (str[i] == '>' && str[i + 1] == '>')
-			add_a_node(lst, ft_strdup(">>"), DREDIR_OUT, &i);
-		else if (str[i] == '>')
-			add_a_node(lst, ft_strdup(">"), REDIR_OUT, &i);
-		else if (str[i] == '|')
+		if (!pipe)
 		{
-			if (!pipe)
-				add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
+				if (str[i] == '\'')
+				add_a_node(lst, ft_strdup("'"), QUOTE, &i);
+			else if (str[i] == '\"')
+				add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
+			else if (str[i] == '<' && str[i + 1] == '<')
+				add_a_node(lst, ft_strdup("<<"), HERE_DOC, &i);
+			else if (str[i] == '<')
+				add_a_node(lst, ft_strdup("<"), REDIR_IN, &i);
+			else if (str[i] == '>' && str[i + 1] == '>')
+				add_a_node(lst, ft_strdup(">>"), DREDIR_OUT, &i);
+			else if (str[i] == '>')
+				add_a_node(lst, ft_strdup(">"), REDIR_OUT, &i);
+			else if (str[i] == '|')
+					add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
+			else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+				add_space_to_list(&str[i], &i, lst);
+			else if (str[i] == '$')
+				add_env_to_list(&str[i], &i, lst);
 			else
-				add_a_node(lst, ft_strdup("|"), WORD, &i);
-				
+				add_word_to_list(&str[i], &i, lst);
 		}
-		else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-			add_space_to_list(&str[i], &i, lst);
-		else if (str[i] == '$')
-			add_env_to_list(&str[i], &i, lst);
 		else
-			add_word_to_list(&str[i], &i, lst);
+		{
+			if (str[i] == '\'')
+				add_a_node(lst, ft_strdup("'"), WORD, &i);
+			else if (str[i] == '\"')
+				add_a_node(lst, ft_strdup("\""), WORD, &i);
+			else if (str[i] == '<' && str[i + 1] == '<')
+				add_a_node(lst, ft_strdup("<<"), WORD, &i);
+			else if (str[i] == '<')
+				add_a_node(lst, ft_strdup("<"), WORD, &i);
+			else if (str[i] == '>' && str[i + 1] == '>')
+				add_a_node(lst, ft_strdup(">>"), WORD, &i);
+			else if (str[i] == '>')
+				add_a_node(lst, ft_strdup(">"), WORD, &i);
+			else if (str[i] == '|')
+					add_a_node(lst, ft_strdup("|"), WORD, &i);
+			else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+				add_space_to_list(&str[i], &i, lst);
+			else if (str[i] == '$')
+				add_env_to_list(&str[i], &i, lst);
+			else
+				add_word_to_list(&str[i], &i, lst);
+		}
 	}
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/09/09 20:42:57 by akoutate         ###   ########.fr        #
+#    Updated: 2024/09/20 18:34:52 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SOURCES = built_ins/cd.c built_ins/echo.c built_ins/env_utils.c \
 			execution/execute_pipes.c execution/exit_status_utils.c \
 			error_handling.c expanding.c ft_lstadd_back.c ft_lstnew.c \
 			ft_lstsize.c ft_split.c ft_strjoin.c join.c louriga_aviable.c \
-			minishell.c split_word.c utils.c words_join.c
+			minishell.c split_word.c utils.c words_join.c clean_list.c
 
 OBJ = $(SOURCES:.c=.o)
 CC = cc
@@ -32,7 +32,7 @@ $(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $@ -g -lreadline 
 
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -g -o $@
 
 clean:
 	rm -f $(OBJ)

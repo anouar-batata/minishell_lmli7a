@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 06:12:47 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:32:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ enum e_token
 	DREDIR_OUT = -3,
 };
 
+
 void	ft_lstadd_back5(t_data **lst, t_data *nw);
 t_data	*ft_lstnew5(char *elem, int flag);
 int		ft_lstsize5(t_data *lst);
@@ -97,7 +98,7 @@ void	make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list);
 void    ft_lstadd_back3(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew3(char **command);
 void	ft_lstiter2(t_commands *node);
-
+void	clean_list(t_commands **commands_list);
 
 
 

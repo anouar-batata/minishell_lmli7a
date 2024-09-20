@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   louriga_aviable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/07 20:35:40 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:22:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list)
 
     tmp = *lst;
     command_count = command_counter(tmp);
-    commands = malloc((command_count + 1) * sizeof(char*));
+	commands = malloc((command_count + 1) * sizeof(char*));
     if (!commands)
         return;
     i = 0;
@@ -57,10 +57,15 @@ void make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list)
     {
         if (tmp->flag == PIPE_LINE)
         {
+			if (i)
+			{
             commands[i] = NULL;
             new = ft_lstnew3(commands);
             ft_lstadd_back3(command_list, new);
+			}
 			tmp = tmp->next;
+			while (tmp && tmp->flag == PIPE_LINE)
+				tmp = tmp->next;
             command_count = command_counter(tmp);
             commands = malloc((command_count + 1) * sizeof(char*));
             if (!commands)
@@ -68,8 +73,10 @@ void make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list)
             i = 0;
         }
         if (tmp)
+		{
         	commands[i] = tmp->elem;
-        i++;
+        	i++;
+		}
 		if (tmp)
         	tmp = tmp->next;
     }
