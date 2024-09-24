@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 06:12:47 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:21:22 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	**ft_split_2(char const *s, char c);
 void    add_node(t_shell **env, char *k, char *v);
 void    ft_cd(char **av);
 void	replace_value(t_shell **env, char **arg);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 int	ft_lstsize_2(t_commands *lst);
 int	ft_strcmp(char *s1, char *s2);
 size_t ft_strlen(const char *s);
