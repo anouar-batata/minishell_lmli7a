@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/20 18:32:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/22 23:40:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*ft_strchr_pro(char *s, char *cc);
 void	fill_lst(char *str, t_data **lst, int PIPE);
 void	add_a_node(t_data **lst, char *contain, int type, int *i);
 void	add_env_to_list(char *str, int *index, t_data **lst);
-void	add_word_to_list(char *str, int *index, t_data **lst);
+void	add_word_to_list(char *str, int *index, t_data **lst, int is_env);
 int	    is_word(char c);
 void	add_space_to_list(char *str, int *index, t_data **lst);
 void    split_word(t_data	**lst);

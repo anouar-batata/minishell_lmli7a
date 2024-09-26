@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/20 19:25:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/22 23:57:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	add_space_to_list(char *str, int *index, t_data **lst)
 		i++;
 	word = ft_substr(str, 0, i);
 	*index += i;
-	new = ft_lstnew5(word, WORD);
+	new = ft_lstnew5(word, WHITE_SPACE);
 	if (!new)
 		f_list(lst);
 	ft_lstadd_back5(lst, new);
@@ -36,15 +36,25 @@ int	is_word(char c)
 		|| c == '\t');
 }
 
-void	add_word_to_list(char *str, int *index, t_data **lst)
+
+
+void	add_word_to_list(char *str, int *index, t_data **lst, int is_env)
 {
 	int		i;
 	t_data	*new;
 	char	*word;
 
 	i = 0;
-	while (!is_word(str[i]) && str[i])
-		i++;
+	if (!is_env)
+	{
+		while (!is_word(str[i]) && str[i])
+			i++;
+	}
+	else
+	{
+		while (str[i] != ' ' && str[i] != '\t' && str[i] != ENV && str[i])
+			i++;
+	}
 	word = ft_substr(str, 0, i);
 	*index += i;
 	new = ft_lstnew5(word, WORD);
@@ -130,30 +140,16 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 			else if (str[i] == '$')
 				add_env_to_list(&str[i], &i, lst);
 			else
-				add_word_to_list(&str[i], &i, lst);
+				add_word_to_list(&str[i], &i, lst, 0);
 		}
 		else
 		{
-			if (str[i] == '\'')
-				add_a_node(lst, ft_strdup("'"), WORD, &i);
-			else if (str[i] == '\"')
-				add_a_node(lst, ft_strdup("\""), WORD, &i);
-			else if (str[i] == '<' && str[i + 1] == '<')
-				add_a_node(lst, ft_strdup("<<"), WORD, &i);
-			else if (str[i] == '<')
-				add_a_node(lst, ft_strdup("<"), WORD, &i);
-			else if (str[i] == '>' && str[i + 1] == '>')
-				add_a_node(lst, ft_strdup(">>"), WORD, &i);
-			else if (str[i] == '>')
-				add_a_node(lst, ft_strdup(">"), WORD, &i);
-			else if (str[i] == '|')
-					add_a_node(lst, ft_strdup("|"), WORD, &i);
-			else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+			if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 				add_space_to_list(&str[i], &i, lst);
 			else if (str[i] == '$')
 				add_env_to_list(&str[i], &i, lst);
 			else
-				add_word_to_list(&str[i], &i, lst);
+				add_word_to_list(&str[i], &i, lst, 1);
 		}
 	}
 }
@@ -223,6 +219,18 @@ int	main(int ac, char **av, char **env)
         split_word(&lst);
 		join_word(&lst);
         make_a_list_for_louriga_aviable(&lst, &command);
+		// while (command)
+		// {
+		// 	i = 0;
+		// 	while (command->command[i])
+		// 	{
+		// 		printf("%s ", command->command[i]);
+		// 		i++;
+		// 	}
+		// 	printf("\n");
+		// 	command = command->next;
+		// }
+		// continue;
 		if (command)
 			execute_pipes(command);
 		free(rl);
