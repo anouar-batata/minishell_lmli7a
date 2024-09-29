@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/17 11:12:37 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/29 16:51:17 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,38 @@ int  check_the_option(char **av)
     int k = 1;
 
     j = 1;
-    while (av[i][j])
+    while (av[i])
     {
-        if (av[i][j] == 'n')
-            k++;
-        j++;
-    }
-     
-    if (k == j)
-    {
-        i = 1;
-        while (av[i])
+        k = 1;
+        j = 0;
+        while (av[i][j] && av[i][0] == '-')
         {
-            ft_putstr(av[i]);
-            if (av[i + 1] != NULL)
-            write(1, " ", 1);
+            if (ft_strlen(av[i]) == 1)
+                break;
+            if (av[i][j] == 'n')
+                k++;
+            j++;
+        }
+        if (k == j)
+        {
+            // printf("%d\n", j);
+            // printf("%d\n", k);
             i++;
         }
-        return (0);
+        else
+        {
+            // i = i + 1;
+            while (av[i])
+            {
+                ft_putstr(av[i]);
+                if (av[i + 1] != NULL)
+                write(1, " ", 1);
+                i++;
+            }
+            return (0);
+        }
     }
-    else
-        return (1);
+    return (1);
 }
 
 int    echo(char **av)

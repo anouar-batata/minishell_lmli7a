@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/23 15:35:32 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:29:52 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void    execute_command(char **command, char **path)
 				exit (0);
 			}
 			i++;
-		}
+		} 
 
     printf("command not found \n");
     exit(127);
