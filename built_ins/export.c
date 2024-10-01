@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 04:48:31 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:27:43 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	parse_arguments(char *argument)
 				printf(" not a valid identifier\n");
 				return (1);
 			}
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9')))
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
 					printf(" not a valid identifier\n");
 					return (1);
@@ -56,17 +56,17 @@ int search_env(t_shell *env, char *str)
 
 
 
-char	*ft_strchr(char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	while (*s)
 	{
 		if (*(unsigned char *)s == (unsigned char)c)
-			return ((char *)s);
+			return (0);
 		s++;
 	}
 	if (*(unsigned char *)s == (unsigned char)c)
-		return ((char *)s);
-	return (NULL);
+		return (0);
+	return (1);
 }
 
 
@@ -84,6 +84,46 @@ void	replace_value(t_shell **env, char **arg)
 	}
 }
 
+char *get_old_value(char *target)
+{
+	t_shell *env = env_control(GET_ENV, 0, 0);
+	while (env)
+	{
+		if (ft_strcmp(env->k, target) == 0)
+			return (env->v);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+void	join_the_value(char *arg)
+{
+	char *key;
+	char *value;
+	char *resutl;
+	char *old_value;
+	t_shell *env = env_control(GET_ENV, 0, 0);
+	char **p = ft_split_2(arg, '+');
+	key = p[0];
+	if (!search_env(env, key))
+	{
+		p = ft_split_2(arg, '=');
+		old_value = get_old_value(key);
+		value = p[1];
+		resutl = ft_strjoin(old_value, value);
+		env_control(EDIT_VALUE, key, resutl);
+	}
+	else
+	{
+		p = ft_split_2(arg, '=');
+		value = p[1];
+		if (value == NULL)
+			env_control(ADD_NODE, key, "\0");
+		else
+			env_control(ADD_NODE, key, value);
+	}
+		
+}
 
 void	*add_var(char **args)
 {
@@ -102,8 +142,9 @@ void	*add_var(char **args)
 		}
 		else
 		{
-			if (!ft_strchr(args[i], '='))
+			if (ft_strchr(args[i], '='))
 			{
+				
 				if (!search_env(env, args[i]))
 				{
 					i++;
@@ -111,6 +152,12 @@ void	*add_var(char **args)
 				}
 				else
 					env_control(ADD_NODE, args[i], NULL);
+			}
+			if (!ft_strchr(args[i], '+'))
+			{
+				join_the_value(args[i]);
+				i++;
+				continue;
 			}
 			tmp = env;
 			k = 0;
@@ -125,7 +172,9 @@ void	*add_var(char **args)
 				tmp = tmp->next;
 			}
 			if (k == 0)
-				env_control(ADD_NODE, p[0], p[1]);
+			{
+					env_control(ADD_NODE, p[0], p[1]);
+			}
 		}
 		i++;
 	}

@@ -6,21 +6,21 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 07:03:28 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/26 23:04:49 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:21:09 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		i1;
 	int		i2;
 	char	*p;
 
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s2)
+		return (s1);
 	i1 = ft_strlen(s1);
 	i2 = ft_strlen(s2);
 	p = (char *)malloc(sizeof(char) * (i1 + i2 + 1));

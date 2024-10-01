@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/22 23:40:58 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/01 21:31:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	**ft_split_2(char const *s, char c);
 void    add_node(t_shell **env, char *k, char *v);
 void    ft_cd(char **av);
 void	replace_value(t_shell **env, char **arg);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 int	ft_lstsize_2(t_commands *lst);
 int	ft_strcmp(char *s1, char *s2);
 size_t ft_strlen(const char *s);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 05:38:38 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:29:52 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void    execute_command(char **command, char **path)
 {
     char *first_join;
     char *second_join;
+    t_shell *env = env_control(GET_ENV, 0, 0);
     int i;
     
     i = 0;
@@ -48,7 +49,7 @@ void    execute_command(char **command, char **path)
 				exit (0);
 			}
 			i++;
-		}
+		} 
 
     printf("command not found \n");
     exit(127);
@@ -85,6 +86,35 @@ int    execute_path(char **command)
     return (pid);
 }
 
+int execute_programme(char **commands, char **path)
+{
+    char *first_join;
+    char *second_join;
+    int pid;
+    int i = 0;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        while (path[i])
+		{
+			first_join = ft_strjoin(path[i], "/");
+			second_join = ft_strjoin(first_join, commands[0]);
+				// printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
+			if (!access(second_join, X_OK))
+			{
+				
+				execve(second_join, commands, NULL);
+				exit (0);
+			}
+			i++;
+		}
+    }
+    return (pid);
+}
+
+
+
 int    execution_commands(char **commands)
 {
     char **path;
@@ -95,6 +125,11 @@ int    execution_commands(char **commands)
     if (commands[0][0] == '/')
     {
         return (execute_path(commands));
+    }
+    else if (commands[0][0] == '.')
+    {
+        path = ft_split_2(p, ':');
+        return (execute_programme(commands,path));
     }
 	else if(check_built_ins(commands, env) == 0)
 		return (0);

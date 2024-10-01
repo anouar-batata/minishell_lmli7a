@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 05:02:23 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:37:05 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+//  echo $USER+$USER 
+// > $a
+// > ""
 void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 {
 	if (ft_strlen2(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
