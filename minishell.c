@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/22 23:57:37 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/28 02:45:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,11 +202,11 @@ int	main(int ac, char **av, char **env)
 	{
 		lst = NULL;
 		command = NULL;
-		// prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
-		// prompt = ft_strjoin2(prompt ,"@");
-		// prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
-		// prompt = ft_strjoin2(prompt, "]--\n~~> ");
-		rl = readline("slawishell : ");
+		prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
+		prompt = ft_strjoin2(prompt ,"@");
+		prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
+		prompt = ft_strjoin2(prompt, "]--\n~~> ");
+		rl = readline(prompt);
 		if (!rl)
 			return (0);
 		if (!ft_strlen2(rl))
