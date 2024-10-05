@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:53:53 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:43:25 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_shell	*ft_lstnew2(char *k, char *v)
 	return (p);
 }
 
-t_commands	*ft_lstnew3(char **command)
+t_commands	*ft_lstnew3(char **command, t_redir *lst)
 {
 	t_commands	*new;
 
@@ -48,6 +48,20 @@ t_commands	*ft_lstnew3(char **command)
 	if (!new)
 		return (NULL);
 	new->command = command;
+	new->redir_lst = lst;
+	new->next = NULL;
+	return (new);
+}
+
+t_redir	*ft_lstnew4(char *file, int flag)
+{
+	t_redir	*new;
+
+	new = malloc( sizeof(t_redir));
+	if (!new)
+		return (NULL);
+	new->file = file;
+	new->redir_type = flag;
 	new->next = NULL;
 	return (new);
 }

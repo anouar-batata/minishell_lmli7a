@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/01 21:31:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/05 10:44:37 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,18 @@
 # define ADD 1
 # define GET_EXIT_STATUS 0
 
+typedef struct redir
+{
+	char	*file;
+	int		redir_type;
+	struct redir *next;
+}	t_redir;
 
 typedef struct s_commands
 {
-	char **command;
-	
-	struct s_commands *next;
+	char 				**command;
+	t_redir				*redir_lst;
+	struct s_commands 	*next;
 }   t_commands;
 
 
@@ -96,11 +102,11 @@ void	add_space_to_list(char *str, int *index, t_data **lst);
 void    split_word(t_data	**lst);
 void	make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list);
 void    ft_lstadd_back3(t_commands **lst, t_commands *new);
-t_commands	*ft_lstnew3(char **command);
+t_commands	*ft_lstnew3(char **command, t_redir *lst);
 void	ft_lstiter2(t_commands *node);
 void	clean_list(t_commands **commands_list);
-
-
+void    ft_lstadd_back6(t_redir **lst, t_redir *new);
+t_redir	*ft_lstnew4(char *file, int flag);
 
 int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/28 02:45:28 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/05 12:34:42 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
 		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
 		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i] && str[i] != '-'
-		&& str[i] != ',')
+		&& str[i] != ',' && str[i] != '+')
 	{
 		if (str[i] >= '0' && str[i] <= '9' && i == 1)
 			break;		
@@ -202,11 +202,11 @@ int	main(int ac, char **av, char **env)
 	{
 		lst = NULL;
 		command = NULL;
-		prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
-		prompt = ft_strjoin2(prompt ,"@");
-		prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
-		prompt = ft_strjoin2(prompt, "]--\n~~> ");
-		rl = readline(prompt);
+		// prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
+		// prompt = ft_strjoin2(prompt ,"@");
+		// prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
+		// prompt = ft_strjoin2(prompt, "]--\n~~> ");
+		rl = readline("slawishell ~> ");
 		if (!rl)
 			return (0);
 		if (!ft_strlen2(rl))
@@ -219,18 +219,6 @@ int	main(int ac, char **av, char **env)
         split_word(&lst);
 		join_word(&lst);
         make_a_list_for_louriga_aviable(&lst, &command);
-		// while (command)
-		// {
-		// 	i = 0;
-		// 	while (command->command[i])
-		// 	{
-		// 		printf("%s ", command->command[i]);
-		// 		i++;
-		// 	}
-		// 	printf("\n");
-		// 	command = command->next;
-		// }
-		// continue;
 		if (command)
 			execute_pipes(command);
 		free(rl);
