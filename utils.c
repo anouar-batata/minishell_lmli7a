@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 05:02:19 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:16:43 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*ft_strdup(char *s1)
 	char	*cpy;
 	size_t	i;
 
+	if (!s1)
+		return (NULL);
 	cpy = (char *)malloc((ft_strlen2(s1) + 1) * sizeof(char));
 	if (!cpy)
 		return (NULL);

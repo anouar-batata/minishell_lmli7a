@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/27 15:37:05 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:24:42 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 		{
 			free(lst->elem);
 			lst->elem = ft_strdup(envi->v);
-			return ;
+			if (!lst->elem)
+				break;
+			return;
 		}
 		envi = envi->next;
 	}

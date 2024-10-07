@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:51:45 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:41:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:08:49 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,5 @@ void	the_other_join(t_data **lst)
 			tmp->to_remove = 1;
 			tmp = tmp->next;
 		}
-		if (tmp)
-			tmp = tmp->next;
 	}
 }
