@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/25 04:29:52 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:55:56 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void    execute_command(char **command, char **path)
 				
 				execve(second_join, command, NULL);
 				exit (0);
+                
 			}
 			i++;
 		} 
@@ -115,16 +116,28 @@ int execute_programme(char **commands, char **path)
 
 
 
-int    execution_commands(char **commands)
+int    execution_commands(char **commands, t_commands *cmds)
 {
     char **path;
     char *p;
     int pid;
+    int bkp_0 = dup(0);
+    int bkp_1 = dup(1);
 	t_shell *env =  env_control(GET_ENV, 0, 0);
     p = find_path(env_control(GET_ENV, 0, 0));
+    if (check_the_redirection(cmds) == -1)
+    {
+        printf("No such file or directory\n");
+        return(-1);
+    }
     if (commands[0][0] == '/')
     {
-        return (execute_path(commands));
+        pid = execute_path(commands);
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
+        return (pid);
     }
     else if (commands[0][0] == '.')
     {
@@ -132,16 +145,26 @@ int    execution_commands(char **commands)
         return (execute_programme(commands,path));
     }
 	else if(check_built_ins(commands, env) == 0)
+    {
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
 		return (0);
+    }
     else
     {   
            path = ft_split_2(p, ':');
            pid = fork();
            if (!pid)
             execute_command(commands, path);
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return(pid);
-        
     }
+    
 }
 
 // int main(int ac, char **av, char **env)

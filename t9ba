@@ -4,3 +4,6 @@ dgdsg | $=lgkdjsg
 unset PATH -> ls
 
 this="         '         Home'" 
+
+slawishell ~> export p pwd
+slawishell ~> echo $p // seg

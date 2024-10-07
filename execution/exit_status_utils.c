@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:14:27 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/30 10:36:42 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:50:24 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,7 @@ int    exit_status(int set, int mode)
         return (exit_status);
     return(0);
 }
+
+// #include <errno.h>
+
+// errno

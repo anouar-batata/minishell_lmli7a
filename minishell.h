@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/05 10:44:37 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:12:26 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+#include <fcntl.h> 
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -73,6 +74,7 @@ enum e_token
 };
 
 
+int    check_the_redirection(t_commands *command);
 void	ft_lstadd_back5(t_data **lst, t_data *nw);
 t_data	*ft_lstnew5(char *elem, int flag);
 int		ft_lstsize5(t_data *lst);
@@ -108,15 +110,17 @@ void	clean_list(t_commands **commands_list);
 void    ft_lstadd_back6(t_redir **lst, t_redir *new);
 t_redir	*ft_lstnew4(char *file, int flag);
 
+
+int execute_programme(char **commands, char **path);
 int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew_2(char **command);
-int    first_execution(char **command, int *fd);
+int    first_execution(char **command, t_commands *cmds, int *fd);
 void    execute_pipes(t_commands *commands);
 void    execute_command(char **command, char **path);
 char *find_path(t_shell *env);
 int    execute_path(char **command);
-int    execution_commands(char **commands);
+int    execution_commands(char **commands, t_commands *cmds);
 void    *env_control(int behaviour, void *key, char *value);
 char **split_first_equal(const char *str);
 t_shell	*ft_lstnew(char *k, char *v);
