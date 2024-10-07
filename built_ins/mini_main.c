@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/05 17:30:28 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:50:54 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int   check_built_ins(char **av, t_shell *envi)
 {
-	int bkp_1 = dup(1);
-	int bkp_0 = dup(0);
     if (ft_strcmp(av[0], "pwd") == 0)
 	{
         pwd();

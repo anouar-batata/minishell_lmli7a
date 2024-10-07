@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/07 19:32:17 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:17:11 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void execution_first_command(char **command)
     if (command[0][0] == '/')
         execute_path(command);
     else if(check_built_ins(command, env) == 0)
-		return;
+		exit(0);
     else
     {
            path = ft_split_2(p, ':');
@@ -43,7 +43,6 @@ int   first_execution(char **command, t_commands *cmds, int *fd)
         close(fd[0]);
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
-        
         execution_first_command(command); // **fd = alloc(pipes);
     }
     else
@@ -63,10 +62,6 @@ int   middle_execution(char **command, int *fd, int s)
         close(s);
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
-        // dup redire
-	if(check_built_ins(command, env) == 0)
-		return (0);
-    else
         execution_first_command(command);
     }
     else
@@ -124,7 +119,6 @@ void    execute_pipes(t_commands *commands)
                 tmp = tmp->next;
                 i++;
             }
-            
             pid_of_last_command = finale_execution(tmp->command, fd, save_fd);
         }
     close(fd[0]);

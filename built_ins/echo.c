@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/29 16:51:17 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:30:09 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int  check_the_option(char **av)
             // printf("%d\n", k);
             i++;
         }
+        if (i == 0 && k != j)
+            return (1);
         else
         {
             // i = i + 1;
