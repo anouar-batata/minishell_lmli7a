@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/07 19:12:26 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:04:16 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,5 @@ int	ft_lstsize_2(t_commands *lst);
 int	ft_strcmp(char *s1, char *s2);
 size_t ft_strlen(const char *s);
 int    check_built_ins(char **av, t_shell *envi);
+int	ft_lstsize(t_shell *lst);
 #endif

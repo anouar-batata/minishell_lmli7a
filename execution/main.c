@@ -6,11 +6,32 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/07 18:55:56 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:49:39 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char **convert_env_to_td_env(t_shell *env)
+{
+    int size = ft_lstsize(env);
+    char *first_join;
+    char *second_join;
+    char **td_env = malloc((size + 1) * sizeof(char *));
+    int i = 0;
+    if (!td_env)
+        return(NULL);
+    while (env)
+    {
+        first_join = ft_strjoin(env->k, "=");
+        second_join = ft_strjoin(first_join, env->v);
+        td_env[i] = ft_strdup(second_join);
+        env = env->next;
+        i++;
+    }
+    td_env[i] = NULL;
+    return(td_env);
+}
 
 void    add_list(char **p, t_commands **curr)
 {
@@ -32,25 +53,28 @@ void    execute_command(char **command, char **path)
 {
     char *first_join;
     char *second_join;
+    
     t_shell *env = env_control(GET_ENV, 0, 0);
+    char **td_env = convert_env_to_td_env(env);
     int i;
+    int j;
     
     i = 0;
-
-		while (path[i])
+    j = 0;
+	while (path[i])
+	{
+		first_join = ft_strjoin(path[i], "/");
+		second_join = ft_strjoin(first_join, command[0]);
+		    // printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
+		if (!access(second_join, X_OK))
 		{
-			first_join = ft_strjoin(path[i], "/");
-			second_join = ft_strjoin(first_join, command[0]);
-				// printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
-			if (!access(second_join, X_OK))
-			{
 				
-				execve(second_join, command, NULL);
-				exit (0);
+			execve(second_join, command, td_env);
+			exit (0);
                 
-			}
-			i++;
-		} 
+		}
+		i++;
+	}
 
     printf("command not found \n");
     exit(127);
@@ -72,12 +96,14 @@ char *find_path(t_shell *env)
 int    execute_path(char **command)
 {
     int pid;
+    t_shell *env = env_control(GET_ENV, 0, 0);
+    char **td_env = convert_env_to_td_env(env);
     if (access(command[0], X_OK) == 0)
     {
         pid = fork();
         if (!pid)
         {
-            execve(command[0], command, NULL);
+            execve(command[0], command, td_env);
             perror("Error");
             exit(127);
         }
@@ -92,25 +118,27 @@ int execute_programme(char **commands, char **path)
     char *first_join;
     char *second_join;
     int pid;
+    t_shell *env = env_control(GET_ENV, 0, 0);
+    char **td_env = convert_env_to_td_env(env);
     int i = 0;
 
     pid = fork();
-    if (pid == 0)
-    {
-        while (path[i])
-		{
-			first_join = ft_strjoin(path[i], "/");
-			second_join = ft_strjoin(first_join, commands[0]);
-				// printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
-			if (!access(second_join, X_OK))
-			{
-				
-				execve(second_join, commands, NULL);
-				exit (0);
-			}
-			i++;
-		}
-    }
+
+        if (!pid)
+        {
+            if (!access(commands[0], X_OK))
+            {
+                {
+                    // execve(second_join, commands, NULL);
+                    execve(commands[0], commands, td_env);
+                    // write(2, "No such file or directory\n", 26);
+                    perror("No such file or directory\n");
+                    
+                }
+            }
+             perror("No such file or directory\n");
+            exit (1);
+        }
     return (pid);
 }
 

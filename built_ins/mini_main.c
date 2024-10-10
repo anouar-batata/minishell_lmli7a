@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/07 23:50:54 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:50:44 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ int   check_built_ins(char **av, t_shell *envi)
     if (ft_strcmp(av[0], "exit") == 0)
 	{
         ft_exit(av);
-		return (0);
-	}
-	if (ft_strcmp(av[0], "mboukour") == 0)
-	{
-		printf("i told you we needed more glitter\n");
 		return (0);
 	}
 	return (1);

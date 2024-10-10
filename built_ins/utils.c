@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:09:06 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 04:56:37 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:36:07 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,20 @@ t_shell	*ft_lstnew(char *k, char *v)
 	return (p);
 }
 
-int	ft_lstsize(t_shell *lst)
-{
-	int	i;
+// int	ft_lstsize(t_shell *lst)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!lst)
-		return (i);
-	while (lst)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	if (!lst)
+// 		return (i);
+// 	while (lst)
+// 	{
+// 		i++;
+// 		lst = lst->next;
+// 	}
+// 	return (i);
+// }
 
 
 t_shell	*ft_lstlast(t_shell *lst)
@@ -111,4 +111,19 @@ void    ft_lstadd_back(t_shell **lst, t_shell *new)
             last = last -> next;
         last -> next = new;
     }
+}
+
+int	ft_lstsize(t_shell *lst)
+{
+	int	i;
+
+	i = 0;
+	if (!lst)
+		return (i);
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
 }
