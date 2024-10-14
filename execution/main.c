@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/10 18:49:39 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:07:53 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ void    add_list(char **p, t_commands **curr)
     }
 }
 
+void ft_error(int err_no)
+{
+    if (err_no == 1)
+        printf("command not found\n");
+    else
+        return ;
+}
+
 
 void    execute_command(char **command, char **path)
 {
@@ -58,6 +66,7 @@ void    execute_command(char **command, char **path)
     char **td_env = convert_env_to_td_env(env);
     int i;
     int j;
+    int err_no = 0;
     
     i = 0;
     j = 0;
@@ -75,8 +84,10 @@ void    execute_command(char **command, char **path)
 		}
 		i++;
 	}
-
-    printf("command not found \n");
+    printf("%s : ", command[0]);
+    err_no = 1;
+    ft_error(err_no);
+    // perror(command[0]);
     exit(127);
 }
 
@@ -108,8 +119,8 @@ int    execute_path(char **command)
             exit(127);
         }
     }
-    // else
-    //     printf("command not found \n");
+    else
+       perror("access");
     return (pid);
 }
 
@@ -151,11 +162,11 @@ int    execution_commands(char **commands, t_commands *cmds)
     int pid;
     int bkp_0 = dup(0);
     int bkp_1 = dup(1);
+
 	t_shell *env =  env_control(GET_ENV, 0, 0);
     p = find_path(env_control(GET_ENV, 0, 0));
     if (check_the_redirection(cmds) == -1)
     {
-        printf("No such file or directory\n");
         return(-1);
     }
     if (commands[0][0] == '/')
@@ -180,8 +191,12 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
 		return (0);
     }
+    else if (check_built_ins(commands, env) == 2)
+    {
+        return(-1);
+    }
     else
-    {   
+    {
            path = ft_split_2(p, ':');
            pid = fork();
            if (!pid)
@@ -192,7 +207,6 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
         return(pid);
     }
-    
 }
 
 // int main(int ac, char **av, char **env)

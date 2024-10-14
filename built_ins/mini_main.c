@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/10 18:50:44 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:06:48 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int   check_built_ins(char **av, t_shell *envi)
 	}
     if (ft_strcmp(av[0], "cd") == 0)
 	{
-        ft_cd(av);
+        if (ft_cd(av) == 2)
+			return (2);
 		return (0);
 	}
     if (ft_strcmp(av[0], "exit") == 0)

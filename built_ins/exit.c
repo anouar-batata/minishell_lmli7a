@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/02 06:25:46 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:06:55 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void    ft_exit(char **av)
     i = 0;
     if (check_ch(av[1]) == 1 || sign(av[1]) == 1 || cheak_the_string(av[1]) == 1)
     {
-        printf("numeric argument required\n"); // to do
+        perror("numeric argument required\n"); // to do
         exit(255);
     }
     i = 0;
@@ -155,14 +155,14 @@ void    ft_exit(char **av)
     }
     if (index != 2)
     {
-        printf("too many arguments\n"); //too do
+        perror("too many arguments\n"); //too do
     }
     else
     {
         my_atoi(av[1], &x);
         if (x == 1)
         {
-            printf("numeric argument required \n"); // to do
+            perror("numeric argument required \n"); // to do
             exit(255);
         }
         else

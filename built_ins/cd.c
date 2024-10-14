@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/09 04:47:27 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:06:22 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void change_the_directory()
         if (ft_strcmp(tmp->k, "PWD") == 0)
         {
             old_pwd = tmp->v;
-            break;   
+            break;
         }
         tmp = tmp->next;
     }
@@ -76,7 +76,7 @@ char    *get_home()
     return (NULL);
 }
 
-void    ft_cd(char **av)
+int    ft_cd(char **av)
 {
     char *str;
 
@@ -86,4 +86,11 @@ void    ft_cd(char **av)
         str = av[1];
     if (!chdir(str))
         change_the_directory();
+    else
+    {
+        printf("%s : No such file or dirrectory\n", str);
+        return (2);
+    }
+        // return (1);
+    return (0);
 }

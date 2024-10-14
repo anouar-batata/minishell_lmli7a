@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/24 16:27:43 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:07:45 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	parse_arguments(char *argument)
 		{
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
 			{
-				printf(" not a valid identifier\n");
+				perror(" not a valid identifier\n");
 				return (1);
 			}
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
-					printf(" not a valid identifier\n");
+					perror(" not a valid identifier\n");
 					return (1);
 			}
 		}

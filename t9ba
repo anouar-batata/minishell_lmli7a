@@ -1,4 +1,2 @@
-unset PATH -> ls
-
-slawishell ~> export p pwd
-slawishell ~> echo $p // seg
+if env NULL
+set the path

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/13 17:14:41 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:13:14 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void    execute_pipes(t_commands *commands)
     int i = 0;
     int j = 1;
     int fd[2];
-    int status;
-    int pid_of_last_command;
+    int status = 0 ;
+    int pid_of_last_command = 0;
     pipe(fd);
     int nb_of_nds;
 
@@ -167,9 +167,17 @@ void    execute_pipes(t_commands *commands)
             pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
         }
     close(fd[0]);
-    close(fd[1]);   
-    waitpid(pid_of_last_command, &status, 0);
-    exit_status(WEXITSTATUS(status), ADD);
+    close(fd[1]);
+    if (pid_of_last_command < 0)
+    {
+        exit_status(1, ADD);
+    }
+    else
+    {
+        waitpid(pid_of_last_command, &status, 0);
+        exit_status(WEXITSTATUS(status), ADD);
+        
+    }
     
     while(wait(NULL) != -1);
 }

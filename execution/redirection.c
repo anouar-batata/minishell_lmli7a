@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/08 17:14:57 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:24:10 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int check_the_redirection(t_commands *command)
             fd = open(curr->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if (fd == -1)
             {
-                printf("Error opening file for output redirection: %s\n", curr->file); // handle error
+                perror("Error opening file for output redirection"); // handle error
                 return (-1); 
             }
         }
@@ -78,7 +78,7 @@ int check_the_redirection(t_commands *command)
             fd = open(curr->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
             if (fd == -1)
             {
-                printf("Error opening file for append redirection: %s\n", curr->file); // handle error
+                perror("Error opening file for append redirection"); // handle error
                 return (-1);
             }
         }
@@ -87,7 +87,7 @@ int check_the_redirection(t_commands *command)
             fd = open(curr->file, O_RDONLY);
             if (fd == -1)
             {
-                printf("Error: file does not exist for input redirection: %s\n", curr->file); // handle error
+                perror("Error: file does not exist for input redirection"); // handle error
                 return (-1);
             }
         }

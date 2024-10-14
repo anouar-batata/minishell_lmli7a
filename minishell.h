@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/14 15:17:57 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:36:46 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 #include <fcntl.h> 
 # include <unistd.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -150,7 +151,7 @@ void    remove_node(t_shell **env, char *str);
 void	ft_putstr(char *s);
 char	**ft_split_2(char const *s, char c);
 void    add_node(t_shell **env, char *k, char *v);
-void    ft_cd(char **av);
+int		ft_cd(char **av);
 void	replace_value(t_shell **env, char **arg);
 char	*ft_strjoin(char *s1, char *s2);
 int	ft_lstsize_2(t_commands *lst);
