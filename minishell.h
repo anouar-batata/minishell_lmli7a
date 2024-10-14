@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/08 18:04:16 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:17:57 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ typedef struct s_commands
 	t_redir				*redir_lst;
 	struct s_commands 	*next;
 }   t_commands;
+
+
+typedef struct s_memslot
+{
+	void				*addr;
+	struct s_memslot	*next;
+}				t_slot;
+
+typedef struct s_memslotlist
+{
+	t_slot	*head;
+	t_slot	*last;
+}				t_slotlist;
 
 
 typedef struct t_data

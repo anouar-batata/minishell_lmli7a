@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/08 17:32:00 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:14:41 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,18 +167,9 @@ void    execute_pipes(t_commands *commands)
             pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
         }
     close(fd[0]);
-    close(fd[1]);
-    // if (!commands->next)
-    //     waitpid()
+    close(fd[1]);   
     waitpid(pid_of_last_command, &status, 0);
-    // if(WIFEXITED(status))
-    //     //
-    // else if (WIFSIGNALED(status))
-    // {
-        
-    // }
     exit_status(WEXITSTATUS(status), ADD);
-    // fprintf(stderr,"STATUS: %i\n", exit_status(0, 0));
     
     while(wait(NULL) != -1);
 }
