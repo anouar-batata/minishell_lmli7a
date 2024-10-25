@@ -6,11 +6,31 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/14 19:13:14 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:06:56 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int    execute_path_2(char **command)
+{
+    int pid;
+    t_shell *env = env_control(GET_ENV, 0, 0);
+    char **td_env = convert_env_to_td_env(env);
+    if (access(command[0], X_OK) == 0)
+    {
+            execve(command[0], command, td_env);
+            perror(command[0]);
+            exit(127);
+    }
+    else
+    {
+       perror("access");
+       exit_status(127, ADD);
+       return (-1);
+    }
+    return (pid);
+}
 
 void execution_first_command(char **command)
 {
@@ -21,7 +41,7 @@ void execution_first_command(char **command)
 
     p = find_path(env_control(GET_ENV, 0, 0));
     if (command[0][0] == '/')
-        execute_path(command);
+        execute_path_2(command);
     else if(check_built_ins(command, env) == 0)
 		exit(0);
     else
@@ -44,7 +64,6 @@ int   first_execution(char **command, t_commands *cmds, int *fd)
         close(fd[1]);
         if (check_the_redirection(cmds) == -1)
         {
-            printf("No such file or directory\n");
             return(-1);
         }
         execution_first_command(command);
@@ -79,8 +98,7 @@ int   middle_execution(char **command, t_commands *cmds, int *fd, int s)
         close(fd[1]);
         if (check_the_redirection(cmds) == -1)
         {
-            printf("No such file or directory\n"); //to do
-            return(-1);
+            exit(1);
         }
         execution_first_command(command);
         dup2(bkp_1, 1);
@@ -113,16 +131,16 @@ int    finale_execution(char **command, t_commands *cmds, int *fd, int s )
         close(fd[1]);
         dup2(s, STDIN_FILENO);
         close(s);
-    if (check_the_redirection(cmds) == -1)
-    {
-        printf("No such file or directory\n");
-        return(-1);
-    }
+        if (check_the_redirection(cmds) == -1)
+        {
+            exit(1);
+        }
         execution_first_command(command);
         dup2(bkp_1, 1);
         dup2(bkp_0, 0);
         close(bkp_0);
         close(bkp_1);
+        exit(127);
     }
     else
     {
@@ -148,36 +166,38 @@ void    execute_pipes(t_commands *commands)
     t_commands *tmp;
     int	save_fd = -1; 
     tmp = commands;
-        if (!commands->next)
-            pid_of_last_command = execution_commands(commands->command, commands);
-        else
+    if (!commands->next)
+        pid_of_last_command = execution_commands(commands->command, commands);
+    else
+    {
+        nb_of_nds = ft_lstsize_2(tmp);
+        first_execution(tmp->command, tmp ,fd);
+        save_fd = fd[0];
+        tmp = tmp->next;
+        nb_of_nds -= 1;
+        while (i < nb_of_nds - 1)
         {
-            nb_of_nds = ft_lstsize_2(tmp);
-           first_execution(tmp->command, tmp ,fd);
-           save_fd = fd[0];
+            middle_execution(tmp->command, tmp, fd, save_fd);
+            save_fd = fd[0];
             tmp = tmp->next;
-            nb_of_nds -= 1;
-            while (i < nb_of_nds - 1)
-            {
-                middle_execution(tmp->command, tmp, fd, save_fd);
-                save_fd = fd[0];
-                tmp = tmp->next;
-                i++;
-            }
-            pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
+            i++;
         }
+        pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
+    }
     close(fd[0]);
     close(fd[1]);
-    if (pid_of_last_command < 0)
+    if (pid_of_last_command == -1) // to do
     {
         exit_status(1, ADD);
     }
+    else if (pid_of_last_command == -2)
+        exit_status(127, ADD);
     else
     {
         waitpid(pid_of_last_command, &status, 0);
         exit_status(WEXITSTATUS(status), ADD);
         
     }
-    
     while(wait(NULL) != -1);
+    printf("%d\n", exit_status(0, 0));
 }

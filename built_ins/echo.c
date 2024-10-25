@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 09:19:30 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/09 16:43:52 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:30:26 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int  check_the_option(char **av)
 {
-    int i = 0;
-    int j = 0;
-    int k = 1;
+    int i;
+    int j;
+    int k;
 
+    i = 0;
+    k = 1;
     j = 1;
     while (av[i])
     {
@@ -40,7 +42,6 @@ int  check_the_option(char **av)
             return (1);
         else
         {
-            // i = i + 1;
             while (av[i])
             {
                 ft_putstr(av[i]);

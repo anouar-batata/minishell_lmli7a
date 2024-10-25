@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/14 18:36:46 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:54:10 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <fcntl.h> 
 # include <unistd.h>
 # include <errno.h>
+#include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -88,6 +89,7 @@ enum e_token
 };
 
 
+char **convert_env_to_td_env(t_shell *env);
 int    check_the_redirection(t_commands *command);
 void	ft_lstadd_back5(t_data **lst, t_data *nw);
 t_data	*ft_lstnew5(char *elem, int flag);

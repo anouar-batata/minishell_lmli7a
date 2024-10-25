@@ -6,91 +6,67 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/14 19:06:22 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:27:47 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// void	*add_pwd(char *key, char *value)
-// {
-//     int k;
-//     t_shell *tmp;
-// 	t_shell *env = env_control(GET_ENV, 0, 0);
-// 	while (1)
-// 	{
-// 		tmp = env;
-// 		k = 0;
-// 		while (tmp && k == 0)
-// 		{
-// 			if (ft_strcmp(key, tmp->k) == 0)
-// 			{
-// 				replace_pwd(&env, value);
-// 				k = 1;
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// 	return (NULL);
-// }
-
-
-void change_the_directory()
+void	change_the_directory(void)
 {
-    char *str;
-    char *old_pwd;
-    t_shell *env;
-    t_shell *tmp;
+	char	*str;
+	char	*old_pwd;
+	t_shell	*env;
+	t_shell	*tmp;
 
-    str = getcwd(NULL, 0);
-    env = env_control(GET_ENV, 0, 0);
-    tmp = env;
-    old_pwd = NULL;
-    while (tmp)
-    {
-        if (ft_strcmp(tmp->k, "PWD") == 0)
-        {
-            old_pwd = tmp->v;
-            break;
-        }
-        tmp = tmp->next;
-    }
-    env_control(EDIT_VALUE, "PWD", str);
-    env_control(EDIT_VALUE,"OLDPWD", old_pwd);
+	str = getcwd(NULL, 0);
+	env = env_control(GET_ENV, 0, 0);
+	tmp = env;
+	old_pwd = NULL;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->k, "PWD") == 0)
+		{
+			old_pwd = tmp->v;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	env_control(EDIT_VALUE, "PWD", str);
+	env_control(EDIT_VALUE, "OLDPWD", old_pwd);
 }
 
-char    *get_home()
+char	*get_home(void)
 {
-    t_shell *env;
-    t_shell *tmp;
+	t_shell	*env;
+	t_shell	*tmp;
 
-    env = env_control(GET_ENV, 0, 0);
-    tmp = env;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->k, "HOME"))
-            return (tmp->v);   
-        tmp = tmp->next;
-    }
-    return (NULL);
+	env = env_control(GET_ENV, 0, 0);
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->k, "HOME"))
+			return (tmp->v);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
-int    ft_cd(char **av)
+int	ft_cd(char **av)
 {
-    char *str;
+	char	*str;
 
-    if (av[1] == NULL)
-        str = get_home();
-    else
-        str = av[1];
-    if (!chdir(str))
-        change_the_directory();
-    else
-    {
-        printf("%s : No such file or dirrectory\n", str);
-        return (2);
-    }
-        // return (1);
-    return (0);
+	if (av[1] == NULL)
+		str = get_home();
+	else
+		str = av[1];
+	if (!chdir(str))
+		change_the_directory();
+	else
+	{
+		write(2, av[1], ft_strlen(av[1]));
+		write(2, " : No such file or dirrectory\n", 30);
+		return (2);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/14 19:07:53 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:08:28 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,16 @@ void    execute_command(char **command, char **path)
 	{
 		first_join = ft_strjoin(path[i], "/");
 		second_join = ft_strjoin(first_join, command[0]);
-		    // printf("path == %s]]\n%s]]%s]]\n\n", second_join, command[0], command[1]);
 		if (!access(second_join, X_OK))
 		{
-				
 			execve(second_join, command, td_env);
-			exit (0);
+			exit (127);
                 
 		}
 		i++;
 	}
-    printf("%s : ", command[0]);
-    err_no = 1;
-    ft_error(err_no);
-    // perror(command[0]);
+    write(2, command[0], ft_strlen(command[0]));
+    write(2, " : command not found\n", 21);
     exit(127);
 }
 
@@ -115,12 +111,16 @@ int    execute_path(char **command)
         if (!pid)
         {
             execve(command[0], command, td_env);
-            perror("Error");
+            perror(command[0]);
             exit(127);
         }
     }
     else
+    {
        perror("access");
+       exit_status(127, ADD);
+       return (-1);
+    }
     return (pid);
 }
 
@@ -142,18 +142,35 @@ int execute_programme(char **commands, char **path)
                 {
                     // execve(second_join, commands, NULL);
                     execve(commands[0], commands, td_env);
-                    // write(2, "No such file or directory\n", 26);
-                    perror("No such file or directory\n");
                     
                 }
             }
-             perror("No such file or directory\n");
-            exit (1);
+            perror(commands[0]);
+            exit(127);
         }
     return (pid);
 }
 
+// int check_the_file(char **commands)
+// {
+//     int pid;
+//     t_shell *env = env_control(GET_ENV, 0, 0);
+//     char **td_env = convert_env_to_td_env(env);
 
+//     if (!access(commands[0], F_OK))
+//     {
+//         if(!access(commands[0], X_OK))
+//         {
+//             pid = fork();
+//             if (pid == 0)
+//             {
+//                 execve(commands[0], commands[0], td_env);
+//                 exit (127);
+//             }            
+//         }
+        
+//     }
+// }
 
 int    execution_commands(char **commands, t_commands *cmds)
 {
@@ -176,7 +193,10 @@ int    execution_commands(char **commands, t_commands *cmds)
         dup2(bkp_0, 0);
         close(bkp_0);
         close(bkp_1);
-        return (pid);
+        if (pid > 0)
+            return (pid);
+        else
+            return (-2);
     }
     else if (commands[0][0] == '.')
     {
@@ -189,7 +209,7 @@ int    execution_commands(char **commands, t_commands *cmds)
         dup2(bkp_0, 0);
         close(bkp_0);
         close(bkp_1);
-		return (0);
+		return (255);
     }
     else if (check_built_ins(commands, env) == 2)
     {
@@ -197,10 +217,10 @@ int    execution_commands(char **commands, t_commands *cmds)
     }
     else
     {
-           path = ft_split_2(p, ':');
-           pid = fork();
-           if (!pid)
-            execute_command(commands, path);
+        path = ft_split_2(p, ':');
+        pid = fork();
+        if (!pid)
+        execute_command(commands, path);
         dup2(bkp_1, 1);
         dup2(bkp_0, 0);
         close(bkp_0);
@@ -208,38 +228,3 @@ int    execution_commands(char **commands, t_commands *cmds)
         return(pid);
     }
 }
-
-// int main(int ac, char **av, char **env)
-// {
-//     t_shell *envi = NULL;
-//     t_commands *commands  = NULL;
-//     int i = 0;
-//     char **p;
-//     ac = 0;
-//     av = NULL;
-//     while (env[i] != NULL)
-//     {
-//         p = split_first_equal(env[i]);
-//         add(p, &envi);
-//         i++;
-//     }
-//     env_control(0, envi, NULL);
-//     while (1)
-//     {
-//         char *r = readline("shell:");
-//         if(!r)
-//             return (0);
-//         add_history(r);
-//         p = ft_split_2(r, '|');
-//         add_list(p, &commands);
-//         execute_pipes(commands);
-//         commands = NULL; //free
-//         // execution_commands(p);
-//         wait(NULL);
-//     }
-// }
-// // ls -a | cat -e
-
-// // char **cmd;
-// // cmd[0] = "ls"
-// // cmd[1] = "-a"ew9

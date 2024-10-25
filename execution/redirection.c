@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/14 16:24:10 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:17:23 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,3 +109,5 @@ int check_the_redirection(t_commands *command)
 
     return (0);
 }
+
+

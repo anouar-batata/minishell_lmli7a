@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/14 16:07:45 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:32:28 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 int	parse_arguments(char *argument)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -28,10 +28,7 @@ int	parse_arguments(char *argument)
 		else
 		{
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
-			{
-				perror(" not a valid identifier\n");
-				return (1);
-			}
+				return (perror(" not a valid identifier\n") ,1);
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
 					perror(" not a valid identifier\n");
@@ -255,8 +252,5 @@ void    ft_export(char **command)
 		}	
 	}
 	else
-	{
-		// parce_arguments(&command[1]);
 		add_var(&command[1]);
-	}
 }
