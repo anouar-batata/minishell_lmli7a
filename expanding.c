@@ -6,14 +6,28 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/07 23:24:42 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/17 02:47:20 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//  echo $USER+$USER 
-// > $a
-// > ""
+
+int	check_if_del(t_data *lst)
+{
+	while (lst)
+	{
+		if (lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == PIPE_LINE
+			|| lst->flag == DREDIR_OUT)
+			break;
+		else if (lst->flag == HERE_DOC)
+			return (0);
+		else if (lst->flag == WHITE_SPACE && lst->prev->flag != HERE_DOC)
+			break;
+		lst = lst->prev;
+	}
+	return (1);
+}
+
 void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 {
 	if (ft_strlen2(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
@@ -56,7 +70,7 @@ void expanding(t_data *lst, t_shell *envi)
 				tmp = tmp->next;
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
-				if (ft_strlen2(tmp->elem) > 1)
+				if (ft_strlen2(tmp->elem) > 1 && check_if_del(tmp))
 					find_env(tmp, envi, lst);	
 				tmp->flag = WORD;
 				continue ;
@@ -76,7 +90,7 @@ void expanding(t_data *lst, t_shell *envi)
 		{
 			if (tmp->flag == ENV)
 			{
-				if (ft_strlen2(tmp->elem) != 0)
+				if (ft_strlen2(tmp->elem) != 0 && check_if_del(tmp))
 					find_env(tmp, envi, lst);
 				tmp->flag = WORD;
 				if (ft_strchr_pro(tmp->elem, " \t"))

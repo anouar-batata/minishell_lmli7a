@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:35:24 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/05 10:28:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:25:20 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_lstadd_back5(t_data **lst, t_data *nw)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = nw;
+	nw->prev = temp;
 }
 
 void	ft_lstiter(t_data *node)

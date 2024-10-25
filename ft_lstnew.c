@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/05 10:43:25 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:48:23 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ t_data	*ft_lstnew5(char *elem, int flag)
 	new_node->flag = flag;
 	new_node->to_remove = 0;
 	new_node->to_split = 0;
+	new_node->expand_heredoc = 1;
 	new_node->next = NULL;
+	new_node->prev = NULL;
 	return (new_node);
 }
 
@@ -53,7 +55,7 @@ t_commands	*ft_lstnew3(char **command, t_redir *lst)
 	return (new);
 }
 
-t_redir	*ft_lstnew4(char *file, int flag)
+t_redir	*ft_lstnew4(char *file, int flag, int to_close)
 {
 	t_redir	*new;
 
@@ -62,6 +64,7 @@ t_redir	*ft_lstnew4(char *file, int flag)
 		return (NULL);
 	new->file = file;
 	new->redir_type = flag;
+	new->to_close = to_close;
 	new->next = NULL;
 	return (new);
 }

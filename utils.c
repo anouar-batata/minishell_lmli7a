@@ -6,13 +6,13 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/07 23:16:43 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/17 03:26:49 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strlen2(const char *str)
+size_t	ft_strlen2(const char *str)
 {
 	int	i;
 

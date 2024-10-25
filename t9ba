@@ -1,1 +1,7 @@
-echo 'c\t'
+unset PATH -> ls
+
+slawishell ~> export p pwd
+slawishell ~> echo $p // seg
+
+slawishell ~> echo "cjkshcjbsv" -n
+cjkshcjbsv slawishell ~> 

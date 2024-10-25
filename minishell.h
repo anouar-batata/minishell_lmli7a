@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/24 15:54:10 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:49:22 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct redir
 {
 	char	*file;
 	int		redir_type;
+	int		to_close;
 	struct redir *next;
 }	t_redir;
 
@@ -63,7 +64,9 @@ typedef struct t_data
 	int				flag;
 	int				to_remove;
 	int				to_split;	
+	int				expand_heredoc;
 	struct t_data	*next;
+	struct t_data	*prev;
 }	t_data;
 
 typedef struct s_shell
@@ -98,7 +101,7 @@ void	ft_lstiter(t_data *node);
 int		ft_isalpha(int c);
 void	f_list(t_data **lst);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
-int		ft_strlen2(const char *str);
+size_t		ft_strlen2(const char *str);
 int		parse_error(t_data *lst);
 char	**ft_split(char const *s, char c);
 void    ft_lstadd_back2(t_shell **lst, t_shell *new);
@@ -118,14 +121,14 @@ void	add_word_to_list(char *str, int *index, t_data **lst, int is_env);
 int	    is_word(char c);
 void	add_space_to_list(char *str, int *index, t_data **lst);
 void    split_word(t_data	**lst);
-void	make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list);
+void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t_shell *envi);
 void    ft_lstadd_back3(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew3(char **command, t_redir *lst);
 void	ft_lstiter2(t_commands *node);
 void	clean_list(t_commands **commands_list);
 void    ft_lstadd_back6(t_redir **lst, t_redir *new);
-t_redir	*ft_lstnew4(char *file, int flag);
-
+t_redir	*ft_lstnew4(char *file, int flag, int to_close);
+char	*heredo9(char **del, t_shell *envi, int to_expand);
 
 int execute_programme(char **commands, char **path);
 int    exit_status(int set, int mode);

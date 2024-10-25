@@ -1,3 +1,0 @@
-#/bin/bash
-
-cat Makefile | grep NAME| wc -l

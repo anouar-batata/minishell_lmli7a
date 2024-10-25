@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/05 12:34:42 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/17 03:03:45 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
 		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
 		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i] && str[i] != '-'
-		&& str[i] != ',' && str[i] != '+')
+		&& str[i] != ',' && str[i] != '+' && str[i] != '=')
 	{
 		if (str[i] >= '0' && str[i] <= '9' && i == 1)
-			break;		
+			break;
 		i++;
 	}
 	if (str[i] == '$' && i == 1)
@@ -155,26 +155,44 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 }
 
 
-char *get_env(t_shell *envi, char *str)
+void	change_it_to_word(t_data *lst)
 {
-	while (envi)
+	t_data *tmp;
+
+	tmp = lst;
+	while (tmp)
 	{
-		if (!ft_strcmp_2(envi->k, str))
-			return (envi->v);
-		envi = envi->next;
+		if (in_quote(tmp, lst) && tmp->flag != ENV)
+			tmp->flag = WORD;
+		tmp = tmp->next;
 	}
-	return (NULL);
 }
 
-char *print_pwd(char *str, t_shell *envi)
+void	check_if_to_expand_in_heredoc(t_data *lst)
 {
-	int i = ft_strlen2(str) - 1;
-	while (i && str[i] != '/')
-		i--;
-	if (ft_strcmp_2(&str[i + 1], get_env(envi, "USER")))
-		return (&str[i + 1]);
-	else
-		return (ft_strdup("~"));
+	t_data *tmp;
+	
+	while (lst)
+	{
+		if (lst->flag == HERE_DOC)
+		{
+			tmp = lst;
+			if (lst->next && lst->next->flag == WHITE_SPACE)
+				lst = lst->next;
+			lst = lst->next;
+			while (lst && (lst->flag == WORD || lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE))
+			{
+				if (lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE)
+				{
+					tmp->expand_heredoc = 0;
+					break;
+				}
+				lst = lst->next;
+			}
+		}
+		if (lst)
+			lst = lst->next;
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -213,12 +231,20 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		add_history(rl);
 		fill_lst(rl, &lst, 0);
+		change_it_to_word(lst);
 		if (parse_error(lst))
-			continue ;
+			continue;
 		expanding(lst, envi);
         split_word(&lst);
+		check_if_to_expand_in_heredoc(lst);
 		join_word(&lst);
-        make_a_list_for_louriga_aviable(&lst, &command);
+		// while (lst)
+		// {
+		// 	printf("elem: {%s}, flag: {%i}, to expand herdoc {%i}\n",lst->elem, lst->flag, lst->expand_heredoc);
+		// 	lst = lst->next;
+		// }
+		// continue;
+        make_a_list_for_louriga_aviable(&lst, &command, envi);
 		if (command)
 			execute_pipes(command);
 		free(rl);
@@ -227,4 +253,3 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
- 

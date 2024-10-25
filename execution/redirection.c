@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/22 16:17:23 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:57:39 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int check_the_redirection(t_commands *command)
                 perror("Error: file does not exist for input redirection"); // handle error
                 return (-1);
             }
+			if (curr->to_close)
+				unlink(ft_strjoin2("./", curr->file));
         }
 
         // Perform the redirection on the last file descriptor
