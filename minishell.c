@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/17 03:03:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 20:57:45 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
 		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
 		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i] && str[i] != '-'
-		&& str[i] != ',' && str[i] != '+' && str[i] != '=')
+		&& str[i] != ',' && str[i] != '+' && str[i] != '=' && str[i] != '?')
 	{
-		if (str[i] >= '0' && str[i] <= '9' && i == 1)
+		if (((str[i] >= '0' && str[i] <= '9') || str[i] == '?') && i == 1)
 			break;
 		i++;
 	}
@@ -84,7 +84,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 		word = ft_strdup("$$");
 		*index += 2;
 	}
-	else if (str[i] >= '0' && str[i] <= '9' && i == 1)
+	else if (((str[i] >= '0' && str[i] <= '9') || str[i] == '?')&& i == 1)
 	{
 		word = ft_substr(str, 0, 2);
 		*index += 2;
@@ -215,7 +215,7 @@ int	main(int ac, char **av, char **env)
         i++;
     }
     env_control(0, envi, NULL);
-	
+	exit_status(0, ADD);
 	while (1)
 	{
 		lst = NULL;

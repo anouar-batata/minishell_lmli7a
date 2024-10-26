@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 01:49:11 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:55:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,29 @@ int count_dels(t_data *lst)
 	return (i);
 }
 
-char **add_dels(t_data *lst)
+char **add_dels(t_data **lst)
 {
 	char **dels;
 	int	count;
 	int	i;
 
 	i = 0;
-	count = count_dels(lst);
+	count = count_dels(*lst);
 	dels = malloc (count * sizeof(char *) + 1);
-	dels[i] = lst->elem;
+	dels[i] = (*lst)->elem;
 	i++;
 	while (1)
 	{
 		if (i == count)
 			break;
-		if (lst->flag == HERE_DOC)
+		if ((*lst)->flag == HERE_DOC)
 		{
-			dels[i] = lst->next->elem;
+			dels[i] = (*lst)->next->elem;
 			i++;
 		}
-		lst = lst->next;
+		*lst = (*lst)->next;
 	}
+	*lst = (*lst)->next;
 	dels[i] = NULL;
 	return (dels);
 }
@@ -139,9 +140,8 @@ void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t
 			{
 				int to_expand = tmp->expand_heredoc;
 				tmp = tmp->next;
-				new = ft_lstnew4(heredo9(add_dels(tmp), envi, to_expand) , REDIR_IN, 1);
+				new = ft_lstnew4(heredo9(add_dels(&tmp), envi, to_expand) , REDIR_IN, 1);
 				ft_lstadd_back6(&redir_lst, new);
-				tmp = tmp->next;
 				continue;
 			}
 			commands[i] = tmp->elem;

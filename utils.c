@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/17 03:26:49 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:13:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,54 @@ char	*ft_strchr_pro(char *s, char *cc)
 		cc++;
 	}
 	return (NULL);
+}
+
+static int	numlen(int n)
+{
+	int	i;
+
+	i = 0;
+	if (n <= 0)
+		i++;
+	while (n != 0)
+	{
+		n /= 10;
+		i++;
+	}
+	return (i);
+}
+
+static void	f_str(char *str, long nbr, int len)
+{
+	int	dex;
+
+	dex = len - 1;
+	if (nbr == 0)
+		str[0] = '0';
+	if (nbr < 0)
+	{
+		str[0] = '-';
+		nbr = -nbr;
+	}
+	while (nbr != 0)
+	{
+		str[dex--] = (nbr % 10) + '0';
+		nbr /= 10;
+	}
+}
+
+char	*ft_itoa(int n)
+{
+	long	nbr;
+	int		len;
+	char	*str;
+
+	nbr = n;
+	len = numlen(nbr);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	f_str(str, nbr, len);
+	return (str);
 }

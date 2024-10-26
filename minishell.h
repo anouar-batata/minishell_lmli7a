@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 01:49:22 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:13:18 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	clean_list(t_commands **commands_list);
 void    ft_lstadd_back6(t_redir **lst, t_redir *new);
 t_redir	*ft_lstnew4(char *file, int flag, int to_close);
 char	*heredo9(char **del, t_shell *envi, int to_expand);
+char	*ft_itoa(int n);
 
 int execute_programme(char **commands, char **path);
 int    exit_status(int set, int mode);

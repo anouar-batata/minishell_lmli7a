@@ -6,11 +6,13 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/17 02:47:20 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:13:06 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 int	check_if_del(t_data *lst)
 {
@@ -43,6 +45,12 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 			return;
 		}
 		envi = envi->next;
+	}
+	if (!ft_strcmp_2(lst->elem, "$?"))
+	{
+		free(lst->elem);
+		lst->elem = ft_itoa(exit_status(0, 0));
+		return;
 	}
 	free(lst->elem);
 	lst->to_remove = 1;
