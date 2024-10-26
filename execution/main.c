@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 16:08:28 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/26 01:56:03 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,20 @@ void    execute_command(char **command, char **path)
     char **td_env = convert_env_to_td_env(env);
     int i;
     int j;
-    int err_no = 0;
     
     i = 0;
     j = 0;
+    if (!path)
+    {
+        
+        write(2, " : command not found\n", 21);
+        exit(127);
+    }
+    if (ft_strcmp(command[0], "\0") == 0)
+    {
+        write(2, " : command not found\n", 21);
+        exit(127);
+    }
 	while (path[i])
 	{
 		first_join = ft_strjoin(path[i], "/");
@@ -198,7 +208,7 @@ int    execution_commands(char **commands, t_commands *cmds)
         else
             return (-2);
     }
-    else if (commands[0][0] == '.')
+    else if (commands[0][0] != '/' && ft_strchr_pro(commands[0], "/"))
     {
         path = ft_split_2(p, ':');
         return (execute_programme(commands,path));
@@ -211,8 +221,12 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
 		return (255);
     }
-    else if (check_built_ins(commands, env) == 2)
+    else if (exit_status(0, 0) == 1)
     {
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return(-1);
     }
     else

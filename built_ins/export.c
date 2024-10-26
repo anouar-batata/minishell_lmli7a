@@ -6,13 +6,19 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 13:32:28 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:41:19 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // https://www.youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
 
 #include "../minishell.h"
+
+void	manage_error(char *arg)
+{
+	write(2, arg, ft_strlen(arg));
+	write(2," : not a valid identifier\n", 26);
+}
 
 int	parse_arguments(char *argument)
 {
@@ -28,10 +34,10 @@ int	parse_arguments(char *argument)
 		else
 		{
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
-				return (perror(" not a valid identifier\n") ,1);
+				return (manage_error(argument) ,1);
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
-					perror(" not a valid identifier\n");
+					manage_error(argument);
 					return (1);
 			}
 		}
@@ -134,6 +140,7 @@ void	*add_var(char **args)
 	{
 		if (parse_arguments(args[i]) == 1)
 		{
+			exit_status(1, ADD);
 			i++;
 			continue;
 		}
