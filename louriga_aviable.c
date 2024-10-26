@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 21:55:27 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/26 04:49:06 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char **add_dels(t_data **lst)
 		}
 		*lst = (*lst)->next;
 	}
-	*lst = (*lst)->next;
 	dels[i] = NULL;
 	return (dels);
 }
@@ -81,7 +80,7 @@ int command_counter(t_data *lst)
 	i = 0;
 	while (lst && lst->flag != PIPE_LINE)
 	{
-		if (lst && lst->next && (lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == DREDIR_OUT))
+		if (lst && lst->next && (lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == DREDIR_OUT || lst->flag == HERE_DOC))
 		{
 			lst = lst->next->next;
 			continue;
@@ -92,7 +91,7 @@ int command_counter(t_data *lst)
 	return (i);
 }
 
-void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t_shell *envi)
+void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_shell *envi)
 {
     t_data *tmp;
 	t_redir *redir_lst = NULL;
@@ -101,7 +100,7 @@ void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t
     int i;
     int command_count;
 	
-    tmp = *lst;
+    tmp = lst;
     command_count = command_counter(tmp);
 	commands = malloc((command_count + 1) * sizeof(char*));
     if (!commands)
@@ -138,10 +137,15 @@ void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t
 			}
 			else if (tmp->flag == HERE_DOC)
 			{
-				int to_expand = tmp->expand_heredoc;
 				tmp = tmp->next;
-				new = ft_lstnew4(heredo9(add_dels(&tmp), envi, to_expand) , REDIR_IN, 1);
+				char **dels = add_dels(&tmp);
+				int to_expand;
+				while (lst && lst->next && lst->next != tmp)
+					lst = lst->next;
+				to_expand = lst->expand_heredoc;
+				new = ft_lstnew4(heredo9(dels, envi, to_expand, command_count) , REDIR_IN, 1);
 				ft_lstadd_back6(&redir_lst, new);
+				tmp = tmp->next;
 				continue;
 			}
 			commands[i] = tmp->elem;

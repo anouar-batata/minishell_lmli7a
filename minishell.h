@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 21:13:18 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/26 04:46:59 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,14 @@ void	add_word_to_list(char *str, int *index, t_data **lst, int is_env);
 int	    is_word(char c);
 void	add_space_to_list(char *str, int *index, t_data **lst);
 void    split_word(t_data	**lst);
-void  make_a_list_for_louriga_aviable(t_data **lst, t_commands **command_list, t_shell *envi);
+void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_shell *envi);
 void    ft_lstadd_back3(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew3(char **command, t_redir *lst);
 void	ft_lstiter2(t_commands *node);
 void	clean_list(t_commands **commands_list);
 void    ft_lstadd_back6(t_redir **lst, t_redir *new);
 t_redir	*ft_lstnew4(char *file, int flag, int to_close);
-char	*heredo9(char **del, t_shell *envi, int to_expand);
+char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter);
 char	*ft_itoa(int n);
 
 int execute_programme(char **commands, char **path);

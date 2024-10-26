@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/26 01:56:03 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/26 05:06:56 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,10 @@ int    execution_commands(char **commands, t_commands *cmds)
     p = find_path(env_control(GET_ENV, 0, 0));
     if (check_the_redirection(cmds) == -1)
     {
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return(-1);
     }
     if (commands[0][0] == '/')

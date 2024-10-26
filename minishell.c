@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 20:57:45 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/26 07:54:35 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,11 +240,21 @@ int	main(int ac, char **av, char **env)
 		join_word(&lst);
 		// while (lst)
 		// {
-		// 	printf("elem: {%s}, flag: {%i}, to expand herdoc {%i}\n",lst->elem, lst->flag, lst->expand_heredoc);
-		// 	lst = lst->next;
+		// 	printf("elem: {%s}, flag: {%i}", lst->elem, lst->flag);
+		// 	lst =lst->next;
 		// }
+		// // while (command)
+		// // {
+		// // 	printf("command: %s\n", command->command[0]);
+		// // 	while (command->redir_lst)
+		// // 	{
+		// // 		printf("file name: %s, redir type: %i", command->redir_lst->file, command->redir_lst->redir_type);
+		// // 		command->redir_lst = command->redir_lst->next;
+		// // 	}
+		// // 	command = command->next;
+		// // }
 		// continue;
-        make_a_list_for_louriga_aviable(&lst, &command, envi);
+        make_a_list_for_louriga_aviable(lst, &command, envi);
 		if (command)
 			execute_pipes(command);
 		free(rl);
