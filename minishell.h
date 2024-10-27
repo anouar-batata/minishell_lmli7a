@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/26 04:46:59 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:05:15 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct s_shell
     struct s_shell *next;
 }   t_shell;
 
+
+int g_signal_status;
 
 enum e_token
 {

@@ -6,11 +6,20 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 18:07:03 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 09:53:34 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:11:52 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int i;
+
+void heredo9_handler(int sig)
+{
+	close(0);
+	i = 1;
+	exit_status(1, ADD);
+}
 
 char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 {
@@ -23,7 +32,10 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 	int counter;
 	i = 0;
 	str = "";
+	int	save;
 
+	save = dup(0);
+	signal(SIGINT, heredo9_handler);
 	counter = 0;
 	while (del[counter])
 		counter++;
@@ -69,5 +81,7 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 	fd = open(prompt, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	write(fd, str, ft_strlen2(str)); 
 	close(fd);
+	dup2(save, 0);
+	close(save);
 	return (prompt);
 }

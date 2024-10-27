@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 12:36:09 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:09:21 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,11 +197,14 @@ void	check_if_to_expand_in_heredoc(t_data *lst)
 
 void	ctrl_c_handler(int sig)
 {
-	exit_status(1, ADD);
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_signal_status == 0)
+	{
+		exit_status(1, ADD);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();	
+	}
 }
 
 void remove_spaces(t_data **lst)
@@ -309,11 +312,11 @@ int	main(int ac, char **av, char **env)
         i++;
     }
     env_control(0, envi, NULL);
-	signal(SIGINT, ctrl_c_handler);
 	signal(SIGQUIT, SIG_IGN);
 	exit_status(0, ADD);
 	while (1)
 	{
+		signal(SIGINT, ctrl_c_handler);
 		lst = NULL;
 		command = NULL;
 		// prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
@@ -362,8 +365,10 @@ int	main(int ac, char **av, char **env)
 		// // // 	command = command->next;
 		// // // }
         make_a_list_for_louriga_aviable(lst, &command, envi);
+		g_signal_status = 1;
 		if (command)
 			execute_pipes(command);
+		g_signal_status = 0;
 		free(rl);
 		ft_lstiter(lst);
 		ft_lstiter2(command);

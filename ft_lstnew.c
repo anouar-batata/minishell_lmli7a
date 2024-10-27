@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 01:48:23 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 12:40:20 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_data	*ft_lstnew5(char *elem, int flag)
 
 	new_node = malloc(sizeof(t_data));
 	if (!new_node)
-		return (NULL);
+		exit (1);
 	new_node->elem = elem;
 	new_node->flag = flag;
 	new_node->to_remove = 0;
