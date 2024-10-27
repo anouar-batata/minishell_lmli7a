@@ -1,7 +1,37 @@
-unset PATH -> ls
+env -i ./minishell
+slawishell ~> export
+[1]    30143 segmentation fault  env -i ./minishell
 
-slawishell ~> export p pwd
-slawishell ~> echo $p // seg
 
-slawishell ~> echo "cjkshcjbsv" -n
-cjkshcjbsv slawishell ~> 
+<< a < a (no such file or dir)
+
+
+exit (builtins) > last known exit status
+
+
+minishell wst minishell fd leaks
+
+
+unset PWD OLDPWD (cd doesnt set PWD and OLDPWD)
+
+slawishell ~> export HOME=ls
+slawishell ~> cd HOME
+HOME : No such file or dirrectory
+/usr/bin/cd: line 4: cd: HOME: No such file or directory
+slawishell ~> cd
+[1]    50867 segmentation fault  /Users/akoutate/Desktop/minimok/minishell
+
+
+signals in execution (SIGQUIT)
+
+
+if path is invalid, system cd is executed
+
+
+
+export ==fsdf > should not be valid
+
+too many forks
+
+
+"$ERTYUIO" echo $USER

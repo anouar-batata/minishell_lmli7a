@@ -6,7 +6,7 @@
 #    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/10/11 14:47:18 by akoutate         ###   ########.fr        #
+#    Updated: 2024/10/26 08:02:32 by akoutate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,12 @@ SOURCES = built_ins/cd.c built_ins/echo.c built_ins/env_utils.c \
 			minishell.c split_word.c utils.c words_join.c clean_list.c \
 			heredo9.c
 
+LINKREADLINELIB = $(shell brew --prefix readline)/lib
+LINKREADLINEINCLUDE = $(shell brew --prefix readline)/include
+RL_FLAGS = -I$(LINKREADLINEINCLUDE) -L$(LINKREADLINELIB)
+CFLAGS = -I$(LINKREADLINEINCLUDE)
+LDFLAGS = -L$(LINKREADLINELIB) -lreadline
+
 OBJ = $(SOURCES:.c=.o)
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -g
@@ -30,7 +36,7 @@ CC = cc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $@ -g -lreadline 
+	$(CC) $(OBJ) $(LDFLAGS) -o $@ -g -lreadline 
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) -c $< -g -o $@

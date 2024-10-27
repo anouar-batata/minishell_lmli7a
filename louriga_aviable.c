@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/26 04:49:06 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 09:57:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,7 @@ void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_
 		if (tmp)
         	tmp = tmp->next;
     }
-    if (i > 0)
-    {
-        commands[i] = NULL;
-        new = ft_lstnew3(commands, redir_lst);
-        ft_lstadd_back3(command_list, new);
-    }
-    else
-        free(commands);
+	commands[i] = NULL;
+	new = ft_lstnew3(commands, redir_lst);
+	ft_lstadd_back3(command_list, new);
 }

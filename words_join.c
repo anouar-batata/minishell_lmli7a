@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:58:02 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:30:29 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE || tmp->next->flag == WHITE_SPACE))
+		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE || deleter->flag == WHITE_SPACE))
+			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE ))
 			{
 				free(deleter->elem);
 				fr = deleter;
@@ -128,7 +128,7 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if ((*lst) && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE || (*lst)->flag == WHITE_SPACE))
+	if ((*lst) && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		free ((*lst)->elem);
 		fr = *lst;

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/26 07:54:35 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 12:36:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,97 @@ void	check_if_to_expand_in_heredoc(t_data *lst)
 	}
 }
 
+void	ctrl_c_handler(int sig)
+{
+	exit_status(1, ADD);
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void remove_spaces(t_data **lst)
+{
+	t_data *tmp;
+	t_data *deleter;
+	t_data *fr;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->next && (tmp->next->flag == WHITE_SPACE))
+		{
+			deleter = tmp->next;
+			while (deleter && (deleter->flag == WHITE_SPACE))
+			{
+				free(deleter->elem);
+				fr = deleter;
+				deleter = deleter->next;
+				free(fr);
+			}
+			tmp->next = deleter;
+		}
+		tmp = tmp->next;
+	}
+	if ((*lst) && ((*lst)->flag == WHITE_SPACE))
+	{
+		free ((*lst)->elem);
+		fr = *lst;
+		*lst = (*lst)->next;
+		free (fr);
+	}
+}
+
+void expanding_deleter(t_data **lst)
+{
+	t_data *tmp;
+	t_data *deleter;
+	t_data *fr;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->next && (tmp->next->to_remove))
+		{
+			deleter = tmp->next;
+			while (deleter && (deleter->to_remove))
+			{
+				free(deleter->elem);
+				fr = deleter;
+				deleter = deleter->next;
+				free(fr);
+			}
+			tmp->next = deleter;
+		}
+		tmp = tmp->next;
+	}
+	if ((*lst) && ((*lst)->to_remove))
+	{
+		free ((*lst)->elem);
+		fr = *lst;
+		*lst = (*lst)->next;
+		free (fr);
+	}
+}
+
+int check_for_ambiguous(t_data *lst)
+{
+	while (lst)
+	{
+		if (lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == DREDIR_OUT)
+		{
+			if (lst->next && lst->next->flag == WHITE_SPACE)
+				lst = lst->next;
+			if (lst)
+				lst = lst->next;
+			if (!lst || lst->flag == WHITE_SPACE || lst->to_split)
+				return (1);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_data	*lst;
@@ -208,6 +299,9 @@ int	main(int ac, char **av, char **env)
 	int print_n = 0 ;
 	i = 0;
     char **p;
+	if (!isatty(0))
+		return (1);
+	rl_catch_signals = 0;
     while (env[i] != NULL)
     {
         p = split_first_equal(env[i]);
@@ -215,6 +309,8 @@ int	main(int ac, char **av, char **env)
         i++;
     }
     env_control(0, envi, NULL);
+	signal(SIGINT, ctrl_c_handler);
+	signal(SIGQUIT, SIG_IGN);
 	exit_status(0, ADD);
 	while (1)
 	{
@@ -233,27 +329,38 @@ int	main(int ac, char **av, char **env)
 		fill_lst(rl, &lst, 0);
 		change_it_to_word(lst);
 		if (parse_error(lst))
+		{
+			exit_status(258, ADD);
 			continue;
+		}
 		expanding(lst, envi);
-        split_word(&lst);
+		expanding_deleter(&lst);
 		check_if_to_expand_in_heredoc(lst);
 		join_word(&lst);
+		if (check_for_ambiguous(lst))
+		{
+			exit_status(1, ADD);
+			write(2, "Error: ambiguous redirect\n", 26);
+			continue;
+		}
+        split_word(&lst);
+		remove_spaces(&lst);
 		// while (lst)
 		// {
-		// 	printf("elem: {%s}, flag: {%i}", lst->elem, lst->flag);
+		// 	printf("elem: {%s}, flag: {%i}, to delete: {%i}\n", lst->elem, lst->flag, lst->to_remove);
 		// 	lst =lst->next;
 		// }
-		// // while (command)
-		// // {
-		// // 	printf("command: %s\n", command->command[0]);
-		// // 	while (command->redir_lst)
-		// // 	{
-		// // 		printf("file name: %s, redir type: %i", command->redir_lst->file, command->redir_lst->redir_type);
-		// // 		command->redir_lst = command->redir_lst->next;
-		// // 	}
-		// // 	command = command->next;
-		// // }
 		// continue;
+		// // // while (command)
+		// // // {
+		// // // 	printf("command: %s\n", command->command[0]);
+		// // // 	while (command->redir_lst)
+		// // // 	{
+		// // // 		printf("file name: %s, redir type: %i", command->redir_lst->file, command->redir_lst->redir_type);
+		// // // 		command->redir_lst = command->redir_lst->next;
+		// // // 	}
+		// // // 	command = command->next;
+		// // // }
         make_a_list_for_louriga_aviable(lst, &command, envi);
 		if (command)
 			execute_pipes(command);

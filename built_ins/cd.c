@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 12:27:47 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:07:13 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,14 @@ int	ft_cd(char **av)
 	char	*str;
 
 	if (av[1] == NULL)
+	{
 		str = get_home();
+		if (!str)
+		{
+			printf("slawishell: HOME not set\n");
+			return (1);
+		}
+	}
 	else
 		str = av[1];
 	if (!chdir(str))

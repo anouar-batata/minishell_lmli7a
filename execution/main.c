@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/26 05:06:56 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/27 10:38:17 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
         return(-1);
     }
-    if (commands[0][0] == '/')
+    if (commands[0] && commands[0][0] == '/')
     {
         pid = execute_path(commands);
         dup2(bkp_1, 1);
@@ -212,7 +212,7 @@ int    execution_commands(char **commands, t_commands *cmds)
         else
             return (-2);
     }
-    else if (commands[0][0] != '/' && ft_strchr_pro(commands[0], "/"))
+    else if (commands[0] &&commands[0][0] != '/' && ft_strchr_pro(commands[0], "/"))
     {
         path = ft_split_2(p, ':');
         return (execute_programme(commands,path));
@@ -225,14 +225,14 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
 		return (255);
     }
-    else if (exit_status(0, 0) == 1)
-    {
-        dup2(bkp_1, 1);
-        dup2(bkp_0, 0);
-        close(bkp_0);
-        close(bkp_1);
-        return(-1);
-    }
+    // else if (exit_status(0, 0) == 1)
+    // {
+    //     dup2(bkp_1, 1);
+    //     dup2(bkp_0, 0);
+    //     close(bkp_0);
+    //     close(bkp_1);
+    //     return(-1);
+    // }
     else
     {
         path = ft_split_2(p, ':');
