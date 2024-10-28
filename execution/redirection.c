@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/26 05:42:03 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/27 23:21:20 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ int check_the_redirection(t_commands *command)
     {
         if (curr->redir_type == REDIR_IN)
         {
-            if (fd != -1) close(fd);  // Close previous fd if any
+            if (fd != -1) 
+                close(fd);  // Close previous fd if any
             fd = open(curr->file, O_RDONLY);
             if (fd == -1)
             {
@@ -157,7 +158,8 @@ int check_the_redirection(t_commands *command)
     {
         if (curr->redir_type == REDIR_OUT || curr->redir_type == DREDIR_OUT)
         {
-            if (fd != -1) close(fd);  // Close previous fd if any
+            if (fd != -1) 
+                close(fd);  // Close previous fd if any
             fd = open(curr->file, O_WRONLY | O_CREAT | (curr->redir_type == REDIR_OUT ? O_TRUNC : O_APPEND), 0644);
             if (fd == -1)
             {

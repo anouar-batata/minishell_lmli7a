@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/26 21:07:13 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:48:09 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*get_home(void)
 	t_shell	*tmp;
 
 	env = env_control(GET_ENV, 0, 0);
+	if (!env)
+		return (NULL);
 	tmp = env;
 	while (tmp)
 	{
@@ -57,23 +59,31 @@ int	ft_cd(char **av)
 	char	*str;
 
 	if (av[1] == NULL)
-	{
 		str = get_home();
-		if (!str)
-		{
-			printf("slawishell: HOME not set\n");
-			return (1);
-		}
-	}
 	else
 		str = av[1];
-	if (!chdir(str))
-		change_the_directory();
-	else
+	if (!str)
 	{
-		write(2, av[1], ft_strlen(av[1]));
 		write(2, " : No such file or dirrectory\n", 30);
 		return (2);
+	}
+	if (!chdir(str))
+	{
+		change_the_directory();
+	}
+	else
+	{
+		if (av[1] != NULL)
+		{
+			write(2, av[1], ft_strlen(av[1]));
+			write(2, " : No such file or dirrectory\n", 30);
+			return (2);
+		}
+		else
+		{
+			write(2, " : No such file or dirrectory\n", 30);
+			return (2);
+		}
 	}
 	return (0);
 }

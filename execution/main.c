@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/27 10:38:17 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/28 06:51:38 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void ft_error(int err_no)
         return ;
 }
 
-
 void    execute_command(char **command, char **path)
 {
     char *first_join;
@@ -84,10 +83,12 @@ void    execute_command(char **command, char **path)
 	{
 		first_join = ft_strjoin(path[i], "/");
 		second_join = ft_strjoin(first_join, command[0]);
-		if (!access(second_join, X_OK))
+		if (!access(second_join, F_OK))
 		{
 			execve(second_join, command, td_env);
-			exit (127);
+            write(2, command[0], ft_strlen(command[0]));
+            write(2, ": Permission denied\n", 20);
+			exit (126);
                 
 		}
 		i++;
@@ -96,6 +97,50 @@ void    execute_command(char **command, char **path)
     write(2, " : command not found\n", 21);
     exit(127);
 }
+
+// void    execute_command_1(char **command, char **path, int bkp_0, int bkp_1)
+// {
+//     char *first_join;
+//     char *second_join;
+    
+//     t_shell *env = env_control(GET_ENV, 0, 0);
+//     char **td_env = convert_env_to_td_env(env);
+//     int i;
+//     int j;
+    
+//     close(bkp_0);
+//     close(bkp_1);
+//     i = 0;
+//     j = 0;
+//     if (!path)
+//     {
+        
+//         write(2, " : command not found\n", 21);
+//         exit(127);
+//     }
+//     if (ft_strcmp(command[0], "\0") == 0)
+//     {
+//         write(2, " : command not found\n", 21);
+//         exit(127);
+//     }
+// 	while (path[i])
+// 	{
+// 		first_join = ft_strjoin(path[i], "/");
+// 		second_join = ft_strjoin(first_join, command[0]);
+// 		if (!access(second_join, F_OK))
+// 		{
+// 			execve(second_join, command, td_env);
+//             write(2, command[0], ft_strlen(command[0]));
+//             write(2, ": Permission denied\n", 20);
+// 			exit (126);
+                
+// 		}
+// 		i++;
+// 	}
+//     write(2, command[0], ft_strlen(command[0]));
+//     write(2, " : command not found\n", 21);
+//     exit(127);
+// }
 
 char *find_path(t_shell *env)
 {
@@ -121,8 +166,9 @@ int    execute_path(char **command)
         if (!pid)
         {
             execve(command[0], command, td_env);
-            perror(command[0]);
-            exit(127);
+            write(2, command[0], ft_strlen(command[0]));
+            write(2, ": Permission denied\n", 20);
+			exit (126);
         }
     }
     else
@@ -144,7 +190,7 @@ int execute_programme(char **commands, char **path)
     int i = 0;
 
     pid = fork();
-
+    
         if (!pid)
         {
             if (!access(commands[0], X_OK))
@@ -152,6 +198,10 @@ int execute_programme(char **commands, char **path)
                 {
                     // execve(second_join, commands, NULL);
                     execve(commands[0], commands, td_env);
+                     write(2, commands[0], ft_strlen(commands[0]));
+                     write(2, ": Permission denied\n", 20);
+			        exit (126);
+                    
                     
                 }
             }
@@ -187,10 +237,11 @@ int    execution_commands(char **commands, t_commands *cmds)
     char **path;
     char *p;
     int pid;
+    int i = 0;
     int bkp_0 = dup(0);
     int bkp_1 = dup(1);
 
-	t_shell *env =  env_control(GET_ENV, 0, 0);
+    t_shell *env =  env_control(GET_ENV, 0, 0);   
     p = find_path(env_control(GET_ENV, 0, 0));
     if (check_the_redirection(cmds) == -1)
     {
@@ -200,6 +251,15 @@ int    execution_commands(char **commands, t_commands *cmds)
         close(bkp_1);
         return(-1);
     }
+    if (!commands[0])
+    {
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
+        return(0);
+    }
+    i = check_built_ins(commands, env);
     if (commands[0] && commands[0][0] == '/')
     {
         pid = execute_path(commands);
@@ -215,15 +275,23 @@ int    execution_commands(char **commands, t_commands *cmds)
     else if (commands[0] &&commands[0][0] != '/' && ft_strchr_pro(commands[0], "/"))
     {
         path = ft_split_2(p, ':');
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return (execute_programme(commands,path));
     }
-	else if(check_built_ins(commands, env) == 0)
+    else if(i == 0)
     {
         dup2(bkp_1, 1);
         dup2(bkp_0, 0);
         close(bkp_0);
         close(bkp_1);
-		return (255);
+        return (255);
+    }
+    else if (i == 2)
+    {
+        return (-1);
     }
     // else if (exit_status(0, 0) == 1)
     // {
@@ -246,3 +314,55 @@ int    execution_commands(char **commands, t_commands *cmds)
         return(pid);
     }
 }
+
+// int    execution_commands(char **commands, t_commands *cmds)
+// {
+//     char **path;
+//     char *p;
+//     int pid;
+//     int i;
+
+//     i = 0;
+// 	t_shell *env =  env_control(GET_ENV, 0, 0);
+//     p = find_path(env_control(GET_ENV, 0, 0));
+//     if (check_the_redirection(cmds) == -1)
+//     {
+//         return(-1);
+//     }
+//     // if (!commands[0])
+//     // {
+//     //     puts("lol");
+//     //     return (0);
+//     // }
+//     i = check_built_ins(commands, env);
+//     if (commands[0][0] == '/')
+//     {
+//         pid = execute_path(commands);
+//         if (pid > 0)
+//             return (pid);
+//         else
+//             return (-2);
+//     }
+//     else if (commands[0][0] != '/' && ft_strchr_pro(commands[0], "/"))
+//     {
+//         path = ft_split_2(p, ':');
+//         i = execute_programme(commands,path);
+//         return (i);
+//     }
+// 	else if (i == 0)
+//     {
+// 		return (255);
+//     }
+//     else if (i == 2)
+//     {
+//         return(-1);
+//     }
+//     else
+//     {
+//         path = ft_split_2(p, ':');
+//         pid = fork();
+//         if (!pid)
+//             execute_command(commands, path);
+//         return(pid);
+//     }
+// }

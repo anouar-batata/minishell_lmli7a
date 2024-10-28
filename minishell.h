@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 22:05:15 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/28 05:53:33 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ t_redir	*ft_lstnew4(char *file, int flag, int to_close);
 char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter);
 char	*ft_itoa(int n);
 
+void	manage_error(char *arg);
 int execute_programme(char **commands, char **path);
 int    exit_status(int set, int mode);
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new);
@@ -151,7 +152,7 @@ void    pwd(void);
 void    ft_env(void);
 int    echo(char **av);
 void    ft_exit(char **av);
-void    ft_unset(t_shell *env, char **av);
+int    ft_unset(t_shell *env, char **av);
 void    ft_export(char **command);
 t_shell	*ft_lstlast(t_shell *lst);
 void    add(char **p, t_shell **envi);

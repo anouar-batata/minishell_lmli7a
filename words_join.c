@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words_join.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 00:30:29 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/28 06:09:43 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE)
+	if (*lst && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		free ((*lst)->elem);
 		fr = *lst;

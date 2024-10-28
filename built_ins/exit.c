@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 13:24:56 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:46:22 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_exit(char **av)
 	if (index == 1)
 	{
 		printf("exit\n");
-		exit(0);
+		exit(exit_status(0, 0));
 	}
 	i = 0;
 	if (check_ch(av[1]) == 1 || sign(av[1]) == 1 || cheak_the_string(av[1]) == 1)

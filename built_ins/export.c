@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/26 21:10:40 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/28 06:27:52 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ int	parse_arguments(char *argument)
 	j = 0;
 	while (argument[i] != '\0')
 	{
+		if (argument[i] == '=' && i == 0)
+			return (manage_error(argument),1);
 		if (argument[i] == '=')
 			return (0);
 		else
 		{
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] == '_') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
 				return (manage_error(argument) ,1);
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')|| (argument[i]) == '_' || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
 					manage_error(argument);
 					return (1);
@@ -242,6 +244,8 @@ void    ft_export(char **command)
 	t_shell *export;
 	int i;
 	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
+	if (!env)
+		return;
 	i = 0;
 	export = env; 
 	while (command[i])

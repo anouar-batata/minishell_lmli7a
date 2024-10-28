@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 22:09:21 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/28 06:18:58 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,18 +353,18 @@ int	main(int ac, char **av, char **env)
 		// 	printf("elem: {%s}, flag: {%i}, to delete: {%i}\n", lst->elem, lst->flag, lst->to_remove);
 		// 	lst =lst->next;
 		// }
-		// continue;
-		// // // while (command)
-		// // // {
-		// // // 	printf("command: %s\n", command->command[0]);
-		// // // 	while (command->redir_lst)
-		// // // 	{
-		// // // 		printf("file name: %s, redir type: %i", command->redir_lst->file, command->redir_lst->redir_type);
-		// // // 		command->redir_lst = command->redir_lst->next;
-		// // // 	}
-		// // // 	command = command->next;
-		// // // }
         make_a_list_for_louriga_aviable(lst, &command, envi);
+		// while (command)
+		// {
+		// 	printf("command: %s\n", command->command[0]);
+		// 	while (command->redir_lst)
+		// 	{
+		// 		printf("file name: %s, redir type: %i\n", command->redir_lst->file, command->redir_lst->redir_type);
+		// 		command->redir_lst = command->redir_lst->next;
+		// 	}
+		// 	command = command->next;
+		// }
+		// continue;
 		g_signal_status = 1;
 		if (command)
 			execute_pipes(command);
