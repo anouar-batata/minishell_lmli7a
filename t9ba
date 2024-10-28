@@ -1,37 +1,44 @@
-env -i ./minishell
-slawishell ~> export
-[1]    30143 segmentation fault  env -i ./minishell
+# env -i ./minishell
+# slawishell ~> export
+# [1]    30143 segmentation fault  env -i ./minishell
 
 
-<< a < a (no such file or dir)
+# << a < a (no such file or dir)
 
 
-exit (builtins) > last known exit status
+# exit (builtins) > last known exit status
 
 
-minishell wst minishell fd leaks
+# minishell wst minishell fd leaks
 
 
-unset PWD OLDPWD (cd doesnt set PWD and OLDPWD)
+# unset PWD OLDPWD (cd doesnt set PWD and OLDPWD)
 
-slawishell ~> export HOME=ls
-slawishell ~> cd HOME
-HOME : No such file or dirrectory
-/usr/bin/cd: line 4: cd: HOME: No such file or directory
-slawishell ~> cd
-[1]    50867 segmentation fault  /Users/akoutate/Desktop/minimok/minishell
-
-
-signals in execution (SIGQUIT)
+# slawishell ~> export HOME=ls
+# slawishell ~> cd HOME
+# HOME : No such file or dirrectory
+# /usr/bin/cd: line 4: cd: HOME: No such file or directory
+# slawishell ~> cd
+# [1]    50867 segmentation fault  /Users/akoutate/Desktop/minimok/minishell
 
 
-if path is invalid, system cd is executed
+# signals in execution (SIGQUIT)
+
+
+# if path is invalid, system cd is executed
 
 
 
-export ==fsdf > should not be valid
+# export ==fsdf > should not be valid
 
-too many forks
+# too many forks
 
 
-"$ERTYUIO" echo $USER
+# "$ERTYUIO" echo $USER
+
+
+after env -i , it does not expand $PWD
+
+
+
+$HOME.$HOM''E in heredoc --> it does not expand properly

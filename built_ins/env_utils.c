@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 12:41:18 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:08:29 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,6 @@ void	remove_node(t_shell **env, char *str)
 	prev->next = tmp->next;
 }
 
-void	edit_value(t_shell **env, char *k, char *v)
-{
-	t_shell	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->k, k) == 0)
-		{
-			tmp->v = v;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
 void	add_node(t_shell **env, char *k, char *v)
 {
 	t_shell	*tmp;
@@ -70,6 +54,24 @@ void	add_node(t_shell **env, char *k, char *v)
 	tmp->next = new;
 }
 
+void	edit_value(t_shell **env, char *k, char *v)
+{
+	t_shell	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->k, k) == 0)
+		{
+			tmp->v = v;
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	add_node(env, k, v);
+}
+
+
 void	*env_control(int behaviour, void *key, char *value)
 {
 	static t_shell	*env;
@@ -81,7 +83,7 @@ void	*env_control(int behaviour, void *key, char *value)
 		if (behaviour == REMOVE_NODE)
 			remove_node(&env, key);
 		else if (behaviour == ADD_NODE)
-			add_node(&env, key, value);
+			edit_value(&env, key, value);
 		else if (behaviour == GET_ENV)
 			return (env);
 		else if (behaviour == EDIT_VALUE)

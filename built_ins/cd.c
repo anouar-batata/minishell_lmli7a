@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/27 00:48:09 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:05:59 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	change_the_directory(void)
 		}
 		tmp = tmp->next;
 	}
-	env_control(EDIT_VALUE, "PWD", str);
+	if (old_pwd)
+		env_control(EDIT_VALUE, "PWD", str);
+	else
+		env_control(ADD_NODE, "PWD", str);
+	
 	env_control(EDIT_VALUE, "OLDPWD", old_pwd);
 }
 
