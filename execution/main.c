@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 06:51:38 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:54:37 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int execute_programme(char **commands, char **path)
                 }
             }
             perror(commands[0]);
-            exit(127);
+            exit(126);
         }
     return (pid);
 }
@@ -291,6 +291,10 @@ int    execution_commands(char **commands, t_commands *cmds)
     }
     else if (i == 2)
     {
+            dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return (-1);
     }
     // else if (exit_status(0, 0) == 1)

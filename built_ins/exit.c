@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/27 00:46:22 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:16:34 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,15 @@ long long	my_atoi(char *str, int *index)
 
 void	ft_exit(char **av)
 {
-	int i;
-	int j;
-	int x;
-	int index = 0;
+	int	i;
+	int	j;
+	int	x;
+	int	index;
 
 	i = 0;
 	j = 1;
 	x = 0;
+	index = 0;
 	while (av[i] != NULL)
 	{
 		index++;
@@ -111,7 +112,7 @@ void	ft_exit(char **av)
 	i = 0;
 	if (check_ch(av[1]) == 1 || sign(av[1]) == 1 || cheak_the_string(av[1]) == 1)
 	{
-		perror("numeric argument required\n"); // to do
+		perror("numeric argument required\n");
 		exit(255);
 	}
 	i = 0;
@@ -123,14 +124,14 @@ void	ft_exit(char **av)
 	}
 	if (index != 2)
 	{
-		perror("too many arguments\n"); //too do
+		perror("too many arguments\n");
 	}
 	else
 	{
 		my_atoi(av[1], &x);
 		if (x == 1)
 		{
-			perror("numeric argument required \n"); // to do
+			perror("numeric argument required \n");
 			exit(255);
 		}
 		else

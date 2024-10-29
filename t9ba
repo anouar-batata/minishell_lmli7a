@@ -37,8 +37,43 @@
 # "$ERTYUIO" echo $USER
 
 
-after env -i , it does not expand $PWD
+
+
+slawishell ~> cat << f | echo $HOME   | echo $HOME dsds   //should reach to exection part 
+> 
+/Users/alouriga dsds
 
 
 
-$HOME.$HOM''E in heredoc --> it does not expand properly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

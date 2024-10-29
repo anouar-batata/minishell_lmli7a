@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:10:26 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:40:26 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 		return;
 	if (!ft_strcmp_2(lst->elem, "$?"))
 	{
-		free(lst->elem);
 		lst->elem = ft_itoa(exit_status(0, 0));
 		return;
 	}
@@ -42,7 +41,6 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 	{
 		if (!ft_strcmp_2(lst->elem + 1, envi->k))
 		{
-			free(lst->elem);
 			lst->elem = ft_strdup(envi->v);
 			if (!lst->elem)
 				break;
@@ -50,7 +48,6 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 		}
 		envi = envi->next;
 	}
-	free(lst->elem);
 	lst->to_remove = 1;
 	lst->elem = ft_strdup("");
 }

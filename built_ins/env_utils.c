@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 19:08:29 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:41:22 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	remove_node(t_shell **env, char *str)
 	if (tmp != NULL && ft_strcmp(tmp->k, str) == 0)
 	{
 		*env = tmp->next;
-		free(tmp->k);
-		free(tmp->v);
-		free(tmp);
+		// free(tmp->k);
+		// free(tmp->v);
+		// free(tmp);
 		return ;
 	}
 	while (tmp && ft_strcmp(tmp->k, str) != 0)
@@ -70,7 +70,6 @@ void	edit_value(t_shell **env, char *k, char *v)
 	}
 	add_node(env, k, v);
 }
-
 
 void	*env_control(int behaviour, void *key, char *value)
 {

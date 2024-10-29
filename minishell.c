@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:18:58 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:38:39 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,10 +221,8 @@ void remove_spaces(t_data **lst)
 			deleter = tmp->next;
 			while (deleter && (deleter->flag == WHITE_SPACE))
 			{
-				free(deleter->elem);
 				fr = deleter;
 				deleter = deleter->next;
-				free(fr);
 			}
 			tmp->next = deleter;
 		}
@@ -232,10 +230,8 @@ void remove_spaces(t_data **lst)
 	}
 	if ((*lst) && ((*lst)->flag == WHITE_SPACE))
 	{
-		free ((*lst)->elem);
 		fr = *lst;
 		*lst = (*lst)->next;
-		free (fr);
 	}
 }
 
@@ -253,10 +249,8 @@ void expanding_deleter(t_data **lst)
 			deleter = tmp->next;
 			while (deleter && (deleter->to_remove))
 			{
-				free(deleter->elem);
 				fr = deleter;
 				deleter = deleter->next;
-				free(fr);
 			}
 			tmp->next = deleter;
 		}
@@ -264,10 +258,8 @@ void expanding_deleter(t_data **lst)
 	}
 	if ((*lst) && ((*lst)->to_remove))
 	{
-		free ((*lst)->elem);
 		fr = *lst;
 		*lst = (*lst)->next;
-		free (fr);
 	}
 }
 
@@ -304,19 +296,22 @@ int	main(int ac, char **av, char **env)
     char **p;
 	if (!isatty(0))
 		return (1);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		p = split_first_equal(env[i]);
+		add(p, &envi);
+		i++;
+	}
+	env_control(0, envi, NULL);
 	rl_catch_signals = 0;
-    while (env[i] != NULL)
-    {
-        p = split_first_equal(env[i]);
-        add(p, &envi);
-        i++;
-    }
-    env_control(0, envi, NULL);
+   
 	signal(SIGQUIT, SIG_IGN);
 	exit_status(0, ADD);
 	while (1)
 	{
 		signal(SIGINT, ctrl_c_handler);
+		envi = env_control(GET_ENV, 0, 0);
 		lst = NULL;
 		command = NULL;
 		// prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
@@ -369,9 +364,6 @@ int	main(int ac, char **av, char **env)
 		if (command)
 			execute_pipes(command);
 		g_signal_status = 0;
-		free(rl);
-		ft_lstiter(lst);
-		ft_lstiter2(command);
 	}
 	return (0);
 }

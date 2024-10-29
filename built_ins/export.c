@@ -6,7 +6,7 @@
 /*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 06:27:52 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:21:16 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	manage_error(char *arg)
 {
 	write(2, arg, ft_strlen(arg));
-	write(2," : not a valid identifier\n", 26);
+	write(2, " : not a valid identifier\n", 26);
 }
 
 int	parse_arguments(char *argument)
@@ -30,17 +30,17 @@ int	parse_arguments(char *argument)
 	while (argument[i] != '\0')
 	{
 		if (argument[i] == '=' && i == 0)
-			return (manage_error(argument),1);
+			return (manage_error(argument), 1);
 		if (argument[i] == '=')
 			return (0);
 		else
 		{
 			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] == '_') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
-				return (manage_error(argument) ,1);
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z')|| (argument[i]) == '_' || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
+				return (manage_error(argument), 1);
+			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i]) == '_' || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
 			{
-					manage_error(argument);
-					return (1);
+				manage_error(argument);
+				return (1);
 			}
 		}
 		i++;
@@ -48,7 +48,7 @@ int	parse_arguments(char *argument)
 	return (0);
 }
 
-int search_env(t_shell *env, char *str)
+int	search_env(t_shell *env, char *str)
 {
 	while (env)
 	{
@@ -58,8 +58,6 @@ int search_env(t_shell *env, char *str)
 	}
 	return (1);
 }
-
-
 
 int	ft_strchr(char *s, int c)
 {
@@ -74,24 +72,25 @@ int	ft_strchr(char *s, int c)
 	return (1);
 }
 
-
 void	replace_value(t_shell **env, char **arg)
-{ 
-	while(*env)
+{
+	while (*env)
 	{
 		if (ft_strcmp((*env)->k, arg[0]))
 		{
 			env_control(REMOVE_NODE, arg[0], 0);
 			env_control(ADD_NODE, arg[0], arg[1]);
-			break;
+			break ;
 		}
 		*env = (*env)->next;
 	}
 }
 
-char *get_old_value(char *target)
+char	*get_old_value(char *target)
 {
-	t_shell *env = env_control(GET_ENV, 0, 0);
+	t_shell	*env;
+
+	env = env_control(GET_ENV, 0, 0);
 	while (env)
 	{
 		if (ft_strcmp(env->k, target) == 0)
@@ -103,12 +102,15 @@ char *get_old_value(char *target)
 
 void	join_the_value(char *arg)
 {
-	char *key;
-	char *value;
-	char *resutl;
-	char *old_value;
-	t_shell *env = env_control(GET_ENV, 0, 0);
-	char **p = ft_split_2(arg, '+');
+	char	*key;
+	char	*value;
+	char	*resutl;
+	char	*old_value;
+	t_shell	*env;
+	char	**p;
+
+	env = env_control(GET_ENV, 0, 0);
+	p = ft_split_2(arg, '+');
 	key = p[0];
 	if (!search_env(env, key))
 	{
