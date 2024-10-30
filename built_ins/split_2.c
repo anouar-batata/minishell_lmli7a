@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 22:47:45 by alouriga          #+#    #+#             */
-/*   Updated: 2024/08/15 05:03:09 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:16:32 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static	char	*dimensional(const char *s, int d, int f)
 	char	*p;
 
 	i = 0;
-	p = (char *)malloc((f - d + 1) * sizeof(char));
+	p = (char *)smart_malloc((f - d + 1) * sizeof(char), RL);
 	if (!p)
 	{
 		free(p);
-		return (NULL);
+		exit(1);
 	}
 	while (d < f)
 	{
@@ -76,9 +76,9 @@ static char	**allocation(const char *s, size_t i, char c)
 
 	v = -1;
 	j = 0;
-	p = malloc((nb_word(s, c) + 1) * sizeof(char *));
+	p = smart_malloc((nb_word(s, c) + 1) * sizeof(char *), RL);
 	if (!p)
-		return (NULL);
+		exit(1);
 	while (i <= ft_strlen(s))
 	{
 		if (s[i] != c && v == -1)

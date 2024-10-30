@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 12:40:20 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:08:15 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_data	*ft_lstnew5(char *elem, int flag)
 {
 	t_data	*new_node;
 
-	new_node = malloc(sizeof(t_data));
+	new_node = smart_malloc(sizeof(t_data), RL);
 	if (!new_node)
 		exit (1);
 	new_node->elem = elem;
@@ -24,6 +24,7 @@ t_data	*ft_lstnew5(char *elem, int flag)
 	new_node->to_remove = 0;
 	new_node->to_split = 0;
 	new_node->expand_heredoc = 1;
+	new_node->ambiguous = 0;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
@@ -33,9 +34,9 @@ t_shell	*ft_lstnew2(char *k, char *v)
 {
 	t_shell	*p;
 
-	p = (t_shell *)malloc( sizeof(t_shell));
+	p = (t_shell *)smart_malloc( sizeof(t_shell), ENVT);
 	if (!p)
-		return (NULL);
+		exit(1);
 	p ->k = k;
 	p ->v = v;
 	p ->next = NULL;
@@ -46,25 +47,26 @@ t_commands	*ft_lstnew3(char **command, t_redir *lst)
 {
 	t_commands	*new;
 
-	new = malloc( sizeof(t_commands));
+	new = smart_malloc( sizeof(t_commands), RL);
 	if (!new)
-		return (NULL);
+		exit(1);
 	new->command = command;
 	new->redir_lst = lst;
 	new->next = NULL;
 	return (new);
 }
 
-t_redir	*ft_lstnew4(char *file, int flag, int to_close)
+t_redir	*ft_lstnew4(char *file, int flag, int to_close, int ambiguous)
 {
 	t_redir	*new;
 
-	new = malloc( sizeof(t_redir));
+	new = smart_malloc( sizeof(t_redir), RL);
 	if (!new)
-		return (NULL);
+		exit (1);
 	new->file = file;
 	new->redir_type = flag;
 	new->to_close = to_close;
+	new->ambiguous = ambiguous;
 	new->next = NULL;
 	return (new);
 }

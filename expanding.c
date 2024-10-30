@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 21:47:47 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:10:26 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:25:08 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strchr2(const char *s, int c)
+{
+	size_t			i;
+	char			cc;
+	
+	cc = (char)c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (cc == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
+}
 
 int	check_if_del(t_data *lst)
 {
@@ -28,7 +46,7 @@ int	check_if_del(t_data *lst)
 	return (1);
 }
 
-void	find_env(t_data *lst, t_shell *envi, t_data *beg)
+void	find_env(t_data *lst, t_shell *envi, t_data *beg, int to_remove)
 {
 	if (ft_strlen2(lst->elem) == 1 && ((lst->next && lst->next->flag != QUOTE && lst->next->flag != DOUBLE_QUOTE && !in_quote(lst, beg)) || !lst->next))
 		return;
@@ -51,7 +69,7 @@ void	find_env(t_data *lst, t_shell *envi, t_data *beg)
 		envi = envi->next;
 	}
 	free(lst->elem);
-	lst->to_remove = 1;
+	lst->to_remove = to_remove;
 	lst->elem = ft_strdup("");
 }
 
@@ -77,7 +95,7 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp && tmp->flag == ENV && quote_type == DOUBLE_QUOTE)
 			{
 				if (ft_strlen2(tmp->elem) > 1 && check_if_del(tmp))
-					find_env(tmp, envi, lst);	
+					find_env(tmp, envi, lst, 0);	
 				tmp->flag = WORD;
 				continue ;
 			}
@@ -97,9 +115,10 @@ void expanding(t_data *lst, t_shell *envi)
 			if (tmp->flag == ENV)
 			{
 				if (ft_strlen2(tmp->elem) != 0 && check_if_del(tmp))
-					find_env(tmp, envi, lst);
+					find_env(tmp, envi, lst, 1);
 				tmp->flag = WORD;
-				if (ft_strchr_pro(tmp->elem, " \t"))
+
+				if (ft_strchr2(tmp->elem, ' ') || ft_strchr2(tmp->elem, '\t'))
 					tmp->to_split = 1;
 			}
 			tmp = tmp->next;

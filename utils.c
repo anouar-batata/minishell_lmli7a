@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/25 21:13:09 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:16:14 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char	*ft_strdup(char *s1)
 
 	if (!s1)
 		return (NULL);
-	cpy = (char *)malloc((ft_strlen2(s1) + 1) * sizeof(char));
+	cpy = (char *)smart_malloc((ft_strlen2(s1) + 1) * sizeof(char), RL);
 	if (!cpy)
-		return (NULL);
+		exit(1);
 	i = 0;
 	while (s1[i])
 	{
@@ -72,9 +72,9 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (len > s_len - start)
 		len = s_len - start;
-	tmp = (char *)malloc((len + 1) * sizeof(char));
+	tmp = (char *)smart_malloc((len + 1) * sizeof(char), RL);
 	if (!tmp)
-		return (NULL);
+		exit (1);
 	while ((i < len) && s[start + i])
 	{
 		tmp[i] = s[start + i];
@@ -164,9 +164,9 @@ char	*ft_itoa(int n)
 
 	nbr = n;
 	len = numlen(nbr);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)smart_malloc(sizeof(char) * (len + 1), RL);
 	if (!str)
-		return (NULL);
+		exit(1);
 	str[len] = '\0';
 	f_str(str, nbr, len);
 	return (str);

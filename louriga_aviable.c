@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   louriga_aviable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:18:00 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:12:14 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char **add_dels(t_data **lst)
 
 	i = 0;
 	count = count_dels(*lst);
-	dels = malloc (count * sizeof(char *) + 1);
+	dels = smart_malloc (count * sizeof(char *) + 1, RL);
+	if (!dels)
+		exit(1);
 	dels[i] = (*lst)->elem;
 	i++;
 	while (1)
@@ -102,9 +104,9 @@ void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_
 	
     tmp = lst;
     command_count = command_counter(tmp);
-	commands = malloc((command_count + 1) * sizeof(char*));
+	commands = smart_malloc((command_count + 1) * sizeof(char*), RL);
     if (!commands)
-        return;
+        exit (1);
     i = 0;
     while (tmp)
     {
@@ -118,18 +120,25 @@ void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_
 				tmp = tmp->next;
             command_count = command_counter(tmp);
 			redir_lst = NULL;
-            commands = malloc((command_count + 1) * sizeof(char*));
+            commands = smart_malloc((command_count + 1) * sizeof(char*), RL);
             if (!commands)
-                return;
+                exit(1);
             i = 0;
         }
         if (tmp)
 		{
-			if (tmp->next && (tmp->flag == REDIR_IN || tmp->flag == REDIR_OUT || tmp->flag == DREDIR_OUT))
+			if (tmp->flag == REDIR_IN || tmp->flag == REDIR_OUT || tmp->flag == DREDIR_OUT)
 			{
-				new = ft_lstnew4(tmp->next->elem, tmp->flag, 0);
+				if (tmp->ambiguous)
+					new = ft_lstnew4(NULL, tmp->flag, 0, tmp->ambiguous);
+				else
+				{
+					new = ft_lstnew4(tmp->next->elem, tmp->flag, 0, tmp->ambiguous);
+					tmp = tmp->next;
+				}
 				ft_lstadd_back6(&redir_lst, new);
-				tmp = tmp->next->next;
+				if (tmp)
+					tmp = tmp->next;
 				continue;
 			}
 			else if (tmp->flag == HERE_DOC)
@@ -140,7 +149,7 @@ void  make_a_list_for_louriga_aviable(t_data *lst, t_commands **command_list, t_
 				while (lst && lst->next && lst->next != tmp)
 					lst = lst->next;
 				to_expand = lst->expand_heredoc;
-				new = ft_lstnew4(heredo9(dels, envi, to_expand, command_count) , REDIR_IN, 1);
+				new = ft_lstnew4(heredo9(dels, envi, to_expand, command_count) , REDIR_IN, 1, 0);
 				ft_lstadd_back6(&redir_lst, new);
 				tmp = tmp->next;
 				continue;

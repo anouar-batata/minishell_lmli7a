@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 06:51:38 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:26:26 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char **convert_env_to_td_env(t_shell *env)
     int size = ft_lstsize(env);
     char *first_join;
     char *second_join;
-    char **td_env = malloc((size + 1) * sizeof(char *));
+    char **td_env = smart_malloc((size + 1) * sizeof(char *), ENVT);
     int i = 0;
     if (!td_env)
-        return(NULL);
+        exit (1);
     while (env)
     {
         first_join = ft_strjoin(env->k, "=");
@@ -165,6 +165,7 @@ int    execute_path(char **command)
         pid = fork();
         if (!pid)
         {
+			signal(SIGINT, SIG_DFL);
             execve(command[0], command, td_env);
             write(2, command[0], ft_strlen(command[0]));
             write(2, ": Permission denied\n", 20);
@@ -193,6 +194,7 @@ int execute_programme(char **commands, char **path)
     
         if (!pid)
         {
+			signal(SIGINT, SIG_DFL);
             if (!access(commands[0], X_OK))
             {
                 {
@@ -206,7 +208,7 @@ int execute_programme(char **commands, char **path)
                 }
             }
             perror(commands[0]);
-            exit(127);
+            exit(126);
         }
     return (pid);
 }
@@ -291,6 +293,10 @@ int    execution_commands(char **commands, t_commands *cmds)
     }
     else if (i == 2)
     {
+            dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
         return (-1);
     }
     // else if (exit_status(0, 0) == 1)
@@ -306,7 +312,10 @@ int    execution_commands(char **commands, t_commands *cmds)
         path = ft_split_2(p, ':');
         pid = fork();
         if (!pid)
+		{
+		signal(SIGINT, SIG_DFL);
         execute_command(commands, path);
+		}
         dup2(bkp_1, 1);
         dup2(bkp_0, 0);
         close(bkp_0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:18:58 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:23:22 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	char	*word;
 
 	i = 1;
-	while (str[i] != '|' && str[i] != '>' && str[i] != '<'
-		&& str[i] !=  '$' && str[i] != '\'' && str[i] != '\"'
-		&& str[i] != 32 && (str[i] < 9 || str[i] > 13) && str[i] && str[i] != '-'
-		&& str[i] != ',' && str[i] != '+' && str[i] != '=' && str[i] != '?')
+	while ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122) || (str[i] >= 48 && str[i] <= 57))
 	{
 		if (((str[i] >= '0' && str[i] <= '9') || str[i] == '?') && i == 1)
 			break;
@@ -248,10 +245,10 @@ void expanding_deleter(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove))
+		if (tmp->next && (tmp->next->to_remove == 2))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove))
+			while (deleter && (deleter->to_remove == 2))
 			{
 				free(deleter->elem);
 				fr = deleter;
@@ -262,7 +259,7 @@ void expanding_deleter(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if ((*lst) && ((*lst)->to_remove))
+	if ((*lst) && ((*lst)->to_remove == 2))
 	{
 		free ((*lst)->elem);
 		fr = *lst;
@@ -271,22 +268,51 @@ void expanding_deleter(t_data **lst)
 	}
 }
 
-int check_for_ambiguous(t_data *lst)
+int	check_space_middle(char *str)
 {
+	int i;
+	int last;
+	
+	last = ft_strlen2(str) - 1;
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] == ' ' || str[i] == '\t') && (i != 0 && i != last))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void check_for_ambiguous(t_data *lst)
+{
+	t_data *tmp;
+
 	while (lst)
 	{
+		tmp = lst;
 		if (lst->flag == REDIR_IN || lst->flag == REDIR_OUT || lst->flag == DREDIR_OUT)
 		{
 			if (lst->next && lst->next->flag == WHITE_SPACE)
 				lst = lst->next;
 			if (lst)
 				lst = lst->next;
-			if (!lst || lst->flag == WHITE_SPACE || lst->to_split)
-				return (1);
+			if (!lst || lst->flag != WORD || (lst->to_split && check_space_middle(lst->elem)))
+				tmp->ambiguous = 1;
 		}
+		if (lst)
+			lst = lst->next;
+	}
+}
+
+void not_to_delete(t_data *lst)
+{
+	while (lst)
+	{
+		if (ft_strlen2(lst->elem) && lst->to_remove == 2)
+			lst->to_remove = 0;
 		lst = lst->next;
 	}
-	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -302,8 +328,8 @@ int	main(int ac, char **av, char **env)
 	int print_n = 0 ;
 	i = 0;
     char **p;
-	if (!isatty(0))
-		return (1);
+	// if (!isatty(0))
+	// 	return (1);
 	rl_catch_signals = 0;
     while (env[i] != NULL)
     {
@@ -312,66 +338,67 @@ int	main(int ac, char **av, char **env)
         i++;
     }
     env_control(0, envi, NULL);
-	signal(SIGQUIT, SIG_IGN);
 	exit_status(0, ADD);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrl_c_handler);
 		lst = NULL;
 		command = NULL;
+		envi = env_control(GET_ENV, 0, 0);
 		// prompt = ft_strjoin2("slawishell --[", get_env(envi , "USER"));
 		// prompt = ft_strjoin2(prompt ,"@");
 		// prompt = ft_strjoin2(prompt,  print_pwd(get_env(envi, "PWD"), envi));
 		// prompt = ft_strjoin2(prompt, "]--\n~~> ");
 		rl = readline("slawishell ~> ");
 		if (!rl)
-			return (0);
+		{
+			printf("exit\n");
+			exit(exit_status(0, 0));
+		}
 		if (!ft_strlen2(rl))
+		{
+			free (rl);
 			continue ;
+		}
 		add_history(rl);
 		fill_lst(rl, &lst, 0);
 		change_it_to_word(lst);
 		if (parse_error(lst))
 		{
+			smart_free(RL);
 			exit_status(258, ADD);
 			continue;
 		}
 		expanding(lst, envi);
-		expanding_deleter(&lst);
 		check_if_to_expand_in_heredoc(lst);
 		join_word(&lst);
-		if (check_for_ambiguous(lst))
-		{
-			exit_status(1, ADD);
-			write(2, "Error: ambiguous redirect\n", 26);
-			continue;
-		}
-        split_word(&lst);
-		remove_spaces(&lst);
 		// while (lst)
 		// {
-		// 	printf("elem: {%s}, flag: {%i}, to delete: {%i}\n", lst->elem, lst->flag, lst->to_remove);
-		// 	lst =lst->next;
+		// 	printf("elem: {%s}, flag: {%i}, to delete: {%i}, is amb {%i}, to_split: {%i}\n", lst->elem, lst->flag, lst->to_remove, lst->ambiguous, lst->to_split);
+		// 	lst = lst->next;
 		// }
+		// continue;
+		check_for_ambiguous(lst);
+		expanding_deleter(&lst);
+        split_word(&lst);
+		remove_spaces(&lst);
         make_a_list_for_louriga_aviable(lst, &command, envi);
 		// while (command)
 		// {
 		// 	printf("command: %s\n", command->command[0]);
 		// 	while (command->redir_lst)
 		// 	{
-		// 		printf("file name: %s, redir type: %i\n", command->redir_lst->file, command->redir_lst->redir_type);
+		// 		printf("file name: %s, redir type: %i, amb: {%i}\n", command->redir_lst->file, command->redir_lst->redir_type, command->redir_lst->ambiguous);
 		// 		command->redir_lst = command->redir_lst->next;
 		// 	}
 		// 	command = command->next;
 		// }
 		// continue;
-		g_signal_status = 1;
-		if (command)
+		if (command && !g_signal_status)
 			execute_pipes(command);
 		g_signal_status = 0;
-		free(rl);
-		ft_lstiter(lst);
-		ft_lstiter2(command);
+		smart_free(RL);
 	}
 	return (0);
 }

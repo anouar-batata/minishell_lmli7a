@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words_join.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 06:09:43 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:39:58 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ void smart_strjoin(t_data *current, t_data *lst)
 	while (in_quote(tmp, lst))
 	{
 		current->elem = ft_strjoin2(current->elem, tmp->elem);
+		tmp->elem = ft_strdup("");
 		tmp->to_remove = 1;
 		tmp = tmp->next;
 	}
+
 	current->flag = -1;
+	current->to_remove = 0;
 }
 
 void	join_word(t_data **lst)
@@ -89,10 +92,10 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		if (tmp->next && (tmp->next->to_remove == 1 || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
+			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
 			{
 				free(deleter->elem);
 				fr = deleter;
@@ -103,7 +106,7 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if (*lst && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
+	if (*lst && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		free ((*lst)->elem);
 		fr = *lst;
@@ -114,10 +117,10 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		if (tmp->next && (tmp->next->to_remove == 1 || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE ))
+			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE ))
 			{
 				free(deleter->elem);
 				fr = deleter;
@@ -128,7 +131,7 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if ((*lst) && ((*lst)->to_remove || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
+	if ((*lst) && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		free ((*lst)->elem);
 		fr = *lst;

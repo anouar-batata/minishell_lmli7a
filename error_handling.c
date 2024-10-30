@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 22:29:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/08/17 15:38:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:28:11 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	parse_error(t_data *lst)
 {
 	if (quote_handler(lst) || pip_handler(lst) || redir_handler(lst))
 	{
-		fprintf(stderr, "bash: parse error\n");
+		fprintf(stderr, "Error: syntax error\n");
 		return (-1);
 	}
 	else

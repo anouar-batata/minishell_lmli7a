@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:12:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/09 04:57:35 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:08:58 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static char	*allocate_word(char const *s, size_t start, size_t end)
 {
 	char	*word;
 
-	word = (char *)malloc(sizeof(char) * (end - start + 1));
+	word = (char *)smart_malloc(sizeof(char) * (end - start + 1), RL);
 	if (!word)
-		return (NULL);
+		exit (1);
 	ft_strlcpy(word, s + start, end - start + 1);
 	return (word);
 }
@@ -86,9 +86,9 @@ static char	**split_words(char const *s, char c, size_t word_count)
 	size_t	start;
 	char	**all_words;
 
-	all_words = (char **)malloc(sizeof(char *) * (word_count + 1));
+	all_words = (char **)smart_malloc(sizeof(char *) * (word_count + 1), RL);
 	if (!all_words)
-		return (NULL);
+		exit(1);
 	i = 0;
 	j = 0;
 	while (j < word_count)
@@ -114,9 +114,9 @@ char	**ft_split(char const *s, char c)
 
 	if (!s || !*s)
 	{
-		empty = (char **)malloc(sizeof(char *));
+		empty = (char **)smart_malloc(sizeof(char *), RL);
 		if (!empty)
-			return (NULL);
+			exit(1);
 		empty[0] = NULL;
 		return (empty);
 	}

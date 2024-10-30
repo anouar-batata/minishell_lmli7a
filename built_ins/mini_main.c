@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:45:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 05:53:20 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 04:42:13 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int   check_built_ins(char **av, t_shell *envi)
 	}
     if (ft_strcmp(av[0], "exit") == 0)
 	{
-        ft_exit(av);
+        if (ft_exit(av) == -1)
+			return (exit_status(1, ADD) ,2);
 		return (0);
 	}
 	return (1);

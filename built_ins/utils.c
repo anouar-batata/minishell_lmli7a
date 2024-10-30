@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:09:06 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/09 16:36:07 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:19:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_shell	*ft_lstnew(char *k, char *v)
 {
 	t_shell	*p;
 
-	p = (t_shell *)malloc( sizeof(t_shell));
+	p = (t_shell *)smart_malloc( sizeof(t_shell), ENVT);
 	if (!p)
-		return (NULL);
+		exit (1);
 	p ->k = k;
 	p ->v = v;
 	p ->next = NULL;

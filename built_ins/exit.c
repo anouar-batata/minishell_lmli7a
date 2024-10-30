@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/27 00:46:22 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 04:41:04 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ long long	my_atoi(char *str, int *index)
 	int			sign;
 	int			i;
 
+	i = 0;
 	*index = 0;
 	result = 0;
 	sign = 1;
@@ -76,6 +77,7 @@ long long	my_atoi(char *str, int *index)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+
 		if ((result > LLONG_MAX / 10)
 			|| (result == LLONG_MAX / 10 && (str[i] - '0') > LLONG_MAX % 10))
 		{
@@ -88,16 +90,17 @@ long long	my_atoi(char *str, int *index)
 	return (result * sign);
 }
 
-void	ft_exit(char **av)
+int	ft_exit(char **av)
 {
-	int i;
-	int j;
-	int x;
-	int index = 0;
+	int	i;
+	int	j;
+	int	x;
+	int	index;
 
 	i = 0;
 	j = 1;
 	x = 0;
+	index = 0;
 	while (av[i] != NULL)
 	{
 		index++;
@@ -108,32 +111,27 @@ void	ft_exit(char **av)
 		printf("exit\n");
 		exit(exit_status(0, 0));
 	}
-	i = 0;
 	if (check_ch(av[1]) == 1 || sign(av[1]) == 1 || cheak_the_string(av[1]) == 1)
 	{
-		perror("numeric argument required\n"); // to do
+		perror("numeric argument required\n");
 		exit(255);
-	}
-	i = 0;
-	index = 0;
-	while (av[i])
-	{
-		index++;
-		i++;
 	}
 	if (index != 2)
 	{
-		perror("too many arguments\n"); //too do
+		perror("too many arguments\n");
+		return (-1);
 	}
 	else
 	{
+		
 		my_atoi(av[1], &x);
 		if (x == 1)
 		{
-			perror("numeric argument required \n"); // to do
+			perror("numeric argument required \n");
 			exit(255);
 		}
 		else
 			exit(my_atoi(av[1], &x) % 256);
 	}
+	return (0);
 }

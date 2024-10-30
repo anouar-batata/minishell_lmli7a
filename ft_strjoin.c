@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 00:04:49 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/11 15:23:38 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:09:04 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	*ft_strjoin2(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	str = (char *)malloc((ft_strlen2(s1) + ft_strlen2(s2) + 1) * sizeof(char));
+	str = (char *)smart_malloc((ft_strlen2(s1) + ft_strlen2(s2) + 1) * sizeof(char), RL);
 	if (!str)
-		return (NULL);
+		exit(1);
 	while (s1[i])
 	{
 		str[i] = s1[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/28 05:53:33 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:07:33 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@
 # define EDIT_VALUE 3
 # define ADD 1
 # define GET_EXIT_STATUS 0
+# define ENVT 1
+# define RL 2
 
 typedef struct redir
 {
 	char	*file;
 	int		redir_type;
 	int		to_close;
+	int		ambiguous;
 	struct redir *next;
 }	t_redir;
 
@@ -65,6 +68,7 @@ typedef struct t_data
 	int				to_remove;
 	int				to_split;	
 	int				expand_heredoc;
+	int				ambiguous;
 	struct t_data	*next;
 	struct t_data	*prev;
 }	t_data;
@@ -75,6 +79,12 @@ typedef struct s_shell
     char *v;
     struct s_shell *next;
 }   t_shell;
+
+typedef struct s_node 
+{
+    void *ptr;
+    struct s_node *next;
+} t_node;
 
 
 int g_signal_status;
@@ -129,9 +139,11 @@ t_commands	*ft_lstnew3(char **command, t_redir *lst);
 void	ft_lstiter2(t_commands *node);
 void	clean_list(t_commands **commands_list);
 void    ft_lstadd_back6(t_redir **lst, t_redir *new);
-t_redir	*ft_lstnew4(char *file, int flag, int to_close);
+t_redir	*ft_lstnew4(char *file, int flag, int to_close, int ambiguous);
 char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter);
 char	*ft_itoa(int n);
+void 	smart_free(int type);
+void	*smart_malloc(size_t size, int type);
 
 void	manage_error(char *arg);
 int execute_programme(char **commands, char **path);
@@ -151,7 +163,7 @@ void	ft_lstadd_back(t_shell **lst, t_shell *new);
 void    pwd(void);
 void    ft_env(void);
 int    echo(char **av);
-void    ft_exit(char **av);
+int    ft_exit(char **av);
 int    ft_unset(t_shell *env, char **av);
 void    ft_export(char **command);
 t_shell	*ft_lstlast(t_shell *lst);

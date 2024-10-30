@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:51:45 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/07 23:08:49 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:58:11 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	the_other_join(t_data **lst)
 	{
 		current = tmp;
 		tmp = tmp->next;
-		while (tmp && current->flag == WORD && tmp->flag == current->flag)
+		while (tmp && current->to_remove == 0 && current->flag == WORD && tmp->flag == current->flag)
 		{
 			current->elem = ft_strjoin2(current->elem, tmp->elem);
 			tmp->to_remove = 1;

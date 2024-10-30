@@ -6,18 +6,16 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 18:07:03 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/27 22:11:52 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 08:34:28 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int i;
-
 void heredo9_handler(int sig)
 {
 	close(0);
-	i = 1;
+	g_signal_status = 1;
 	exit_status(1, ADD);
 }
 
@@ -46,19 +44,22 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 	}
 	while (1)
 	{
-		prompt = readline("> ");
+		if (!g_signal_status)
+			prompt = readline("> ");
 		if (!prompt || !ft_strcmp_2(prompt, del[i]))
 		{
 			if (!del[i + 1])
 				break;
+			free (prompt);
 			i++;
 			continue;
 		}
 		if (!del[i + 1] && to_expand)
 		{
 			lst = NULL;
-			fill_lst(prompt, &lst, 0);
+			fill_lst(prompt, &lst, 1);
 			expanding(lst, envi);
+			free (prompt);
 			prompt = "";
 			while (lst)
 			{
@@ -67,13 +68,18 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 			}
 			str = ft_strjoin2(str, prompt);
 			str = ft_strjoin2(str, "\n");
+			continue;
 		}
 		else if (!del[i + 1])
 		{
 			str = ft_strjoin2(str, prompt);
 			str = ft_strjoin2(str, "\n");
+			free (prompt);
+			continue;
 		}
+		free (prompt);
 	}
+	free (prompt);
 	counter = 0;
 	prompt = "";
 	while (!access((prompt = ft_strjoin2(del[i], ft_itoa(counter))), F_OK))

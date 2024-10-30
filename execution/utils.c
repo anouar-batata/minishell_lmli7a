@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 07:03:28 by alouriga          #+#    #+#             */
-/*   Updated: 2024/09/24 16:21:09 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:21:11 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (s1);
 	i1 = ft_strlen(s1);
 	i2 = ft_strlen(s2);
-	p = (char *)malloc(sizeof(char) * (i1 + i2 + 1));
+	p = (char *)smart_malloc(sizeof(char) * (i1 + i2 + 1),RL);
 	i = 0;
 	if (!p)
-		return (NULL);
+		exit (1);
 	while (s1[i] != '\0')
 	{
 		p[i] = s1[i];
@@ -62,9 +62,9 @@ t_commands	*ft_lstnew_2(char **command)
 {
 	t_commands	*p;
 
-	p = (t_commands *)malloc( sizeof(t_commands));
+	p = (t_commands *)smart_malloc( sizeof(t_commands), RL);
 	if (!p)
-		return (NULL);
+		exit (1);
 	p ->command = command;
 	p ->next = NULL;
 	return (p);

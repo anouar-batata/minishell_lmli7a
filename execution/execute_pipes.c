@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 19:43:36 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 04:46:16 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ int   first_execution(char **command, t_commands *cmds, int *fd)
     int bkp_0 = dup(0);
     int bkp_1 = dup(1);
     int pid = fork();
+	if (!command[0])
+    {
+        dup2(bkp_1, 1);
+        dup2(bkp_0, 0);
+        close(bkp_0);
+        close(bkp_1);
+        return(0);
+    }
     if (pid == 0)
     {
         close(fd[0]);
@@ -98,7 +106,9 @@ int   first_execution(char **command, t_commands *cmds, int *fd)
         close(fd[1]);
         if (check_the_redirection(cmds) == -1)
         {
-            return(-1);
+            close(bkp_0);
+            close(bkp_1);
+            exit(1);
         }
         execution_first_command(command);
         dup2(bkp_1, 1);
@@ -119,6 +129,13 @@ int   first_execution(char **command, t_commands *cmds, int *fd)
 int   middle_execution(char **command, t_commands *cmds, int *fd, int s)
 {
 	t_shell *env;
+	if (!command[0])
+    {
+		close(s);
+        close(fd[0]);
+        close(fd[1]);
+        return(0);
+    }
     pipe(fd);
     int pid = fork();
     if (pid == -3)
@@ -159,6 +176,13 @@ int   middle_execution(char **command, t_commands *cmds, int *fd, int s)
 int    finale_execution(char **command, t_commands *cmds, int *fd, int s )
 {
 	t_shell *env;
+	if (!command[0])
+    {
+		close(s);
+        close(fd[0]);
+        close(fd[1]);
+        return(0);
+    }
     int pid = fork();
     if (pid == -3)
     {
@@ -192,6 +216,8 @@ void    execute_pipes(t_commands *commands)
     int pid_of_last_command = 0;
     int nb_of_nds;
 
+	signal(SIGQUIT, SIG_DFL);
+	g_signal_status = 1;
     i = 0;
     t_commands *tmp;
     int	save_fd = -1; 
@@ -247,6 +273,7 @@ void    execute_pipes(t_commands *commands)
         exit_status(127, ADD);
     else
     {
+		signal(SIGQUIT, SIG_IGN);
         waitpid(pid_of_last_command, &status, 0);
         exit_status(WEXITSTATUS(status), ADD);
         
