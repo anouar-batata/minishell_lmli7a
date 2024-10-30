@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 07:03:28 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 10:21:11 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:15:39 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (s1);
 	i1 = ft_strlen(s1);
 	i2 = ft_strlen(s2);
-	p = (char *)smart_malloc(sizeof(char) * (i1 + i2 + 1),RL);
+	p = (char *)smart_malloc(sizeof(char) * (i1 + i2 + 1),ENVT);
 	i = 0;
 	if (!p)
 		exit (1);

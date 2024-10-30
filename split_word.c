@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:53:27 by akoutate          #+#    #+#             */
-/*   Updated: 2024/09/07 15:29:18 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:06:56 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void split_word(t_data	**lst)
             fill_lst(tmp->elem, &new_lst, 1);
             tmp2 = (*lst)->next;
             (*lst) = new_lst;
-            free(tmp->elem);
-            free(tmp);
             while (new_lst->next)
                 new_lst = new_lst->next;
             new_lst->next = tmp2;
@@ -41,8 +39,6 @@ void split_word(t_data	**lst)
         {
             fill_lst(tmp->next->elem, &new_lst, 1);    
             tmp2 = tmp->next->next;
-            free(tmp->next->elem);
-            free(tmp->next);
             tmp->next = new_lst;
             while (new_lst->next)
                 new_lst = new_lst->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:46:37 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/24 12:31:51 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:11:08 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void    pwd(void)
         return;
     }
     printf("%s\n", str);
-    free(str);
+	free(str);
 }

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 10:26:26 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:16:56 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char **convert_env_to_td_env(t_shell *env)
         exit (1);
     while (env)
     {
-        first_join = ft_strjoin(env->k, "=");
-        second_join = ft_strjoin(first_join, env->v);
+        first_join = ft_strjoin2(env->k, "=");
+        second_join = ft_strjoin2(first_join, env->v);
         td_env[i] = ft_strdup(second_join);
         env = env->next;
         i++;
@@ -81,8 +81,8 @@ void    execute_command(char **command, char **path)
     }
 	while (path[i])
 	{
-		first_join = ft_strjoin(path[i], "/");
-		second_join = ft_strjoin(first_join, command[0]);
+		first_join = ft_strjoin2(path[i], "/");
+		second_join = ft_strjoin2(first_join, command[0]);
 		if (!access(second_join, F_OK))
 		{
 			execve(second_join, command, td_env);

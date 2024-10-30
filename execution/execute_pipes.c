@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 04:46:16 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:29:34 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ int   middle_execution(char **command, t_commands *cmds, int *fd, int s)
     }
     pipe(fd);
     int pid = fork();
-    if (pid == -3)
+    if (pid == -1)
     {
         close(s);
         close(fd[0]);
         close(fd[1]);
-        return (pid);
+        return (-3);
     }
     if (pid != 0)
     {
@@ -184,12 +184,12 @@ int    finale_execution(char **command, t_commands *cmds, int *fd, int s )
         return(0);
     }
     int pid = fork();
-    if (pid == -3)
+    if (pid == -1)
     {
         close(s);
         close(fd[0]);
         close(fd[1]);
-        return (pid);
+        return (-3);
     }
     if (pid != 0)
         env =  env_control(GET_ENV, 0, 0);

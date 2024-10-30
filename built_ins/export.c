@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 20:21:16 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:39:26 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,14 +246,14 @@ void    ft_export(char **command)
 	t_shell *export;
 	int i;
 	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
-	if (!env)
-		return;
 	i = 0;
 	export = env; 
 	while (command[i])
 		i++;
 	if (i == 1)
 	{
+		if (!env)
+			return;
 		sort_env(&export);
 		while (export)
 		{

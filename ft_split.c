@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:12:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 10:08:58 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:06:27 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ static void	*free_all(char **all_words, int j)
 	i = 0;
 	while (i < j)
 	{
-		free(all_words[i]);
 		i++;
 	}
-	free(all_words);
 	return (NULL);
 }
 

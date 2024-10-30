@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 10:07:33 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:26:38 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 
 # define ADD_NODE 1
 # define REMOVE_NODE -1
@@ -144,6 +145,19 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter);
 char	*ft_itoa(int n);
 void 	smart_free(int type);
 void	*smart_malloc(size_t size, int type);
+void expanding_deleter(t_data **lst);
+void remove_spaces(t_data **lst);
+void check_for_ambiguous(t_data *lst);
+int	check_space_middle(char *str);
+void	check_if_to_expand_in_heredoc(t_data *lst);
+void	change_it_to_word(t_data *lst);
+void	fill_lst(char *str, t_data **lst, int pipe);
+void	add_a_node(t_data **lst, char *contain, int type, int *i);
+void	add_env_to_list(char *str, int *index, t_data **lst);
+void	add_word_to_list(char *str, int *index, t_data **lst, int is_env);
+int		is_word(char c);
+void	add_space_to_list(char *str, int *index, t_data **lst);
+
 
 void	manage_error(char *arg);
 int execute_programme(char **commands, char **path);

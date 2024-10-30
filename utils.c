@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 10:16:14 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:26:18 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_isalpha(int c)
 void	f_list(t_data **lst)
 {
 	write(2, "Failed to create a new list!", 28);
-	ft_lstiter(*lst);
 	exit(1);
 }
 
@@ -171,3 +170,5 @@ char	*ft_itoa(int n)
 	f_str(str, nbr, len);
 	return (str);
 }
+
+

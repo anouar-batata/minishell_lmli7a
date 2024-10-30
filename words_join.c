@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/29 21:39:58 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:07:26 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,10 @@ void	join_word(t_data **lst)
 		}
 		else if (tmp->next && (tmp->flag == QUOTE || tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
 		{
-			free (tmp->elem);
 			tmp->elem = ft_strdup("");
 			tmp->flag = -1;
 			fr = tmp->next;
 			tmp->next = tmp->next->next;
-			free (fr->elem);
-			free (fr);
 		}
 		if (tmp)
 			tmp = tmp->next;
@@ -97,10 +94,8 @@ void	join_word(t_data **lst)
 			deleter = tmp->next;
 			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
 			{
-				free(deleter->elem);
 				fr = deleter;
 				deleter = deleter->next;
-				free(fr);
 			}
 			tmp->next = deleter;
 		}
@@ -108,10 +103,8 @@ void	join_word(t_data **lst)
 	}
 	if (*lst && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
-		free ((*lst)->elem);
 		fr = *lst;
 		*lst = (*lst)->next;
-		free (fr);
 	}
 	the_other_join(lst);
 	tmp = *lst;
@@ -122,10 +115,8 @@ void	join_word(t_data **lst)
 			deleter = tmp->next;
 			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE ))
 			{
-				free(deleter->elem);
 				fr = deleter;
 				deleter = deleter->next;
-				free(fr);
 			}
 			tmp->next = deleter;
 		}
@@ -133,9 +124,7 @@ void	join_word(t_data **lst)
 	}
 	if ((*lst) && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
-		free ((*lst)->elem);
 		fr = *lst;
 		*lst = (*lst)->next;
-		free (fr);
 	}
 }

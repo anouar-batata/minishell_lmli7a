@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 22:47:45 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 10:16:32 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:08:40 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,6 @@ static	int	nb_word(const char *st, char c)
 	return (i);
 }
 
-static char	**free_split_memory(char **str_array, size_t j)
-{
-	while (j--)
-	{
-		free(str_array[j]);
-	}
-	free(str_array);
-	return (NULL);
-}
 
 static	char	*dimensional(const char *s, int d, int f)
 {
@@ -54,10 +45,7 @@ static	char	*dimensional(const char *s, int d, int f)
 	i = 0;
 	p = (char *)smart_malloc((f - d + 1) * sizeof(char), RL);
 	if (!p)
-	{
-		free(p);
 		exit(1);
-	}
 	while (d < f)
 	{
 		p[i] = s[d];
@@ -87,7 +75,7 @@ static char	**allocation(const char *s, size_t i, char c)
 		{
 			p[j] = dimensional(s, v, i);
 			if (!p[j])
-				return (free_split_memory(p, j));
+				exit(1);
 			v = -1;
 			j++;
 		}

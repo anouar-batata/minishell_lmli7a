@@ -4,6 +4,7 @@
 		"errno.h": "c",
 		"ostream": "c",
 		"stdlib.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"iterator": "c"
 	}
 }
