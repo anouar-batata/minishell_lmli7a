@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 10:12:14 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:56:00 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char **add_dels(t_data **lst)
 
 	i = 0;
 	count = count_dels(*lst);
-	dels = smart_malloc (count * sizeof(char *) + 1, RL);
+	dels = smart_malloc ((count + 1) * sizeof(char *), RL);
 	if (!dels)
 		exit(1);
 	dels[i] = (*lst)->elem;
@@ -51,7 +51,7 @@ char **add_dels(t_data **lst)
 	{
 		if (i == count)
 			break;
-		if ((*lst)->flag == HERE_DOC)
+		if (*lst && (*lst)->flag == HERE_DOC)
 		{
 			dels[i] = (*lst)->next->elem;
 			i++;

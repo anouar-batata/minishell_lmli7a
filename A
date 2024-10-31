@@ -1,8 +1,6 @@
-A
 Makefile
+a
 a.out.dSYM
-a0
-a1
 built_ins
 checkers.c
 checkers.o
@@ -40,5 +38,6 @@ split_word.o
 t9ba
 utils.c
 utils.o
+v0
 words_join.c
 words_join.o

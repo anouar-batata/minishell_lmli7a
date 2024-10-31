@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/28 20:14:17 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:09:51 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	change_the_directory(void)
 	else
 		env_control(ADD_NODE, "PWD", str);
 	env_control(EDIT_VALUE, "OLDPWD", old_pwd);
+	free (str);
 }
 
 char	*get_home(void)

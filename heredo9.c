@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 18:07:03 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 08:34:28 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:45:16 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 	str = "";
 	int	save;
 
+	prompt =NULL;
 	save = dup(0);
 	signal(SIGINT, heredo9_handler);
 	counter = 0;
@@ -79,14 +80,18 @@ char	*heredo9(char **del, t_shell *envi, int to_expand, int command_counter)
 		}
 		free (prompt);
 	}
-	free (prompt);
+	if (!g_signal_status)
+		free (prompt);
 	counter = 0;
 	prompt = "";
-	while (!access((prompt = ft_strjoin2(del[i], ft_itoa(counter))), F_OK))
-		counter++;
-	fd = open(prompt, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	write(fd, str, ft_strlen2(str)); 
-	close(fd);
+	if (!g_signal_status)
+	{
+		while (!access((prompt = ft_strjoin2(del[i], ft_itoa(counter))), F_OK))
+			counter++;
+		fd = open(prompt, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		write(fd, str, ft_strlen2(str)); 
+		close(fd);
+	}
 	dup2(save, 0);
 	close(save);
 	return (prompt);

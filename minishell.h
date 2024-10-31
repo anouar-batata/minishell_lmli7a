@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 20:26:38 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:21:34 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int	    in_quote(t_data	*current_node, t_data *lst);
 char	*ft_strjoin2(char *s1, char *s2);
 void	join_word(t_data **lst);
 void	the_other_join(t_data **lst);
+char	*ft_strchr2(const char *s, int c);
 char	*ft_strchr_pro(char *s, char *cc);
 void	fill_lst(char *str, t_data **lst, int PIPE);
 void	add_a_node(t_data **lst, char *contain, int type, int *i);
