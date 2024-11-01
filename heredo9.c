@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 18:07:03 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 11:05:29 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:48:21 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void	find_good_file(char **prompt)
 	int	counter;
 
 	counter = 0;
-	*prompt = ft_strjoin2("heredc", ft_itoa(counter));
+	*prompt = ft_strjoin2("/tmp/heredc", ft_itoa(counter));
 	while (!access(*prompt, F_OK))
 	{
 		counter++;
-		*prompt = ft_strjoin2("heredc", ft_itoa(counter));
+		*prompt = ft_strjoin2("/tmp/heredc", ft_itoa(counter));
 	}
 }
 

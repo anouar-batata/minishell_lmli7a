@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 10:53:57 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 00:40:29 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,85 +205,86 @@ int    finale_execution(char **command, t_commands *cmds, int *fd, int s )
 }
 
 
-void    execute_pipes(t_commands *commands)
-{
-    int i = 0;
-    int fd[2];
-    int status = 0 ;
-    int pid_of_last_command = 0;
-    int nb_of_nds;
+	void    execute_pipes(t_commands *commands)
+	{
+		int i = 0;
+		int fd[2];
+		int status = 0 ;
+		int pid_of_last_command = 0;
+		int nb_of_nds;
 
-	signal(SIGQUIT, SIG_DFL);
-	g_signal_status = 1;
-    i = 0;
-    t_commands *tmp;
-    int	save_fd = -1;
-    tmp = commands;
-	// while (tmp)
-	// {
-	// 	while (tmp->command[i])
-	// 	{
-	// 		tmp->command[i] = ft_strdup(tmp->command[i]);
-	// 		i++;
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// tmp = commands;
-    if (!commands->next)
-        pid_of_last_command = execution_commands(commands->command, commands);
-    else
-    {
-        pipe(fd);
-        nb_of_nds = ft_lstsize_2(tmp);
-        if (first_execution(tmp->command, tmp ,fd) == -3)
-        {
-            write(2, "bash: fork: Resource temporarily unavailable\n", 46);
-            exit_status(1, ADD);
-            close(fd[0]);
-            close(fd[1]);
-            return;
-        }
-        save_fd = fd[0];
-        tmp = tmp->next;
-        nb_of_nds -= 1;
-        while (i < nb_of_nds - 1)
-        {
-            if (middle_execution(tmp->command, tmp, fd, save_fd) == -3)
-            {
-                write(2, "bash: fork: Resource temporarily unavailable\n", 46);
-                exit_status(1, ADD);
-                close(fd[0]);
-                close(fd[1]);
-                return;
-            }
-            save_fd = fd[0];
-            tmp = tmp->next;
-            i++;
-        }
-        pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
-        if (pid_of_last_command == -3)
-        {
-            write(2, "bash: fork: Resource temporarily unavailable\n", 46);
-            exit_status(1, ADD);
-            close(fd[0]);
-            close(fd[1]);
-            return ;
-        }
-    }
-    close(fd[0]);
-    close(fd[1]);
-    if (pid_of_last_command == -1) // to do
-    {
-        exit_status(1, ADD);
-    }
-    else if (pid_of_last_command == -2)
-        exit_status(127, ADD);
-    else
-    {
-		signal(SIGQUIT, SIG_IGN);
-        waitpid(pid_of_last_command, &status, 0);
-        exit_status(WEXITSTATUS(status), ADD);
-        
-    }
-    while(wait(NULL) != -1);
-}
+		signal(SIGQUIT, SIG_DFL);
+		g_signal_status = 1;
+		i = 0;
+		t_commands *tmp;
+		int	save_fd = -1;
+		tmp = commands;
+		while (tmp)
+		{
+			i = 0;
+			while (tmp->command[i]) {
+				tmp->command[i] = ft_strdup(tmp->command[i]);
+				i++;
+			}
+			tmp = tmp->next;
+		}
+		tmp = commands;
+		i = 0;
+		if (!commands->next)
+			pid_of_last_command = execution_commands(commands->command, commands);
+		else
+		{
+			pipe(fd);
+			nb_of_nds = ft_lstsize_2(tmp);
+			if (first_execution(tmp->command, tmp ,fd) == -3)
+			{
+				write(2, "bash: fork: Resource temporarily unavailable\n", 46);
+				exit_status(1, ADD);
+				close(fd[0]);
+				close(fd[1]);
+				return;
+			}
+			save_fd = fd[0];
+			tmp = tmp->next;
+			nb_of_nds -= 1;
+			while (i < nb_of_nds - 1)
+			{
+				if (middle_execution(tmp->command, tmp, fd, save_fd) == -3)
+				{
+					write(2, "bash: fork: Resource temporarily unavailable\n", 46);
+					exit_status(1, ADD);
+					close(fd[0]);
+					close(fd[1]);
+					return;
+				}
+				save_fd = fd[0];
+				tmp = tmp->next;
+				i++;
+			}
+			pid_of_last_command = finale_execution(tmp->command, tmp, fd, save_fd);
+			if (pid_of_last_command == -3)
+			{
+				write(2, "bash: fork: Resource temporarily unavailable\n", 46);
+				exit_status(1, ADD);
+				close(fd[0]);
+				close(fd[1]);
+				return ;
+			}
+		}
+		close(fd[0]);
+		close(fd[1]);
+		if (pid_of_last_command == -1) // to do
+		{
+			exit_status(1, ADD);
+		}
+		else if (pid_of_last_command == -2)
+			exit_status(127, ADD);
+		else
+		{
+			signal(SIGQUIT, SIG_IGN);
+			waitpid(pid_of_last_command, &status, 0);
+			exit_status(WEXITSTATUS(status), ADD);
+			
+		}
+		while(wait(NULL) != -1);
+	}

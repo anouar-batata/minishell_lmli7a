@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 05:19:49 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:50:36 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,11 @@ int check_the_redirection(t_commands *command)
 {
     t_redir *curr;
     int fd = -1;
+	int i;
 
     // Handle input redirections
     curr = command->redir_lst;
+	i =0;
     while (curr)
     {
         if (curr->redir_type == REDIR_IN)
@@ -144,8 +146,7 @@ int check_the_redirection(t_commands *command)
             }
             if (curr->to_close)
             {
-                char *temp = ft_strjoin("./", curr->file);
-                unlink(temp);
+                unlink(curr->file);
             }
         }
         curr = curr->next;
