@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 07:03:28 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 15:15:39 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 05:25:17 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		i;
-	int		i1;
-	int		i2;
-	char	*p;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-	if (!s2)
-		return (s1);
-	i1 = ft_strlen(s1);
-	i2 = ft_strlen(s2);
-	p = (char *)smart_malloc(sizeof(char) * (i1 + i2 + 1),ENVT);
+	if (!s1 || !s2)
+		return (NULL);
 	i = 0;
-	if (!p)
-		exit (1);
-	while (s1[i] != '\0')
+	j = 0;
+	str = (char *)smart_malloc((ft_strlen2(s1)
+				+ ft_strlen2(s2) + 1) * sizeof(char), ENVT);
+	if (!str)
+		exit(1);
+	while (s1[i])
 	{
-		p[i] = s1[i];
+		str[i] = s1[i];
 		i++;
 	}
-	i = 0;
-	while (s2[i] != '\0')
+	while (s2[j])
 	{
-		p[i1++] = s2[i++];
+		str[i] = s2[j];
+		i++;
+		j++;
 	}
-	p[i1] = '\0';
-	return (p);
+	str[i] = '\0';
+	return (str);
 }
 
 void    ft_lstadd_back_2(t_commands **lst, t_commands *new)

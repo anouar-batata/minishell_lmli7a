@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 02:00:16 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 07:40:47 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	*add_var(char **args)
 	int k;
 	i = 0;
 	t_shell *env = env_control(GET_ENV, 0, 0);
+	
 	while (args[i])
 	{
 		if (parse_arguments(args[i]) == 1)
@@ -160,6 +161,8 @@ void	*add_var(char **args)
 				}
 				else
 					env_control(ADD_NODE, args[i], NULL);
+			
+			return NULL;
 			}
 			if (!ft_strchr(args[i], '+'))
 			{
@@ -170,6 +173,7 @@ void	*add_var(char **args)
 			tmp = env;
 			k = 0;
 			p = split_first_equal(args[i]);
+
 			while (tmp && k == 0)
 			{
 				if (ft_strcmp(p[0], tmp->k) == 0)
@@ -186,6 +190,7 @@ void	*add_var(char **args)
 		}
 		i++;
 	}
+
 	return (NULL);
 }
 
@@ -246,6 +251,7 @@ void    ft_export(char **command)
 	t_shell *export;
 	int i;
 	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
+
 	i = 0;
 	export = env; 
 	while (command[i])

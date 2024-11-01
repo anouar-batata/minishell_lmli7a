@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 19:00:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 18:05:01 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:07:01 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	}
 	if (str[i] == '$' && i == 1)
 	{
-		word = ft_strdup("$$");
+		word = ft_strdup2("$$");
 		*index += 2;
 	}
 	else if (((str[i] >= '0' && str[i] <= '9')
@@ -113,19 +113,19 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 		if (!pipe)
 		{
 			if (str[i] == '\'')
-				add_a_node(lst, ft_strdup("'"), QUOTE, &i);
+				add_a_node(lst, ft_strdup2("'"), QUOTE, &i);
 			else if (str[i] == '\"')
-				add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
+				add_a_node(lst, ft_strdup2("\""), DOUBLE_QUOTE, &i);
 			else if (str[i] == '<' && str[i + 1] == '<')
-				add_a_node(lst, ft_strdup("<<"), HERE_DOC, &i);
+				add_a_node(lst, ft_strdup2("<<"), HERE_DOC, &i);
 			else if (str[i] == '<')
-				add_a_node(lst, ft_strdup("<"), REDIR_IN, &i);
+				add_a_node(lst, ft_strdup2("<"), REDIR_IN, &i);
 			else if (str[i] == '>' && str[i + 1] == '>')
-				add_a_node(lst, ft_strdup(">>"), DREDIR_OUT, &i);
+				add_a_node(lst, ft_strdup2(">>"), DREDIR_OUT, &i);
 			else if (str[i] == '>')
-				add_a_node(lst, ft_strdup(">"), REDIR_OUT, &i);
+				add_a_node(lst, ft_strdup2(">"), REDIR_OUT, &i);
 			else if (str[i] == '|')
-				add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
+				add_a_node(lst, ft_strdup2("|"), PIPE_LINE, &i);
 			else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 				add_space_to_list(&str[i], &i, lst);
 			else if (str[i] == '$')

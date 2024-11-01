@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 20:29:34 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 07:42:59 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,8 +220,18 @@ void    execute_pipes(t_commands *commands)
 	g_signal_status = 1;
     i = 0;
     t_commands *tmp;
-    int	save_fd = -1; 
+    int	save_fd = -1;
     tmp = commands;
+	while (tmp)
+	{
+		while (tmp->command[i])
+		{
+			tmp->command[i] = ft_strdup(tmp->command[i]);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	tmp = commands;
     if (!commands->next)
         pid_of_last_command = execution_commands(commands->command, commands);
     else

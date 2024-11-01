@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 18:20:44 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:07:18 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	smart_strjoin(t_data *current, t_data *lst)
 	while (in_quote(tmp, lst))
 	{
 		current->elem = ft_strjoin2(current->elem, tmp->elem);
-		tmp->elem = ft_strdup("");
+		tmp->elem = ft_strdup2("");
 		tmp->to_remove = 1;
 		tmp = tmp->next;
 	}
@@ -80,7 +80,7 @@ void	join_word(t_data **lst)
 		else if (tmp->next && (tmp->flag == QUOTE
 				|| tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
 		{
-			tmp->elem = ft_strdup("");
+			tmp->elem = ft_strdup2("");
 			tmp->flag = -1;
 			fr = tmp->next;
 			tmp->next = tmp->next->next;

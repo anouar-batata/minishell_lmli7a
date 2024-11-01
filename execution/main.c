@@ -6,11 +6,31 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 15:16:56 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 05:25:04 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*ft_strdup(char *s1)
+{
+	char	*cpy;
+	size_t	i;
+
+	if (!s1)
+		return (NULL);
+	cpy = (char *)smart_malloc((ft_strlen2(s1) + 1) * sizeof(char), ENVT);
+	if (!cpy)
+		exit(1);
+	i = 0;
+	while (s1[i])
+	{
+		cpy[i] = s1[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
+}
 
 char **convert_env_to_td_env(t_shell *env)
 {
@@ -23,8 +43,8 @@ char **convert_env_to_td_env(t_shell *env)
         exit (1);
     while (env)
     {
-        first_join = ft_strjoin2(env->k, "=");
-        second_join = ft_strjoin2(first_join, env->v);
+        first_join = ft_strjoin(env->k, "=");
+        second_join = ft_strjoin(first_join, env->v);
         td_env[i] = ft_strdup(second_join);
         env = env->next;
         i++;
@@ -81,8 +101,8 @@ void    execute_command(char **command, char **path)
     }
 	while (path[i])
 	{
-		first_join = ft_strjoin2(path[i], "/");
-		second_join = ft_strjoin2(first_join, command[0]);
+		first_join = ft_strjoin(path[i], "/");
+		second_join = ft_strjoin(first_join, command[0]);
 		if (!access(second_join, F_OK))
 		{
 			execve(second_join, command, td_env);

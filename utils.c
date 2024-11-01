@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 18:11:42 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:09:55 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	f_list(t_data **lst)
 	exit(1);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup2(char *s1)
 {
 	char	*cpy;
 	size_t	i;

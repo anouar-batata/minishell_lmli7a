@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 01:49:05 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 03:06:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	*env_control(int behaviour, void *key, char *value)
 
 	if (behaviour == 0)
 		env = (t_shell *)key;
+	
 	else
 	{
 		if (behaviour == REMOVE_NODE)

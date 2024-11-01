@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:17:58 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 15:08:48 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:09:39 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char **split_first_equal(const char *str)
     // Find the first '=' character
     const char *equal_pos = strchr(str, '=');
     if (!equal_pos) {
-        result[0] = strdup(str);
+        result[0] = ft_strdup((char *)str);
         result[1] = NULL;
         return result;
     }

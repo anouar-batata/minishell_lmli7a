@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 01:33:18 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 05:19:49 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int check_the_redirection(t_commands *command)
             }
             if (curr->to_close)
             {
-                char *temp = ft_strjoin2("./", curr->file);
+                char *temp = ft_strjoin("./", curr->file);
                 unlink(temp);
             }
         }

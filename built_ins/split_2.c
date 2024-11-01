@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 22:47:45 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 15:08:40 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 05:23:59 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	char	*dimensional(const char *s, int d, int f)
 	char	*p;
 
 	i = 0;
-	p = (char *)smart_malloc((f - d + 1) * sizeof(char), RL);
+	p = (char *)smart_malloc((f - d + 1) * sizeof(char), ENVT);
 	if (!p)
 		exit(1);
 	while (d < f)
@@ -64,7 +64,7 @@ static char	**allocation(const char *s, size_t i, char c)
 
 	v = -1;
 	j = 0;
-	p = smart_malloc((nb_word(s, c) + 1) * sizeof(char *), RL);
+	p = smart_malloc((nb_word(s, c) + 1) * sizeof(char *), ENVT);
 	if (!p)
 		exit(1);
 	while (i <= ft_strlen(s))

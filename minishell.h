@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 17:59:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:08:53 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ int			is_word(char c);
 void		add_space_to_list(char *str, int *index, t_data **lst);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 t_node		*ft_lstnew8(void *ptr_to_store);
+char	*ft_itoa2(int n);
+char	*ft_strdup2(char *s1);
 
 void		manage_error(char *arg);
 int			execute_programme(char **commands, char **path);
