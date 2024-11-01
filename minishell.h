@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 06:08:53 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 11:43:59 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "/Users/akoutate/.brew/opt/readline/include/readline/readline.h"
 
 # define ADD_NODE 1
 # define REMOVE_NODE -1
@@ -84,6 +85,12 @@ typedef struct s_node
 	struct s_node	*next;
 }	t_node;
 
+typedef struct t_dels
+{
+	int		to_expand;
+	t_shell	*envi;
+}	t_dels;
+
 int	g_signal_status;
 
 enum e_token
@@ -105,7 +112,7 @@ int			check_the_redirection(t_commands *command);
 void		ft_lstadd_back5(t_data **lst, t_data *nw);
 t_data		*ft_lstnew5(char *elem, int flag);
 int			ft_isalpha(int c);
-void		f_list(t_data **lst);
+void		f_list(void);
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 size_t		ft_strlen2(const char *str);
 int			parse_error(t_data *lst);
@@ -136,8 +143,7 @@ t_commands	*ft_lstnew3(char **command, t_redir *lst);
 void		clean_list(t_commands **commands_list);
 void		ft_lstadd_back6(t_redir **lst, t_redir *new);
 t_redir		*ft_lstnew4(char *file, int flag, int to_close, int ambiguous);
-char		*heredo9(char **del, t_shell *envi,
-				int to_expand, int command_counter);
+char		*heredo9(char **del, t_shell *envi, int to_expand);
 char		*ft_itoa(int n);
 void		smart_free(int type);
 void		*smart_malloc(size_t size, int type);
@@ -148,18 +154,26 @@ int			check_space_middle(char *str);
 void		check_if_to_expand_in_heredoc(t_data *lst);
 void		change_it_to_word(t_data *lst);
 void		fill_lst(char *str, t_data **lst, int pipe);
-void		add_a_node(t_data **lst, char *contain, int type, int *i);
 void		add_env_to_list(char *str, int *index, t_data **lst);
 void		add_word_to_list(char *str, int *index, t_data **lst, int is_env);
 int			is_word(char c);
 void		add_space_to_list(char *str, int *index, t_data **lst);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 t_node		*ft_lstnew8(void *ptr_to_store);
-char	*ft_itoa2(int n);
-char	*ft_strdup2(char *s1);
+char		*ft_itoa2(int n);
+char		*ft_strdup2(char *s1);
+void		count_doc_max(char **del);
+void		expand_the_doc(char *prompt, char **str, t_shell *envi);
+void		add_env_to_list(char *str, int *index, t_data **lst);
+void		add_word_to_list(char *str, int *index, t_data **lst, int is_env);
+void		handle_special_characters(char *str, int *i, t_data **lst);
+void		fill_lst_no_pipe(char *str, t_data **lst, int *i);
+void		fill_lst_with_pipe(char *str, t_data **lst, int *i);
+void		expand_the_doc(char *prompt, char **str, t_shell *envi);
+void		count_doc_max(char **del);
 
 void		manage_error(char *arg);
-int			execute_programme(char **commands, char **path);
+int			execute_programme(char **commands);
 int			exit_status(int set, int mode);
 void		ft_lstadd_back_2(t_commands **lst, t_commands *new);
 t_commands	*ft_lstnew_2(char **command);

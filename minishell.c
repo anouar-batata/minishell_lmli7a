@@ -6,11 +6,12 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 01:47:26 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:10:10 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../../.brew/Cellar/readline/8.2.13/include/readline/readline.h"
 
 void	ctrl_c_handler(int sig)
 {
@@ -22,6 +23,7 @@ void	ctrl_c_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	(void)sig;
 }
 
 void	set_env(char **env, t_shell **envi)
@@ -41,6 +43,7 @@ void	set_env(char **env, t_shell **envi)
 
 void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 {
+
 	expanding(*lst, *envi);
 	check_if_to_expand_in_heredoc(*lst);
 	join_word(lst);
@@ -49,13 +52,6 @@ void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 	split_word(lst);
 	remove_spaces(lst);
 	make_a_list_for_louriga_aviable(*lst, command, *envi);
-	// while (*command)
-	// {
-	// 	int i =0;
-	// 	while ((*command)->command[i])
-	// 		printf("%s\n", (*command)->command[i++]);
-	// 	(*command) = (*command)->next;
-	// }
 	if (*command && !g_signal_status)
 		execute_pipes(*command);
 	g_signal_status = 0;
@@ -113,4 +109,6 @@ int	main(int ac, char **av, char **env)
 		if (start_minishell(&lst, &envi, &command, rl))
 			continue ;
 	}
+	(void)ac;
+	(void)av;
 }

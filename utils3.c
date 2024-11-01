@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 00:04:49 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 07:56:22 by akoutate         ###   ########.fr       */
+/*   Created: 2024/11/01 10:49:13 by akoutate          #+#    #+#             */
+/*   Updated: 2024/11/01 11:05:48 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin2(char *s1, char *s2)
+size_t	ft_strlen2(const char *str)
 {
-	size_t	i;
-	size_t	j;
-	char	*str;
+	int	i;
 
-	if (!s1 || !s2)
-		return (NULL);
 	i = 0;
-	j = 0;
-	str = (char *)smart_malloc((ft_strlen2(s1)
-				+ ft_strlen2(s2) + 1) * sizeof(char), RL);
-	if (!str)
-		exit(1);
-	while (s1[i])
-	{
-		str[i] = s1[i];
+	while (str[i])
 		i++;
-	}
-	while (s2[j])
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
-	return (str);
+	return (i);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	return (0);
+}
+
+void	f_list(void)
+{
+	write(2, "Failed to create a new list!", 28);
+	exit(1);
 }

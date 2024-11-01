@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:54:38 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 05:25:04 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 10:53:32 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,14 +201,11 @@ int    execute_path(char **command)
     return (pid);
 }
 
-int execute_programme(char **commands, char **path)
+int execute_programme(char **commands)
 {
-    char *first_join;
-    char *second_join;
     int pid;
     t_shell *env = env_control(GET_ENV, 0, 0);
     char **td_env = convert_env_to_td_env(env);
-    int i = 0;
 
     pid = fork();
     
@@ -301,7 +298,7 @@ int    execution_commands(char **commands, t_commands *cmds)
         dup2(bkp_0, 0);
         close(bkp_0);
         close(bkp_1);
-        return (execute_programme(commands,path));
+        return (execute_programme(commands));
     }
     else if(i == 0)
     {

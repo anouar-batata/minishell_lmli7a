@@ -6,34 +6,11 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 06:09:55 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 10:49:42 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-size_t	ft_strlen2(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_isalpha(int c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-void	f_list(t_data **lst)
-{
-	write(2, "Failed to create a new list!", 28);
-	exit(1);
-}
 
 char	*ft_strdup2(char *s1)
 {
@@ -119,73 +96,4 @@ char	*ft_strchr_pro(char *s, char *cc)
 		cc++;
 	}
 	return (NULL);
-}
-
-static int	numlen(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n <= 0)
-		i++;
-	while (n != 0)
-	{
-		n /= 10;
-		i++;
-	}
-	return (i);
-}
-
-static void	f_str(char *str, long nbr, int len)
-{
-	int	dex;
-
-	dex = len - 1;
-	if (nbr == 0)
-		str[0] = '0';
-	if (nbr < 0)
-	{
-		str[0] = '-';
-		nbr = -nbr;
-	}
-	while (nbr != 0)
-	{
-		str[dex--] = (nbr % 10) + '0';
-		nbr /= 10;
-	}
-}
-
-char	*ft_itoa(int n)
-{
-	long	nbr;
-	int		len;
-	char	*str;
-
-	nbr = n;
-	len = numlen(nbr);
-	str = (char *)smart_malloc(sizeof(char) * (len + 1), RL);
-	if (!str)
-		exit(1);
-	str[len] = '\0';
-	f_str(str, nbr, len);
-	return (str);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen2(src);
-	i = 0;
-	if (dstsize != 0)
-	{
-		while ((i < dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (len);
 }

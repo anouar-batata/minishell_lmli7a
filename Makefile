@@ -6,7 +6,7 @@
 #    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/11/01 06:16:14 by akoutate         ###   ########.fr        #
+#    Updated: 2024/11/01 17:09:42 by akoutate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,10 @@ SOURCES = built_ins/cd.c built_ins/echo.c built_ins/env_utils.c \
 			error_handling.c expanding.c ft_lstadd_back.c ft_lstnew.c \
 			 ft_split.c ft_strjoin.c join.c louriga_aviable.c \
 			minishell.c split_word.c utils.c words_join.c  checkers.c\
-			heredo9.c garbage_collector.c deleters.c parse_funcs.c 
-
+			heredo9.c garbage_collector.c deleters.c parse_funcs.c \
+			 utils2.c utils3.c heredoc_utils.c \
+			
+			
 LINKREADLINELIB = $(shell brew --prefix readline)/lib
 LINKREADLINEINCLUDE = $(shell brew --prefix readline)/include
 RL_FLAGS = -I$(LINKREADLINEINCLUDE) -L$(LINKREADLINELIB)

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 05:50:22 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 18:39:05 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:03:10 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	make_a_list_for_louriga_aviable(t_data *lst,
 					lst = lst->next;
 				to_expand = lst->expand_heredoc;
 				new = ft_lstnew4(heredo9(dels, envi,
-							to_expand, command_count), REDIR_IN, 1, 0);
+							to_expand), REDIR_IN, 1, 0);
 				ft_lstadd_back6(&redir_lst, new);
 				tmp = tmp->next;
 				continue ;

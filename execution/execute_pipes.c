@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 10:57:41 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 07:42:59 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 10:53:57 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void execution_first_command(char **command)
 {
     char **path;
     char *p;
-    int pid;
     int i;
     t_shell *env =  env_control(GET_ENV, 0, 0);
 
@@ -87,7 +86,6 @@ void execution_first_command(char **command)
 
 int   first_execution(char **command, t_commands *cmds, int *fd)
 {
-    t_shell *env =  env_control(GET_ENV, 0, 0);
     int bkp_0 = dup(0);
     int bkp_1 = dup(1);
     int pid = fork();
@@ -210,7 +208,6 @@ int    finale_execution(char **command, t_commands *cmds, int *fd, int s )
 void    execute_pipes(t_commands *commands)
 {
     int i = 0;
-    int j = 1;
     int fd[2];
     int status = 0 ;
     int pid_of_last_command = 0;
@@ -222,16 +219,16 @@ void    execute_pipes(t_commands *commands)
     t_commands *tmp;
     int	save_fd = -1;
     tmp = commands;
-	while (tmp)
-	{
-		while (tmp->command[i])
-		{
-			tmp->command[i] = ft_strdup(tmp->command[i]);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	tmp = commands;
+	// while (tmp)
+	// {
+	// 	while (tmp->command[i])
+	// 	{
+	// 		tmp->command[i] = ft_strdup(tmp->command[i]);
+	// 		i++;
+	// 	}
+	// 	tmp = tmp->next;
+	// }
+	// tmp = commands;
     if (!commands->next)
         pid_of_last_command = execution_commands(commands->command, commands);
     else

@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 19:00:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 06:07:01 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:09:09 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	}
 	new = ft_lstnew5(word, ENV);
 	if (!new)
-		f_list(lst);
+		f_list();
 	ft_lstadd_back5(lst, new);
 }
 
