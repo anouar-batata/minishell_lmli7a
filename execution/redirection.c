@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 15:08:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 01:33:18 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int check_the_redirection(t_commands *command)
 			if (!curr->file && curr->ambiguous)
 			{
 				write(2, "error: ambiguous redirect\n", 26);
+				close (fd);
 				return (-1);
 			}
             if (fd != -1) 
@@ -163,6 +164,7 @@ int check_the_redirection(t_commands *command)
 		if (!curr->file && curr->ambiguous)
 		{
 			write(2, "error: ambiguous redirect\n", 26);
+			close (fd);
 			return (-1);
 		}
         if (curr->redir_type == REDIR_OUT || curr->redir_type == DREDIR_OUT)

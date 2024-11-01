@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/29 15:41:22 by alouriga         ###   ########.fr       */
+/*   Updated: 2024/11/01 01:49:05 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	edit_value(t_shell **env, char *k, char *v)
 	t_shell	*tmp;
 
 	tmp = *env;
+		
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->k, k) == 0)
@@ -82,7 +83,7 @@ void	*env_control(int behaviour, void *key, char *value)
 		if (behaviour == REMOVE_NODE)
 			remove_node(&env, key);
 		else if (behaviour == ADD_NODE)
-			edit_value(&env, key, value);
+			add_node(&env, key, value);
 		else if (behaviour == GET_ENV)
 			return (env);
 		else if (behaviour == EDIT_VALUE)

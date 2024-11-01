@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:06:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 20:08:49 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:51:32 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_shell	*ft_lstnew2(char *k, char *v)
 {
 	t_shell	*p;
 
-	p = (t_shell *)smart_malloc( sizeof(t_shell), ENVT);
+	p = smart_malloc(sizeof(t_shell), ENVT);
 	if (!p)
 		exit(1);
 	p ->k = k;
@@ -47,7 +47,7 @@ t_commands	*ft_lstnew3(char **command, t_redir *lst)
 {
 	t_commands	*new;
 
-	new = smart_malloc( sizeof(t_commands), RL);
+	new = smart_malloc(sizeof(t_commands), RL);
 	if (!new)
 		exit(1);
 	new->command = command;
@@ -60,7 +60,7 @@ t_redir	*ft_lstnew4(char *file, int flag, int to_close, int ambiguous)
 {
 	t_redir	*new;
 
-	new = smart_malloc( sizeof(t_redir), RL);
+	new = smart_malloc(sizeof(t_redir), RL);
 	if (!new)
 		exit (1);
 	new->file = file;
@@ -69,4 +69,16 @@ t_redir	*ft_lstnew4(char *file, int flag, int to_close, int ambiguous)
 	new->ambiguous = ambiguous;
 	new->next = NULL;
 	return (new);
+}
+
+t_node	*ft_lstnew8(void *ptr_to_store)
+{
+	t_node	*new_node;
+
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (!new_node)
+		exit (1);
+	new_node->ptr = ptr_to_store;
+	new_node->next = NULL;
+	return (new_node);
 }

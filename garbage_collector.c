@@ -6,23 +6,11 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 06:31:27 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 15:57:00 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:45:25 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_node	*ft_lstnew8(void *ptr_to_store)
-{
-	t_node	*new_node;
-
-	new_node = (t_node *)malloc(sizeof(t_node));
-	if (!new_node)
-		exit (1);
-	new_node->ptr = ptr_to_store;
-	new_node->next = NULL;
-	return (new_node);
-}
 
 void	ft_lstadd_back8(t_node **lst, t_node *new)
 {

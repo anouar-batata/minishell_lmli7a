@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 08:35:24 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 20:08:34 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:37:53 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,53 +32,53 @@ void	ft_lstadd_back5(t_data **lst, t_data *nw)
 	nw->prev = temp;
 }
 
-void    ft_lstadd_back2(t_shell **lst, t_shell *new)
+void	ft_lstadd_back2(t_shell **lst, t_shell *new)
 {
-    t_shell    *last;
+	t_shell	*last;
 
-    if (!lst)
-        return ;
-    last = *lst;
-    if (!*lst)
-        *lst = new;
-    else
-    {
-        while (last -> next != NULL)
-            last = last -> next;
-        last -> next = new;
-    }
+	if (!lst)
+		return ;
+	last = *lst;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
 }
 
-void    ft_lstadd_back3(t_commands **lst, t_commands *new)
+void	ft_lstadd_back3(t_commands **lst, t_commands *new)
 {
-    t_commands    *last;
+	t_commands	*last;
 
-    if (!lst)
-        return ;
-    last = *lst;
-    if (!*lst)
-        *lst = new;
-    else
-    {
-        while (last -> next != NULL)
-            last = last -> next;
-        last -> next = new;
-    }
+	if (!lst)
+		return ;
+	last = *lst;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (last->next)
+			last = last->next;
+		last -> next = new;
+	}
 }
 
-void    ft_lstadd_back6(t_redir **lst, t_redir *new)
+void	ft_lstadd_back6(t_redir **lst, t_redir *new)
 {
-    t_redir    *last;
+	t_redir	*last;
 
-    if (!lst)
-        return ;
-    last = *lst;
-    if (!*lst)
-        *lst = new;
-    else
-    {
-        while (last -> next != NULL)
-            last = last -> next;
-        last -> next = new;
-    }
+	if (!lst)
+		return ;
+	last = *lst;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
 }

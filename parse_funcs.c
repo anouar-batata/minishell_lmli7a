@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 19:00:33 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 19:12:10 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:05:01 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	is_word(char c)
 		|| c == ENV || c == PIPE_LINE || c == REDIR_IN || c == REDIR_OUT
 		|| c == '\t');
 }
-
-
 
 void	add_word_to_list(char *str, int *index, t_data **lst, int is_env)
 {
@@ -66,10 +64,11 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 	char	*word;
 
 	i = 1;
-	while ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122) || (str[i] >= 48 && str[i] <= 57))
+	while ((str[i] >= 65 && str[i] <= 90)
+		|| (str[i] >= 97 && str[i] <= 122) || (str[i] >= 48 && str[i] <= 57))
 	{
 		if (((str[i] >= '0' && str[i] <= '9') || str[i] == '?') && i == 1)
-			break;
+			break ;
 		i++;
 	}
 	if (str[i] == '$' && i == 1)
@@ -77,7 +76,8 @@ void	add_env_to_list(char *str, int *index, t_data **lst)
 		word = ft_strdup("$$");
 		*index += 2;
 	}
-	else if (((str[i] >= '0' && str[i] <= '9') || str[i] == '?')&& i == 1)
+	else if (((str[i] >= '0' && str[i] <= '9')
+			|| str[i] == '?') && i == 1)
 	{
 		word = ft_substr(str, 0, 2);
 		*index += 2;
@@ -112,7 +112,7 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 	{
 		if (!pipe)
 		{
-				if (str[i] == '\'')
+			if (str[i] == '\'')
 				add_a_node(lst, ft_strdup("'"), QUOTE, &i);
 			else if (str[i] == '\"')
 				add_a_node(lst, ft_strdup("\""), DOUBLE_QUOTE, &i);
@@ -125,7 +125,7 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 			else if (str[i] == '>')
 				add_a_node(lst, ft_strdup(">"), REDIR_OUT, &i);
 			else if (str[i] == '|')
-					add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
+				add_a_node(lst, ft_strdup("|"), PIPE_LINE, &i);
 			else if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 				add_space_to_list(&str[i], &i, lst);
 			else if (str[i] == '$')
@@ -145,10 +145,9 @@ void	fill_lst(char *str, t_data **lst, int pipe)
 	}
 }
 
-
 void	change_it_to_word(t_data *lst)
 {
-	t_data *tmp;
+	t_data	*tmp;
 
 	tmp = lst;
 	while (tmp)
@@ -158,4 +157,3 @@ void	change_it_to_word(t_data *lst)
 		tmp = tmp->next;
 	}
 }
-

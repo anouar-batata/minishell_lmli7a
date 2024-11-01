@@ -6,18 +6,17 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 17:54:56 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 17:58:41 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:34:04 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void remove_spaces(t_data **lst)
+void	remove_spaces(t_data **lst)
 {
-	t_data *tmp;
-	t_data *deleter;
-	t_data *fr;
+	t_data	*tmp;
+	t_data	*deleter;
+	t_data	*fr;
 
 	tmp = *lst;
 	while (tmp)
@@ -41,11 +40,11 @@ void remove_spaces(t_data **lst)
 	}
 }
 
-void expanding_deleter(t_data **lst)
+void	expanding_deleter(t_data **lst)
 {
-	t_data *tmp;
-	t_data *deleter;
-	t_data *fr;
+	t_data	*tmp;
+	t_data	*deleter;
+	t_data	*fr;
 
 	tmp = *lst;
 	while (tmp)

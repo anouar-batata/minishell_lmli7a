@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 15:07:26 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:20:44 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ int	in_quote(t_data	*current_node, t_data *lst)
 		if (first_quote)
 		{
 			in_quote = 1;
-			first_quote = 0;	
+			first_quote = 0;
 		}
 		if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE) && !in_quote)
 		{
-			first_quote = 1;	
-			quote_type = lst->flag;;
+			first_quote = 1;
+			quote_type = lst->flag;
 		}
-		else if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE) && in_quote && quote_type == lst->flag)
+		else if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE)
+			&& in_quote && quote_type == lst->flag)
 		{
 			in_quote = 0;
 			quote_type = 0;
@@ -44,7 +45,7 @@ int	in_quote(t_data	*current_node, t_data *lst)
 	return (in_quote);
 }
 
-void smart_strjoin(t_data *current, t_data *lst)
+void	smart_strjoin(t_data *current, t_data *lst)
 {
 	t_data	*tmp;
 
@@ -58,17 +59,17 @@ void smart_strjoin(t_data *current, t_data *lst)
 		tmp->to_remove = 1;
 		tmp = tmp->next;
 	}
-
 	current->flag = -1;
 	current->to_remove = 0;
 }
 
 void	join_word(t_data **lst)
 {
-	t_data *tmp;
-	t_data *deleter;
-	t_data *fr;
-	tmp = *lst;	
+	t_data	*tmp;
+	t_data	*deleter;
+	t_data	*fr;
+
+	tmp = *lst;
 	while (tmp)
 	{
 		if (in_quote(tmp, *lst) && ft_strlen2(tmp->elem))
@@ -76,7 +77,8 @@ void	join_word(t_data **lst)
 			smart_strjoin(tmp, *lst);
 			tmp = tmp->next;
 		}
-		else if (tmp->next && (tmp->flag == QUOTE || tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
+		else if (tmp->next && (tmp->flag == QUOTE
+				|| tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
 		{
 			tmp->elem = ft_strdup("");
 			tmp->flag = -1;
@@ -89,10 +91,12 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove == 1 || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		if (tmp->next && (tmp->next->to_remove == 1
+				|| tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
+			while (deleter && (deleter->to_remove == 1
+					|| deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
 			{
 				fr = deleter;
 				deleter = deleter->next;
@@ -101,7 +105,8 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if (*lst && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
+	if (*lst && ((*lst)->to_remove == 1
+			|| (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		fr = *lst;
 		*lst = (*lst)->next;
@@ -110,10 +115,13 @@ void	join_word(t_data **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->next->to_remove == 1 || tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		if (tmp->next && (tmp->next->to_remove == 1
+				|| tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
 		{
 			deleter = tmp->next;
-			while (deleter && (deleter->to_remove == 1 || deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE ))
+			while (deleter && (deleter->to_remove == 1
+					|| deleter->flag == QUOTE
+					|| deleter->flag == DOUBLE_QUOTE))
 			{
 				fr = deleter;
 				deleter = deleter->next;
@@ -122,7 +130,8 @@ void	join_word(t_data **lst)
 		}
 		tmp = tmp->next;
 	}
-	if ((*lst) && ((*lst)->to_remove == 1 || (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
+	if ((*lst) && ((*lst)->to_remove == 1
+			|| (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
 	{
 		fr = *lst;
 		*lst = (*lst)->next;

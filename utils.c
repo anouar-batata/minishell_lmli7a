@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:18:55 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 20:26:18 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:11:42 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	tmp = (char *)smart_malloc((len + 1) * sizeof(char), RL);
 	if (!tmp)
 		exit (1);
-	while ((i < len) && s[start + i])
+	while (i < len && s[start + i])
 	{
 		tmp[i] = s[start + i];
 		i++;
@@ -114,7 +114,7 @@ char	*ft_strchr_pro(char *s, char *cc)
 				return ((char *)&s[i]);
 			i++;
 		}
-		if (* cc == '\0')
+		if (*cc == '\0')
 			return ((char *)&s[i]);
 		cc++;
 	}
@@ -171,4 +171,21 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	len;
+	size_t	i;
 
+	len = ft_strlen2(src);
+	i = 0;
+	if (dstsize != 0)
+	{
+		while ((i < dstsize - 1) && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (len);
+}

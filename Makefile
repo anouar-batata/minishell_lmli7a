@@ -6,7 +6,7 @@
 #    By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/31 23:21:04 by alouriga          #+#    #+#              #
-#    Updated: 2024/10/31 16:05:19 by akoutate         ###   ########.fr        #
+#    Updated: 2024/10/31 22:53:25 by akoutate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ CFLAGS = -I$(LINKREADLINEINCLUDE)
 LDFLAGS = -L$(LINKREADLINELIB) -lreadline
 
 OBJ = $(SOURCES:.c=.o)
-CC = cc
+CC = cc 
 # CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)

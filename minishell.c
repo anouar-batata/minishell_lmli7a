@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 19:06:41 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 01:47:26 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 	split_word(lst);
 	remove_spaces(lst);
 	make_a_list_for_louriga_aviable(*lst, command, *envi);
+	// while (*command)
+	// {
+	// 	int i =0;
+	// 	while ((*command)->command[i])
+	// 		printf("%s\n", (*command)->command[i++]);
+	// 	(*command) = (*command)->next;
+	// }
 	if (*command && !g_signal_status)
 		execute_pipes(*command);
 	g_signal_status = 0;

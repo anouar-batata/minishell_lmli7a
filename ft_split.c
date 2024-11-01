@@ -6,30 +6,11 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:12:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/30 15:06:27 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:41:57 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen2(src);
-	i = 0;
-	if (dstsize != 0)
-	{
-		while ((i < dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (len);
-}
 
 static size_t	ft_count(char const *s, char c)
 {
