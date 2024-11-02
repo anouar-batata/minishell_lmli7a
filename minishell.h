@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/02 01:11:03 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:09:15 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ typedef struct t_dels
 	t_shell	*envi;
 }	t_dels;
 
+typedef struct t_list
+{
+	char	**commands;
+	int		i;
+	int		command_count;
+	t_redir	*redir_lst;
+}	t_list;
+
 int	g_signal_status;
 
 enum e_token
@@ -170,6 +178,10 @@ void		expand_the_doc(char *prompt, char **str, t_shell *envi);
 void		count_doc_max(char **del);
 void		add_word_to_list(char *str, int *index, t_data **lst, int is_env);
 char		*extract_env(int *index, char *str, int i, char *word);
+int			count_dels(t_data *lst);
+char		**add_dels(t_data **lst);
+int			pip_counter(t_data *lst);
+int			command_counter(t_data *lst);
 
 void		manage_error(char *arg);
 int			execute_programme(char **commands);

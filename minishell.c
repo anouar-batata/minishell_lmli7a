@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/02 00:51:36 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:31:13 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, ctrl_c_handler);
 		envi = env_control(GET_ENV, 0, 0);
 		rl = readline("slawishell ~> ");
-		if (start_minishell(&lst, &envi, &command, rl))
-			continue ;
+		start_minishell(&lst, &envi, &command, rl);
 	}
 	(void)ac;
 	(void)av;
