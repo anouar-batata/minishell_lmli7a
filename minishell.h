@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:15:52 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 11:43:59 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 01:11:03 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,10 @@ void		count_doc_max(char **del);
 void		expand_the_doc(char *prompt, char **str, t_shell *envi);
 void		add_env_to_list(char *str, int *index, t_data **lst);
 void		add_word_to_list(char *str, int *index, t_data **lst, int is_env);
-void		handle_special_characters(char *str, int *i, t_data **lst);
-void		fill_lst_no_pipe(char *str, t_data **lst, int *i);
-void		fill_lst_with_pipe(char *str, t_data **lst, int *i);
 void		expand_the_doc(char *prompt, char **str, t_shell *envi);
 void		count_doc_max(char **del);
+void		add_word_to_list(char *str, int *index, t_data **lst, int is_env);
+char		*extract_env(int *index, char *str, int i, char *word);
 
 void		manage_error(char *arg);
 int			execute_programme(char **commands);

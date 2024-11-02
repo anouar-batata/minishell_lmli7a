@@ -6,7 +6,7 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 17:10:10 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 00:51:36 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	set_env(char **env, t_shell **envi)
 
 void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 {
-
 	expanding(*lst, *envi);
 	check_if_to_expand_in_heredoc(*lst);
 	join_word(lst);
