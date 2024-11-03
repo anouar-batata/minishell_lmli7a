@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:11:39 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/02 09:31:13 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:04:42 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "../../.brew/Cellar/readline/8.2.13/include/readline/readline.h"
 
 void	ctrl_c_handler(int sig)
 {
@@ -23,7 +22,6 @@ void	ctrl_c_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	(void)sig;
 }
 
 void	set_env(char **env, t_shell **envi)
@@ -34,7 +32,7 @@ void	set_env(char **env, t_shell **envi)
 	i = 0;
 	while (env[i])
 	{
-		p = split_first_equal(env[i]);
+		p = split_first_equal(env[i], NULL, NULL, 0);
 		add(p, envi);
 		i++;
 	}
@@ -51,8 +49,15 @@ void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 	split_word(lst);
 	remove_spaces(lst);
 	make_a_list_for_louriga_aviable(*lst, command, *envi);
+	// while (*command)
+	// {
+	// 	int i =0;
+	// 	while ((*command)->command[i])
+	// 		printf("%s\n", (*command)->command[i++]);
+	// 	(*command) = (*command)->next;
+	// }
 	if (*command && !g_signal_status)
-		execute_pipes(*command);
+		execute_pipes(*command, 0, 0, 0);
 	g_signal_status = 0;
 	smart_free(RL);
 }
@@ -60,11 +65,6 @@ void	parse_and_excute(t_data **lst, t_shell **envi, t_commands **command)
 int	start_minishell(t_data **lst, t_shell **envi,
 	t_commands **command, char *rl)
 {
-	if (!rl)
-	{
-		printf("exit\n");
-		exit(exit_status(0, 0));
-	}
 	if (!ft_strlen2(rl))
 	{
 		free (rl);
@@ -83,7 +83,6 @@ int	start_minishell(t_data **lst, t_shell **envi,
 	parse_and_excute(lst, envi, command);
 	return (0);
 }
-
 int	main(int ac, char **av, char **env)
 {
 	t_data		*lst;
@@ -105,8 +104,9 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, ctrl_c_handler);
 		envi = env_control(GET_ENV, 0, 0);
 		rl = readline("slawishell ~> ");
-		start_minishell(&lst, &envi, &command, rl);
+		if (!rl)
+			exit(exit_status(0, 0));
+		if (start_minishell(&lst, &envi, &command, rl))
+			continue ;
 	}
-	(void)ac;
-	(void)av;
 }

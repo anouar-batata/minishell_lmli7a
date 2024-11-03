@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:12:13 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 10:54:34 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:46:16 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static size_t	ft_count(char const *s, char c)
 	return (count);
 }
 
-static void	*free_all(int j)
+static void	*free_all(char **all_words, int j)
 {
 	int	i;
 
@@ -79,7 +79,7 @@ static char	**split_words(char const *s, char c, size_t word_count)
 			i++;
 		all_words[j] = allocate_word(s, start, i);
 		if (!all_words[j])
-			return (free_all(j));
+			return (free_all(all_words, j));
 		j++;
 	}
 	all_words[j] = NULL;

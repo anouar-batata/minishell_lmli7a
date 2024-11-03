@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 06:31:27 by akoutate          #+#    #+#             */
-/*   Updated: 2024/10/31 17:45:25 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:56:56 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int	store_smart_mallocs(void *ptr_to_add, int type)
 	head = globalizer_head(0, NULL, type);
 	new_node = ft_lstnew8(ptr_to_add);
 	if (!new_node)
+	{
 		exit(1);
+	}
 	if (!head)
 		globalizer_head(1, new_node, type);
 	else
@@ -91,4 +93,5 @@ void	smart_free(int type)
 		current = next;
 	}
 	globalizer_head(1, NULL, type);
+	
 }

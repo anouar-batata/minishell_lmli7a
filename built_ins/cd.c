@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 22:51:43 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/31 16:09:51 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:51:55 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	change_the_directory(void)
 	else
 		env_control(ADD_NODE, "PWD", str);
 	env_control(EDIT_VALUE, "OLDPWD", old_pwd);
-	free (str);
+	free(str);
 }
 
 char	*get_home(void)
@@ -67,7 +67,7 @@ int	ft_cd(char **av)
 	else
 		str = av[1];
 	if (!str)
-		return (write(2, " : No such file or dirrectory\n", 30), 2);
+		return (write(2, "cd : HOME NOT SET\n", 18), 2);
 	if (!chdir(str))
 		change_the_directory();
 	else
@@ -75,12 +75,12 @@ int	ft_cd(char **av)
 		if (av[1] != NULL)
 		{
 			write(2, av[1], ft_strlen(av[1]));
-			write(2, " : No such file or dirrectory\n", 30);
+			write(2, " : No such file or directory\n", 30);
 			return (2);
 		}
 		else
 		{
-			write(2, " : No such file or dirrectory\n", 30);
+			write(2, " : No such file or directory\n", 30);
 			return (2);
 		}
 	}

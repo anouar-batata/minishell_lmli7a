@@ -6,33 +6,11 @@
 /*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:17:10 by akoutate          #+#    #+#             */
-/*   Updated: 2024/11/01 11:02:42 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 06:07:18 by akoutate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	quotes_handle(int *first_quote, int *in_quote,
-		t_data *lst, char *quote_type)
-{
-	if (*first_quote)
-	{
-		*in_quote = 1;
-		*first_quote = 0;
-	}
-	if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE) && !*in_quote)
-	{
-		*first_quote = 1;
-		*quote_type = lst->flag;
-	}
-	else if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE)
-		&& *in_quote && *quote_type == lst->flag)
-	{
-		*in_quote = 0;
-		*quote_type = 0;
-		*first_quote = 0;
-	}
-}
 
 int	in_quote(t_data	*current_node, t_data *lst)
 {
@@ -45,14 +23,95 @@ int	in_quote(t_data	*current_node, t_data *lst)
 	first_quote = 0;
 	while (lst != current_node->next)
 	{
-		quotes_handle(&first_quote, &in_quote, lst, &quote_type);
+		if (first_quote)
+		{
+			in_quote = 1;
+			first_quote = 0;
+		}
+		if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE) && !in_quote)
+		{
+			first_quote = 1;
+			quote_type = lst->flag;
+		}
+		else if ((lst->flag == QUOTE || lst->flag == DOUBLE_QUOTE)
+			&& in_quote && quote_type == lst->flag)
+		{
+			in_quote = 0;
+			quote_type = 0;
+			first_quote = 0;
+		}
 		lst = lst->next;
 	}
 	return (in_quote);
 }
 
-void	delete_quotes(t_data **lst, t_data *tmp, t_data *deleter, t_data *fr)
+void	smart_strjoin(t_data *current, t_data *lst)
 {
+	t_data	*tmp;
+
+	tmp = current;
+	if (tmp->next)
+		tmp = tmp->next;
+	while (in_quote(tmp, lst))
+	{
+		current->elem = ft_strjoin2(current->elem, tmp->elem);
+		tmp->elem = ft_strdup2("");
+		tmp->to_remove = 1;
+		tmp = tmp->next;
+	}
+	current->flag = -1;
+	current->to_remove = 0;
+}
+
+void	join_word(t_data **lst)
+{
+	t_data	*tmp;
+	t_data	*deleter;
+	t_data	*fr;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (in_quote(tmp, *lst) && ft_strlen2(tmp->elem))
+		{
+			smart_strjoin(tmp, *lst);
+			tmp = tmp->next;
+		}
+		else if (tmp->next && (tmp->flag == QUOTE
+				|| tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
+		{
+			tmp->elem = ft_strdup2("");
+			tmp->flag = -1;
+			fr = tmp->next;
+			tmp->next = tmp->next->next;
+		}
+		if (tmp)
+			tmp = tmp->next;
+	}
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->next && (tmp->next->to_remove == 1
+				|| tmp->next->flag == QUOTE || tmp->next->flag == DOUBLE_QUOTE))
+		{
+			deleter = tmp->next;
+			while (deleter && (deleter->to_remove == 1
+					|| deleter->flag == QUOTE || deleter->flag == DOUBLE_QUOTE))
+			{
+				fr = deleter;
+				deleter = deleter->next;
+			}
+			tmp->next = deleter;
+		}
+		tmp = tmp->next;
+	}
+	if (*lst && ((*lst)->to_remove == 1
+			|| (*lst)->flag == QUOTE || (*lst)->flag == DOUBLE_QUOTE))
+	{
+		fr = *lst;
+		*lst = (*lst)->next;
+	}
+	the_other_join(lst);
 	tmp = *lst;
 	while (tmp)
 	{
@@ -77,49 +136,4 @@ void	delete_quotes(t_data **lst, t_data *tmp, t_data *deleter, t_data *fr)
 		fr = *lst;
 		*lst = (*lst)->next;
 	}
-}
-
-void	smart_strjoin(t_data *current, t_data *lst, t_data **tmp1)
-{
-	t_data	*tmp;
-
-	tmp = current;
-	if (tmp->next)
-		tmp = tmp->next;
-	while (in_quote(tmp, lst))
-	{
-		current->elem = ft_strjoin2(current->elem, tmp->elem);
-		tmp->elem = ft_strdup2("");
-		tmp->to_remove = 1;
-		tmp = tmp->next;
-	}
-	current->flag = -1;
-	current->to_remove = 0;
-	*tmp1 = (*tmp1)->next;
-}
-
-void	join_word(t_data **lst)
-{
-	t_data	*tmp;
-	t_data	*fr;
-
-	tmp = *lst;
-	while (tmp)
-	{
-		if (in_quote(tmp, *lst) && ft_strlen2(tmp->elem))
-			smart_strjoin(tmp, *lst, &tmp);
-		else if (tmp->next && (tmp->flag == QUOTE
-				|| tmp->flag == DOUBLE_QUOTE) && tmp->flag == tmp->next->flag)
-		{
-			tmp->elem = ft_strdup2("");
-			tmp->flag = -1;
-			fr = tmp->next;
-			tmp->next = tmp->next->next;
-		}
-		if (tmp)
-			tmp = tmp->next;
-	}
-	delete_quotes(lst, NULL, NULL, NULL);
-	the_other_join(lst);
-	delete_quotes(lst, NULL, NULL, NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:47:25 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 03:06:09 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/01 05:22:33 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	remove_node(t_shell **env, char *str)
 	if (tmp != NULL && ft_strcmp(tmp->k, str) == 0)
 	{
 		*env = tmp->next;
-		// free(tmp->k);
-		// free(tmp->v);
-		// free(tmp);
 		return ;
 	}
 	while (tmp && ft_strcmp(tmp->k, str) != 0)
@@ -59,11 +56,12 @@ void	edit_value(t_shell **env, char *k, char *v)
 	t_shell	*tmp;
 
 	tmp = *env;
-		
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->k, k) == 0)
 		{
+			if (v)
+				v = v;
 			tmp->v = v;
 			return ;
 		}
@@ -78,13 +76,12 @@ void	*env_control(int behaviour, void *key, char *value)
 
 	if (behaviour == 0)
 		env = (t_shell *)key;
-	
 	else
 	{
 		if (behaviour == REMOVE_NODE)
 			remove_node(&env, key);
 		else if (behaviour == ADD_NODE)
-			add_node(&env, key, value);
+			edit_value(&env, key, value);
 		else if (behaviour == GET_ENV)
 			return (env);
 		else if (behaviour == EDIT_VALUE)

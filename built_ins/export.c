@@ -3,215 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:03:21 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 07:40:47 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:49:12 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// https://www.youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
-
 #include "../minishell.h"
 
-void	manage_error(char *arg)
+void	check_the_value(t_shell *tmp, int k, char **p)
 {
-	write(2, arg, ft_strlen(arg));
-	write(2, " : not a valid identifier\n", 26);
-}
-
-int	parse_arguments(char *argument)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (argument[i] != '\0')
+	while (tmp && k == 0)
 	{
-		if (argument[i] == '=' && i == 0)
-			return (manage_error(argument), 1);
-		if (argument[i] == '=')
-			return (0);
-		else
+		if (ft_strcmp(p[0], tmp->k) == 0)
 		{
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] == '_') || (argument[i] >= 'a' && argument[i] <= 'z')) && i == 0)
-				return (manage_error(argument), 1);
-			if (!((argument[i] >= 'A' && argument[i] <= 'Z') || (argument[i] >= 'a' && argument[i] <= 'z') || (argument[i]) == '_' || (argument[i] >= '0' && argument[i] <= '9') || (argument[i] == '+' && argument[i + 1] == '=')))
-			{
-				manage_error(argument);
-				return (1);
-			}
+			env_control(EDIT_VALUE, p[0], p[1]);
+			k = 1;
 		}
-		i++;
+		tmp = tmp->next;
 	}
-	return (0);
+	if (k == 0)
+		env_control(ADD_NODE, p[0], p[1]);
 }
 
-int	search_env(t_shell *env, char *str)
+void	*add_var(char **args, int i, int k, char **p)
 {
-	while (env)
-	{
-		if (ft_strcmp(env->k, str) == 0)
-			return (0);
-		env = env->next;
-	}
-	return (1);
-}
-
-int	ft_strchr(char *s, int c)
-{
-	while (*s)
-	{
-		if (*(unsigned char *)s == (unsigned char)c)
-			return (0);
-		s++;
-	}
-	if (*(unsigned char *)s == (unsigned char)c)
-		return (0);
-	return (1);
-}
-
-void	replace_value(t_shell **env, char **arg)
-{
-	while (*env)
-	{
-		if (ft_strcmp((*env)->k, arg[0]))
-		{
-			env_control(REMOVE_NODE, arg[0], 0);
-			env_control(ADD_NODE, arg[0], arg[1]);
-			break ;
-		}
-		*env = (*env)->next;
-	}
-}
-
-char	*get_old_value(char *target)
-{
+	t_shell	*tmp;
 	t_shell	*env;
 
 	env = env_control(GET_ENV, 0, 0);
-	while (env)
-	{
-		if (ft_strcmp(env->k, target) == 0)
-			return (env->v);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-void	join_the_value(char *arg)
-{
-	char	*key;
-	char	*value;
-	char	*resutl;
-	char	*old_value;
-	t_shell	*env;
-	char	**p;
-
-	env = env_control(GET_ENV, 0, 0);
-	p = ft_split_2(arg, '+');
-	key = p[0];
-	if (!search_env(env, key))
-	{
-		p = ft_split_2(arg, '=');
-		old_value = get_old_value(key);
-		value = p[1];
-		resutl = ft_strjoin(old_value, value);
-		env_control(EDIT_VALUE, key, resutl);
-	}
-	else
-	{
-		p = ft_split_2(arg, '=');
-		value = p[1];
-		if (value == NULL)
-			env_control(ADD_NODE, key, "\0");
-		else
-			env_control(ADD_NODE, key, value);
-	}
-		
-}
-
-void	*add_var(char **args)
-{
-	int i;
-	char **p;
-	t_shell *tmp;
-	int k;
-	i = 0;
-	t_shell *env = env_control(GET_ENV, 0, 0);
-	
 	while (args[i])
 	{
-		if (parse_arguments(args[i]) == 1)
+		if (parse_arguments(args[i], 0, 0) == 1)
 		{
-			exit_status(1, ADD);
+			exit_status(-1, ADD);
 			i++;
-			continue;
+			continue ;
 		}
 		else
 		{
-			if (ft_strchr(args[i], '='))
+			if (utils_export(args[i], p, env) == 1)
 			{
-				
-				if (!search_env(env, args[i]))
-				{
-					i++;
-					continue;
-				}
-				else
-					env_control(ADD_NODE, args[i], NULL);
-			
-			return NULL;
-			}
-			if (!ft_strchr(args[i], '+'))
-			{
-				join_the_value(args[i]);
 				i++;
-				continue;
-			}
-			tmp = env;
-			k = 0;
-			p = split_first_equal(args[i]);
-
-			while (tmp && k == 0)
-			{
-				if (ft_strcmp(p[0], tmp->k) == 0)
-				{
-					env_control(EDIT_VALUE, p[0], p[1]);
-					k = 1;
-				}
-				tmp = tmp->next;
-			}
-			if (k == 0)
-			{
-					env_control(ADD_NODE, p[0], p[1]);
+				continue ;
 			}
 		}
 		i++;
 	}
-
 	return (NULL);
 }
 
-void	ft_swap(t_shell *node1, t_shell *node2)
+void	sort_env(t_shell **curr)
 {
-	char *tmp_k;
-	char *tmp_v;
-	
-	tmp_k = node1->k;
-	tmp_v = node1->v;
-	node1->k = node2->k;
-	node1->v = node2->v;
-	node2->k = tmp_k;
-	node2->v = tmp_v;
-}
-
-// 65    90
-void  sort_env(t_shell **curr)
-{
-	int i;
-	t_shell *tmp;
+	int		i;
+	t_shell	*tmp;
 
 	i = 0;
 	while (!i)
@@ -230,11 +76,11 @@ void  sort_env(t_shell **curr)
 	}
 }
 
-t_shell *env_copy(t_shell *env)
+t_shell	*env_copy(t_shell *env)
 {
-	t_shell *copy;
-	t_shell *tmp;
-	
+	t_shell	*copy;
+	t_shell	*tmp;
+
 	copy = NULL;
 	tmp = NULL;
 	while (env)
@@ -246,20 +92,21 @@ t_shell *env_copy(t_shell *env)
 	return (copy);
 }
 
-void    ft_export(char **command)
+void	ft_export(char **command)
 {
-	t_shell *export;
-	int i;
-	t_shell *env = env_copy(env_control(GET_ENV, 0, 0));
+	t_shell	*export;
+	int		i;
+	t_shell	*env;
 
+	env = env_copy(env_control(GET_ENV, 0, 0));
 	i = 0;
-	export = env; 
+	export = env;
 	while (command[i])
 		i++;
 	if (i == 1)
 	{
 		if (!env)
-			return;
+			return ;
 		sort_env(&export);
 		while (export)
 		{
@@ -268,8 +115,8 @@ void    ft_export(char **command)
 			else
 				printf("declare -x %s=\"%s\"\n", export->k, export->v);
 			export = export->next;
-		}	
+		}
 	}
 	else
-		add_var(&command[1]);
+		add_var(&command[1], 0, 0, NULL);
 }

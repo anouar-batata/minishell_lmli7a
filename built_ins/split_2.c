@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   split_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 22:47:45 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 05:23:59 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:34:32 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 static	int	nb_word(const char *st, char c)
 {
 	int	i;
@@ -35,7 +36,6 @@ static	int	nb_word(const char *st, char c)
 	}
 	return (i);
 }
-
 
 static	char	*dimensional(const char *s, int d, int f)
 {
@@ -84,6 +84,7 @@ static char	**allocation(const char *s, size_t i, char c)
 	p[j] = NULL;
 	return (p);
 }
+
 char	**ft_split_2(char const *s, char c)
 {
 	size_t	i;

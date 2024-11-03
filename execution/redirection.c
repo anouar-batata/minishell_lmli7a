@@ -3,189 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:42:01 by alouriga          #+#    #+#             */
-/*   Updated: 2024/11/01 23:50:36 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:41:05 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int   check_the_redirection(t_commands *command)
-// {
-//     t_redir *curr;
-//     int fd;
-//     curr = command->redir_lst;
-//     while (curr)
-//     {
-//         if (curr->redir_type == REDIR_OUT)
-//         {
-//            fd = open(curr->file, O_WRONLY | O_CREAT  | O_TRUNC, 0644);
-//            if (!fd)
-//                 printf("error\n"); // to do
-//         }
-//         else if (curr->redir_type == DREDIR_OUT)
-//         {
-//             fd = open(curr->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//              if (!fd)
-//                 printf("error\n"); // to do
-//         }
-//         else if (curr->redir_type == REDIR_IN)
-//         {
-//             fd = open(curr->file, O_RDONLY);
-//             if (fd == -1)
-//             {
-//                return (-1); 
-//                 printf("the file does not exict\n"); // to do
-//             }
-//         }
-//         if (curr->next == NULL)
-//         {
-//             if (curr->redir_type == REDIR_OUT || curr->redir_type == DREDIR_OUT)
-//                 dup2(fd, 1);
-//             else
-//                 dup2(fd, 0);
-//             close(fd);
-//             return (0);
-//         }
-//         close(fd);
-//         curr = curr->next;
-//     }
-//     return (0);
-// }
-
-
-// int check_the_redirection(t_commands *command)
-// {
-//     t_redir *curr;
-//     int fd;
-
-//     curr = command->redir_lst;
-//     while (curr)
-//     {
-//         if (curr->redir_type == REDIR_IN)
-//         {
-//             fd = open(curr->file, O_RDONLY);
-//             if (fd == -1)
-//             {
-//                 perror("Error: file does not exist for input redirection"); // handle error
-//                 return (-1);
-//             }
-// 			if (curr->to_close)
-// 				unlink(ft_strjoin2("./", curr->file));
-//         }
-//         if (curr->next == NULL)
-//         {
-//             dup2(fd, STDIN_FILENO);  
-//             close(fd);
-//             return (0);
-//         }
-//         curr = curr->next;
-//     }
-
-//     curr = command->redir_lst;
-//     while (curr)
-//     {
-//         if (curr->redir_type == REDIR_OUT)
-//         {
-//             fd = open(curr->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//             if (fd == -1)
-//             {
-//                 perror("Error opening file for output redirection"); // handle error
-//                 return (-1); 
-//             }
-//         }
-//         else if (curr->redir_type == DREDIR_OUT)
-//         {
-//             fd = open(curr->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//             if (fd == -1)
-//             {
-//                 perror("Error opening file for append redirection"); // handle error
-//                 return (-1);
-//             }
-//         }
-//         if (curr->next == NULL)
-//         {
-//             dup2(fd, STDOUT_FILENO);
-//             close(fd);
-//             return (0);
-//         }
-//         curr = curr->next;
-//     }    
-//     return (0);
-// }
-
-
-int check_the_redirection(t_commands *command)
+int	check_out_file(t_commands *command, int *red, int i)
 {
-    t_redir *curr;
-    int fd = -1;
-	int i;
+	t_redir	*curr;
+	int		fd;
+	int		index;
 
-    // Handle input redirections
-    curr = command->redir_lst;
-	i =0;
-    while (curr)
-    {
-        if (curr->redir_type == REDIR_IN)
-        {
+	fd = -1;
+	curr = command->redir_lst;
+	index = 0;
+	while (curr && index <= i)
+	{
+		if (!curr->file && curr->ambiguous)
+			return (ambiguous_error(fd), -1);
+		if (curr->redir_type == REDIR_OUT || curr->redir_type == DREDIR_OUT)
+		{
+			if (fd != -1)
+				close(fd);
+			if (red)
+				*red = 1;
+			if (open_files(&fd, curr) == -1)
+				return (-1);
+		}
+		curr = curr->next;
+		index++;
+	}
+	dup_for_outfile(fd);
+	return (0);
+}
+
+int	open_to_infile_2(t_redir *curr, t_commands *command
+					, int *red_out, int index)
+{
+	char	*temp;
+	int		fd;
+
+	fd = open(curr->file, O_RDONLY);
+	if (fd == -1)
+	{
+		if (check_out_file(command, red_out, index) == -1)
+			return (close(fd), -1);
+		return (perror("Error: "), -1);
+	}
+	if (curr->to_close)
+	{
+		temp = ft_strjoin("./", curr->file);
+		unlink(temp);
+	}
+	return (fd);
+}
+
+void	check_for_red_in(int fd, int *red_in)
+{
+	if (fd != -1)
+		close(fd);
+	if (red_in)
+		*red_in = 1;
+}
+
+int	for_infile(t_commands *command, int *red_out, int *red_in, int *fd)
+{
+	int		index;
+	t_redir	*curr;
+
+	index = 0;
+	curr = command->redir_lst;
+	while (curr)
+	{
+		if (curr->redir_type == REDIR_IN)
+		{
 			if (!curr->file && curr->ambiguous)
 			{
-				write(2, "error: ambiguous redirect\n", 26);
-				close (fd);
-				return (-1);
+				if (check_out_file(command, red_out, index) == -1)
+					return (close(*fd), -1);
+				return (ambiguous_error(*fd), -1);
 			}
-            if (fd != -1) 
-                close(fd);  // Close previous fd if any
-            fd = open(curr->file, O_RDONLY);
-            if (fd == -1)
-            {
-                perror("Error: file does not exist for input redirection");
-                return (-1);
-            }
-            if (curr->to_close)
-            {
-                unlink(curr->file);
-            }
-        }
-        curr = curr->next;
-    }
-    if (fd != -1)  // Apply input redirection if any
-    {
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    }
-
-    // Handle output redirections
-    curr = command->redir_lst;
-    fd = -1;
-    while (curr)
-    {
-		if (!curr->file && curr->ambiguous)
-		{
-			write(2, "error: ambiguous redirect\n", 26);
-			close (fd);
-			return (-1);
+			check_for_red_in(*fd, red_in);
+			*fd = open_to_infile_2(curr, command, red_out, index);
+			if (*fd == -1)
+				return (-1);
 		}
-        if (curr->redir_type == REDIR_OUT || curr->redir_type == DREDIR_OUT)
-        {
-            if (fd != -1) 
-                close(fd);  // Close previous fd if any
-            fd = open(curr->file, O_WRONLY | O_CREAT | (curr->redir_type == REDIR_OUT ? O_TRUNC : O_APPEND), 0644);
-            if (fd == -1)
-            {
-                perror("Error opening file for output redirection");
-                return (-1);
-            }
-        }
-        curr = curr->next;
-    }
-    if (fd != -1)  // Apply output redirection if any
-    {
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    }
+		curr = curr->next;
+		index++;
+	}
+	return (0);
+}
 
-    return (0);
+int	check_the_redirection(t_commands *command, int *red_out, int *red_in)
+{
+	t_redir	*curr;
+	int		fd;
+	int		index;
+
+	fd = -1;
+	index = 0;
+	curr = command->redir_lst;
+	if (for_infile(command, red_out, red_in, &fd) == -1)
+		return (-1);
+	dup_for_infile(fd);
+	if (check_out_file(command, red_out, index) == -1)
+		return (close(fd), -1);
+	return (0);
 }

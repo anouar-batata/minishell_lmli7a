@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoutate <akoutate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alouriga <alouriga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:56:29 by alouriga          #+#    #+#             */
-/*   Updated: 2024/10/30 04:41:04 by akoutate         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:04:21 by alouriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	int	cheak_the_string(char *s)
+static	int	the_string(char *s)
 {
 	int	j;
 
@@ -59,79 +59,47 @@ static int	check_ch(char *s)
 	return (0);
 }
 
-long long	my_atoi(char *str, int *index)
+void	exit_by_number(char *av, int x)
 {
-	long long	result;
-	int			sign;
-	int			i;
-
-	i = 0;
-	*index = 0;
-	result = 0;
-	sign = 1;
-	if (str[i] == '-' || str[i] == '+')
+	my_atoi(av, &x, 1);
+	if (x == 1)
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		printf("exit\n");
+		write(2, "error: numeric argument required \n", 33);
+		exit(255);
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	else
 	{
-
-		if ((result > LLONG_MAX / 10)
-			|| (result == LLONG_MAX / 10 && (str[i] - '0') > LLONG_MAX % 10))
-		{
-			*index = 1;
-			return (sign * LLONG_MAX);
-		}
-		result = result * 10 + (str[i] - '0');
-		i++;
+		printf("exit\n");
+		exit((my_atoi(av, &x, 1) % 256));
 	}
-	return (result * sign);
 }
 
-int	ft_exit(char **av)
+int	ft_exit(char **av, int i, int j, int index)
 {
-	int	i;
-	int	j;
 	int	x;
-	int	index;
 
-	i = 0;
-	j = 1;
 	x = 0;
-	index = 0;
-	while (av[i] != NULL)
-	{
+	while (av[i++] != NULL)
 		index++;
-		i++;
-	}
 	if (index == 1)
 	{
 		printf("exit\n");
 		exit(exit_status(0, 0));
 	}
-	if (check_ch(av[1]) == 1 || sign(av[1]) == 1 || cheak_the_string(av[1]) == 1)
-	{
-		perror("numeric argument required\n");
-		exit(255);
-	}
+	if (check_ch(av[1]) == 1 || sign(av[1]) == 1
+		|| the_string(av[1]) == 1 || av[1][0] == '\0')
+		error_manage();
+	i = 0;
+	index = 0;
+	while (av[i++])
+		index++;
 	if (index != 2)
 	{
-		perror("too many arguments\n");
-		return (-1);
+		exit_error();
+		return (exit_status(1, ADD), -1);
 	}
 	else
-	{
-		
-		my_atoi(av[1], &x);
-		if (x == 1)
-		{
-			perror("numeric argument required \n");
-			exit(255);
-		}
-		else
-			exit(my_atoi(av[1], &x) % 256);
-	}
+		exit_by_number(av[1], x);
 	return (0);
 }
